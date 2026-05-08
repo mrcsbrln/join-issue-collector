@@ -48,7 +48,7 @@ export default function Header() {
           className="text-[#A8A8A8] hover:text-navy transition-colors duration-100"
           aria-label="Help"
         >
-          <HelpIcon color="#A8A8A8" />
+          <HelpIcon />
         </a>
 
         <div className="relative">

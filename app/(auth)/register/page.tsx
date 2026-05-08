@@ -74,7 +74,7 @@ export default function RegisterPage() {
     }
 
     const color = randomAvatarColor(name.trim());
-    await supabase.from("profiles").insert({
+    await supabase.from("profiles").upsert({
       id: data.user.id,
       name: name.trim(),
       email,
