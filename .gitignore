@@ -40,5 +40,15 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# playwright screenshots
+# playwright
 .playwright-mcp/
+playwright-report/
+test-results/
+playwright/.cache/
+
+# figma / design assets
+figma-thumbnail.png
+*.figma
+
+# claude / AI tooling
+.claude/
