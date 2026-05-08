@@ -1,26 +1,85 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Primary */
+  --color-navy: #2a3647;
+  --color-blue: #29abe2;
+  --color-blue-hover: #007ac1;
+
+  /* Backgrounds */
+  --color-bg-app: #f6f7f8;
+
+  /* Priority */
+  --color-priority-urgent: #ff3d00;
+  --color-priority-medium: #ffa800;
+  --color-priority-low: #7ae229;
+
+  /* Category */
+  --color-category-technical: #1fd7c1;
+  --color-category-story: #0038ff;
+
+  /* Feedback */
+  --color-error: #ff3d00;
+  --color-success: #7ae229;
+  --color-muted: #a8a8a8;
+  --color-border: #d1d1d1;
+
+  /* Typography */
+  --font-sans: "Inter", sans-serif;
+
+  /* Shadows */
+  --shadow-card: 0px 0px 4px rgba(0, 0, 0, 0.1);
+  --shadow-modal: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+  /* Radius */
+  --radius-DEFAULT: 10px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --default-transition-duration: 100ms;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    background-color: #f6f7f8;
+    font-family: "Inter", sans-serif;
+    color: #2a3647;
+  }
+
+  button {
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
+
+  input,
+  textarea,
+  select {
+    border: none;
+    outline: none;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Landscape-Modus auf Mobile deaktivieren */
+@media (orientation: landscape) and (max-height: 500px) {
+  .landscape-block {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #f6f7f8;
+    align-items: center;
+    justify-content: center;
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+    color: #2a3647;
+    text-align: center;
+    padding: 2rem;
+  }
 }
