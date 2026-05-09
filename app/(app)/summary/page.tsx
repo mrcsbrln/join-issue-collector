@@ -61,11 +61,11 @@ function formatDeadline(dateStr: string): string {
 
 function TodoCircleIcon() {
   return (
-    <div className="size-[69px] rounded-full bg-navy flex items-center justify-center shrink-0">
+    <div className="size-[69px] rounded-full bg-navy group-hover:bg-white flex items-center justify-center shrink-0 text-white group-hover:text-navy transition-colors duration-100">
       <svg width="25" height="25" viewBox="0 0 25 25" fill="none">
         <path
           d="M2.66667 21.6667H4.53333L16.0333 10.1667L14.1667 8.3L2.66667 19.8V21.6667ZM21.7333 8.23333L16.0667 2.63333L17.9333 0.766667C18.4444 0.255556 19.0722 0 19.8167 0C20.5611 0 21.1889 0.255556 21.7 0.766667L23.5667 2.63333C24.0778 3.14444 24.3444 3.76111 24.3667 4.48333C24.3889 5.20556 24.1444 5.82222 23.6333 6.33333L21.7333 8.23333ZM19.8 10.2L5.66667 24.3333H0V18.6667L14.1333 4.53333L19.8 10.2Z"
-          fill="white"
+          fill="currentColor"
         />
       </svg>
     </div>
@@ -74,11 +74,11 @@ function TodoCircleIcon() {
 
 function DoneCircleIcon() {
   return (
-    <div className="size-[69px] rounded-full bg-navy flex items-center justify-center shrink-0">
+    <div className="size-[69px] rounded-full bg-navy group-hover:bg-white flex items-center justify-center shrink-0 text-white group-hover:text-navy transition-colors duration-100">
       <svg width="37" height="30" viewBox="0 0 37 30" fill="none">
         <path
           d="M3.5 14.566L14.7288 25.6321L33.4434 3.5"
-          stroke="white"
+          stroke="currentColor"
           strokeWidth="7"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -106,7 +106,7 @@ function UrgentCircleIcon() {
 }
 
 const cardBase =
-  "bg-white rounded-[30px] shadow-[0_0_4px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-shadow duration-100";
+  "group bg-white rounded-[30px] shadow-[0_0_4px_rgba(0,0,0,0.1)] hover:bg-navy hover:shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-all duration-100";
 
 function StatCard({
   href,
@@ -126,10 +126,10 @@ function StatCard({
     >
       {icon}
       <div className="flex flex-col items-center">
-        <span className="text-[64px] font-semibold leading-[1.2] text-black">
+        <span className="text-[64px] font-semibold leading-[1.2] text-black group-hover:text-white">
           {count}
         </span>
-        <span className="text-[20px] font-normal text-navy whitespace-nowrap">
+        <span className="text-[20px] font-normal text-navy group-hover:text-white whitespace-nowrap">
           {label}
         </span>
       </div>
@@ -152,18 +152,20 @@ function UrgencyCard({
       <div className="flex items-center gap-[18px]">
         <UrgentCircleIcon />
         <div className="flex flex-col items-center">
-          <span className="text-[64px] font-semibold leading-[1.2] text-black w-[50px] text-center">
+          <span className="text-[64px] font-semibold leading-[1.2] text-black group-hover:text-white w-[50px] text-center">
             {count}
           </span>
-          <span className="text-[16px] font-normal text-navy">Urgent</span>
+          <span className="text-[16px] font-normal text-navy group-hover:text-white">
+            Urgent
+          </span>
         </div>
       </div>
-      <div className="w-px h-[102px] bg-border shrink-0" />
+      <div className="w-px h-[102px] bg-border group-hover:bg-white/30 shrink-0" />
       <div className="flex flex-col gap-[13px]">
-        <span className="text-[21px] font-bold text-navy leading-[1.2]">
+        <span className="text-[21px] font-bold text-navy group-hover:text-white leading-[1.2]">
           {deadline ? formatDeadline(deadline) : "No deadline"}
         </span>
-        <span className="text-[16px] font-normal text-navy">
+        <span className="text-[16px] font-normal text-navy group-hover:text-white">
           Upcoming Deadline
         </span>
       </div>
@@ -187,10 +189,10 @@ function MiniStatCard({
       href={href}
       className={`${cardBase} flex flex-col items-center justify-center size-[168px]`}
     >
-      <span className="text-[64px] font-semibold leading-[1.2] text-black">
+      <span className="text-[64px] font-semibold leading-[1.2] text-black group-hover:text-white">
         {count}
       </span>
-      <div className="text-[20px] font-normal text-navy text-center leading-[1.2]">
+      <div className="text-[20px] font-normal text-navy group-hover:text-white text-center leading-[1.2]">
         <p>{line1}</p>
         <p>{line2}</p>
       </div>
