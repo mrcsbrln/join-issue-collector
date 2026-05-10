@@ -66,6 +66,17 @@
   }
 }
 
+@keyframes slide-in-right {
+  from {
+    transform: translateX(110%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 /* Landscape-Modus auf Mobile deaktivieren */
 @media (orientation: landscape) and (max-height: 500px) {
   .landscape-block {

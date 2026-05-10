@@ -64,7 +64,10 @@ export default function Header() {
                 className="fixed inset-0 z-10"
                 onClick={() => setMenuOpen(false)}
               />
-              <div className="absolute right-0 top-10 z-20 bg-navy rounded-tl-[20px] rounded-br-[20px] rounded-bl-[20px] shadow-[0_0_4px_rgba(0,0,0,0.1)] p-[10px]">
+              <div
+                className="absolute right-0 top-10 z-20 bg-navy rounded-tl-[20px] rounded-br-[20px] rounded-bl-[20px] shadow-[0_0_4px_rgba(0,0,0,0.1)] p-[10px] overflow-hidden"
+                style={{ animation: "slide-in-right 150ms ease-out" }}
+              >
                 {[
                   { label: "Help", href: "/help" },
                   { label: "Legal Notice", href: "/legal-notice" },
