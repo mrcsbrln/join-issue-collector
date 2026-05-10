@@ -39,7 +39,7 @@ export default function AddTaskModal({
     <>
       <div className="fixed inset-0 bg-black/30 z-40" onClick={onClose} />
       <div className="fixed inset-0 z-50 flex items-center justify-center p-8 overflow-y-auto">
-        <div className="bg-white rounded-[30px] shadow-[0_0_4px_rgba(0,0,0,0.1)] w-full max-w-[1050px] relative px-[74px] py-16">
+        <div className="bg-white rounded-[30px] shadow-[0_0_4px_rgba(0,0,0,0.1)] w-full max-w-[1092px] relative pl-[74px] pr-[40px] py-16">
           <button
             type="button"
             onClick={onClose}
