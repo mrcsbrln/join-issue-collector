@@ -180,6 +180,7 @@ export default function AddTaskForm({ contacts }: AddTaskFormProps) {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: { title: "", description: "", dueDate: "" },
@@ -255,16 +256,25 @@ export default function AddTaskForm({ contacts }: AddTaskFormProps) {
               Due date<span className="text-[#FF8190]">*</span>
             </label>
             <div
-              className={`flex items-center gap-2 bg-white border rounded-[10px] px-4 py-3 focus-within:border-blue transition-colors duration-100 ${errors.dueDate ? "border-error" : "border-border"}`}
+              className={`relative border rounded-[10px] transition-colors duration-100 ${errors.dueDate ? "border-error" : "border-border"}`}
             >
               <input
                 {...register("dueDate", {
                   validate: (v) => v !== "" || "This field is required",
                 })}
                 type="date"
-                className="flex-1 text-[20px] text-navy bg-transparent outline-none border-none scheme-light [&::-webkit-calendar-picker-indicator]:hidden"
+                className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
               />
-              <CalendarIcon />
+              <div className="flex items-center justify-between bg-white rounded-[10px] px-4 py-3 pointer-events-none">
+                <span
+                  className={`text-[20px] ${watch("dueDate") ? "text-navy" : "text-muted"}`}
+                >
+                  {watch("dueDate")
+                    ? watch("dueDate").split("-").reverse().join(".")
+                    : "dd.mm.yyyy"}
+                </span>
+                <CalendarIcon />
+              </div>
             </div>
             {errors.dueDate && (
               <p className="text-error text-sm">{errors.dueDate.message}</p>
