@@ -3,6 +3,7 @@
 # Join – Kanban Board
 
 Lies und befolge die Checkliste in [CHECKLIST.md](./CHECKLIST.md).
+Lies und befolge die Checkliste in [CHECKLIST-ISSUE-COLLECTOR.md](./CHECKLIST-ISSUE-COLLECTOR.md).
 
 ## Tech Stack
 

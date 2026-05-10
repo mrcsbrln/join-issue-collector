@@ -12,7 +12,8 @@ async function getSummaryData() {
     .select("status, priority, due_date");
 
   let name = "";
-  if (user) {
+  const isGuest = user?.is_anonymous === true;
+  if (user && !isGuest) {
     const { data: profile } = await supabase
       .from("profiles")
       .select("name")
@@ -41,6 +42,7 @@ async function getSummaryData() {
     urgent: urgentTasks.length,
     nextDeadline,
     name,
+    isGuest,
   };
 }
 
@@ -134,7 +136,7 @@ function StatCard({
   return (
     <Link
       href={href}
-      className={`${cardBase} flex items-center gap-[12px] md:gap-[18px] h-[110px] w-[186px] md:h-[168px] md:flex-1 md:w-auto justify-center`}
+      className={`${cardBase} flex items-center gap-[12px] md:gap-[18px] flex-1 h-[110px] md:h-[168px] justify-center`}
     >
       {icon}
       <div className="flex flex-col items-center">
@@ -199,7 +201,7 @@ function MiniStatCard({
   return (
     <Link
       href={href}
-      className={`${cardBase} flex flex-col items-center justify-center size-[116px] md:size-[168px]`}
+      className={`${cardBase} flex flex-col items-center justify-center flex-1 h-[116px] md:size-[168px]`}
     >
       <span className="text-[47px] md:text-[64px] font-semibold leading-[1.2] text-black group-hover:text-white">
         {count}
@@ -230,8 +232,8 @@ export default async function SummaryPage() {
       </div>
 
       <div className="flex flex-col md:flex-row md:gap-20 md:items-center">
-        <div className="flex flex-col items-center md:items-stretch gap-4 md:gap-7 md:w-[560px] md:shrink-0">
-          <div className="flex gap-4 md:gap-8">
+        <div className="flex flex-col items-stretch gap-4 md:gap-7 md:w-[560px] md:shrink-0">
+          <div className="flex gap-6 md:gap-8">
             <StatCard
               href="/board"
               icon={<TodoCircleIcon />}
@@ -246,7 +248,7 @@ export default async function SummaryPage() {
             />
           </div>
           <UrgencyCard count={data.urgent} deadline={data.nextDeadline} />
-          <div className="flex gap-4 md:gap-7">
+          <div className="flex gap-6 md:gap-7">
             <MiniStatCard
               href="/board"
               count={data.total}
@@ -270,11 +272,13 @@ export default async function SummaryPage() {
 
         <div className="hidden md:block pl-20">
           <p className="text-[47px] font-medium text-navy leading-[1.2]">
-            {greeting}
+            {data.isGuest ? `${greeting.replace(/,$/, "")}!` : greeting}
           </p>
-          <p className="text-[64px] font-bold text-blue leading-[1.2]">
-            {data.name}
-          </p>
+          {!data.isGuest && (
+            <p className="text-[64px] font-bold text-blue leading-[1.2]">
+              {data.name}
+            </p>
+          )}
         </div>
       </div>
     </div>

@@ -45,17 +45,22 @@ export default function Avatar({
   size = "md",
   className = "",
 }: AvatarProps) {
-  const bg = color ?? getAvatarColor(name);
+  const ringColor = color ?? getAvatarColor(name);
   const px = sizeMap[size];
 
   return (
     <div
       className={[
-        "inline-flex items-center justify-center rounded-full font-bold text-white select-none flex-shrink-0",
+        "inline-flex items-center justify-center rounded-full font-bold bg-white select-none flex-shrink-0",
         fontSizeMap[size],
         className,
       ].join(" ")}
-      style={{ width: px, height: px, backgroundColor: bg }}
+      style={{
+        width: px,
+        height: px,
+        border: `2px solid ${ringColor}`,
+        color: ringColor,
+      }}
       title={name}
     >
       {getInitials(name)}
