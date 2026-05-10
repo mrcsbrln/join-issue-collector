@@ -53,7 +53,7 @@ function NavLink({ href, label, icon }: NavItem) {
 
 export default function Sidebar() {
   return (
-    <aside className="fixed top-0 left-0 h-full w-58 bg-navy flex flex-col z-40">
+    <aside className="hidden md:flex fixed top-0 left-0 h-full w-58 bg-navy flex-col z-40">
       <div className="px-14 pt-17 pb-14">
         <JoinLogo width={100} variant="light" />
       </div>

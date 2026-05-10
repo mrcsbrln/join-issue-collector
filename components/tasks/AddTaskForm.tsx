@@ -240,134 +240,137 @@ export default function AddTaskForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
-      <div className="flex gap-12 items-start">
-        {/* Left column */}
-        <div className="flex flex-col gap-6 w-[440px] shrink-0">
-          {/* Title */}
-          <div className="flex flex-col gap-2">
-            <label className="text-[20px] text-navy">
-              Title<span className="text-[#FF8190]">*</span>
-            </label>
-            <div
-              className={`bg-white border rounded-[10px] px-4 py-3 focus-within:border-blue transition-colors duration-100 ${errors.title ? "border-error" : "border-border"}`}
-            >
-              <input
-                {...register("title", {
-                  validate: (v) => v.trim() !== "" || "This field is required",
-                })}
-                placeholder="Enter a title"
-                className="w-full text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
-              />
-            </div>
-            {errors.title && (
-              <p className="text-error text-sm">{errors.title.message}</p>
-            )}
-          </div>
-
-          {/* Description */}
-          <div className="flex flex-col gap-2">
-            <label className="text-[20px] text-navy">Description</label>
-            <textarea
-              {...register("description")}
-              placeholder="Enter a Description"
-              rows={4}
-              className="w-full bg-white border border-border rounded-[10px] px-4 py-3 text-[20px] text-navy placeholder:text-muted outline-none resize-none focus:border-blue transition-colors duration-100"
-            />
-          </div>
-
-          {/* Due date */}
-          <div className="flex flex-col gap-2">
-            <label className="text-[20px] text-navy">
-              Due date<span className="text-[#FF8190]">*</span>
-            </label>
-            <div
-              className={`relative flex items-center justify-between bg-white border rounded-[10px] px-4 py-3 cursor-pointer transition-colors duration-100 ${errors.dueDate ? "border-error" : "border-border hover:border-blue"}`}
-            >
-              <span
-                className={`text-[20px] ${watch("dueDate") ? "text-navy" : "text-muted"}`}
+      <div className="w-fit">
+        <div className="flex gap-12 items-start">
+          {/* Left column */}
+          <div className="flex flex-col gap-6 w-[440px] shrink-0">
+            {/* Title */}
+            <div className="flex flex-col gap-2">
+              <label className="text-[20px] text-navy">
+                Title<span className="text-[#FF8190]">*</span>
+              </label>
+              <div
+                className={`bg-white border rounded-[10px] px-4 py-3 focus-within:border-blue transition-colors duration-100 ${errors.title ? "border-error" : "border-border"}`}
               >
-                {watch("dueDate")
-                  ? watch("dueDate").split("-").reverse().join("/")
-                  : "dd/mm/yyyy"}
-              </span>
-              <CalendarIcon />
-              <input
-                {...dueDateRest}
-                ref={(e) => {
-                  dueDateRef(e);
-                  dateInputRef.current = e;
-                }}
-                type="date"
-                onClick={() => dateInputRef.current?.showPicker?.()}
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                <input
+                  {...register("title", {
+                    validate: (v) =>
+                      v.trim() !== "" || "This field is required",
+                  })}
+                  placeholder="Enter a title"
+                  className="w-full text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
+                />
+              </div>
+              {errors.title && (
+                <p className="text-error text-sm">{errors.title.message}</p>
+              )}
+            </div>
+
+            {/* Description */}
+            <div className="flex flex-col gap-2">
+              <label className="text-[20px] text-navy">Description</label>
+              <textarea
+                {...register("description")}
+                placeholder="Enter a Description"
+                rows={4}
+                className="w-full bg-white border border-border rounded-[10px] px-4 py-3 text-[20px] text-navy placeholder:text-muted outline-none resize-none focus:border-blue transition-colors duration-100"
               />
             </div>
-            {errors.dueDate && (
-              <p className="text-error text-sm">{errors.dueDate.message}</p>
-            )}
+
+            {/* Due date */}
+            <div className="flex flex-col gap-2">
+              <label className="text-[20px] text-navy">
+                Due date<span className="text-[#FF8190]">*</span>
+              </label>
+              <div
+                className={`relative flex items-center justify-between bg-white border rounded-[10px] px-4 py-3 cursor-pointer transition-colors duration-100 ${errors.dueDate ? "border-error" : "border-border hover:border-blue"}`}
+              >
+                <span
+                  className={`text-[20px] ${watch("dueDate") ? "text-navy" : "text-muted"}`}
+                >
+                  {watch("dueDate")
+                    ? watch("dueDate").split("-").reverse().join("/")
+                    : "dd/mm/yyyy"}
+                </span>
+                <CalendarIcon />
+                <input
+                  {...dueDateRest}
+                  ref={(e) => {
+                    dueDateRef(e);
+                    dateInputRef.current = e;
+                  }}
+                  type="date"
+                  onClick={() => dateInputRef.current?.showPicker?.()}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                />
+              </div>
+              {errors.dueDate && (
+                <p className="text-error text-sm">{errors.dueDate.message}</p>
+              )}
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="w-px self-stretch bg-border shrink-0" />
+
+          {/* Right column */}
+          <div className="flex flex-col gap-6 w-[440px] shrink-0">
+            {/* Priority */}
+            <div className="flex flex-col gap-2">
+              <label className="text-[20px] text-navy">Priority</label>
+              <PrioritySelector value={priority} onChange={setPriority} />
+            </div>
+
+            {/* Assigned to */}
+            <div className="flex flex-col gap-2">
+              <label className="text-[20px] text-navy">Assigned to</label>
+              <AssignedToDropdown
+                contacts={contacts}
+                value={assignedIds}
+                onChange={setAssignedIds}
+              />
+            </div>
+
+            {/* Category */}
+            <div className="flex flex-col gap-2">
+              <label className="text-[20px] text-navy">
+                Category<span className="text-[#FF8190]">*</span>
+              </label>
+              <CategoryDropdown
+                value={category}
+                onChange={(c) => {
+                  setCategory(c);
+                  setCategoryError("");
+                }}
+                error={categoryError}
+              />
+            </div>
+
+            {/* Subtasks */}
+            <div className="flex flex-col gap-2">
+              <label className="text-[20px] text-navy">Subtasks</label>
+              <SubtaskInput subtasks={subtasks} onChange={setSubtasks} />
+            </div>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="w-px self-stretch bg-border shrink-0" />
-
-        {/* Right column */}
-        <div className="flex flex-col gap-6 w-[440px] shrink-0">
-          {/* Priority */}
-          <div className="flex flex-col gap-2">
-            <label className="text-[20px] text-navy">Priority</label>
-            <PrioritySelector value={priority} onChange={setPriority} />
-          </div>
-
-          {/* Assigned to */}
-          <div className="flex flex-col gap-2">
-            <label className="text-[20px] text-navy">Assigned to</label>
-            <AssignedToDropdown
-              contacts={contacts}
-              value={assignedIds}
-              onChange={setAssignedIds}
-            />
-          </div>
-
-          {/* Category */}
-          <div className="flex flex-col gap-2">
-            <label className="text-[20px] text-navy">
-              Category<span className="text-[#FF8190]">*</span>
-            </label>
-            <CategoryDropdown
-              value={category}
-              onChange={(c) => {
-                setCategory(c);
-                setCategoryError("");
-              }}
-              error={categoryError}
-            />
-          </div>
-
-          {/* Subtasks */}
-          <div className="flex flex-col gap-2">
-            <label className="text-[20px] text-navy">Subtasks</label>
-            <SubtaskInput subtasks={subtasks} onChange={setSubtasks} />
-          </div>
+        {/* Buttons */}
+        <div className="flex justify-end gap-4 mt-[60px]">
+          <button
+            type="button"
+            onClick={onCancel ?? clearForm}
+            className="flex items-center gap-1 px-6 py-4 text-[20px] text-navy bg-bg-app border-2 border-navy rounded-[10px] cursor-pointer hover:border-blue hover:text-blue hover:shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-all duration-100"
+          >
+            {onCancel ? "Cancel" : "Clear"} <CancelIcon />
+          </button>
+          <button
+            type="submit"
+            disabled={loading}
+            className="flex items-center gap-1 px-6 py-4 text-[20px] text-white font-bold bg-navy rounded-[10px] cursor-pointer border-0 hover:bg-blue hover:shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-all duration-100 disabled:opacity-50"
+          >
+            {loading ? "Creating…" : "Create Task"} <CheckIcon />
+          </button>
         </div>
-      </div>
-
-      {/* Buttons */}
-      <div className="flex justify-end gap-4 mt-[60px]">
-        <button
-          type="button"
-          onClick={onCancel ?? clearForm}
-          className="flex items-center gap-1 px-6 py-4 text-[20px] text-navy bg-bg-app border-2 border-navy rounded-[10px] cursor-pointer hover:border-blue hover:text-blue hover:shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-all duration-100"
-        >
-          {onCancel ? "Cancel" : "Clear"} <CancelIcon />
-        </button>
-        <button
-          type="submit"
-          disabled={loading}
-          className="flex items-center gap-1 px-6 py-4 text-[20px] text-white font-bold bg-navy rounded-[10px] cursor-pointer border-0 hover:bg-blue hover:shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-all duration-100 disabled:opacity-50"
-        >
-          {loading ? "Creating…" : "Create Task"} <CheckIcon />
-        </button>
       </div>
     </form>
   );

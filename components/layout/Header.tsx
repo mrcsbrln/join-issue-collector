@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import Avatar from "@/components/ui/Avatar";
+import JoinLogo from "@/components/ui/JoinLogo";
 import { HelpIcon } from "@/components/ui/icons";
 import type { Profile } from "@/lib/types";
 
@@ -37,8 +38,9 @@ export default function Header() {
   }
 
   return (
-    <header className="fixed top-0 left-[232px] right-0 h-[96px] bg-white z-30 flex items-center justify-between pl-[116px] pr-[40px] drop-shadow-[0px_4px_2px_rgba(0,0,0,0.1)]">
-      <span className="text-[20px] font-normal text-black">
+    <header className="fixed top-0 left-0 md:left-[232px] right-0 h-[96px] bg-white z-30 flex items-center justify-between pl-[16px] md:pl-[116px] pr-[40px] drop-shadow-[0px_4px_2px_rgba(0,0,0,0.1)]">
+      <JoinLogo width={55} variant="dark" className="md:hidden" />
+      <span className="hidden md:block text-[20px] font-normal text-black">
         Kanban Project Management Tool
       </span>
 
