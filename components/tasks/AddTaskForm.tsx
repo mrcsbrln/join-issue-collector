@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Contact, Priority, Category } from "@/lib/types";
@@ -175,6 +175,7 @@ export default function AddTaskForm({ contacts }: AddTaskFormProps) {
   const [category, setCategory] = useState<Category | null>(null);
   const [categoryError, setCategoryError] = useState("");
   const [loading, setLoading] = useState(false);
+  const dateInputRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -184,6 +185,10 @@ export default function AddTaskForm({ contacts }: AddTaskFormProps) {
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: { title: "", description: "", dueDate: "" },
+  });
+
+  const { ref: dueDateRef, ...dueDateRest } = register("dueDate", {
+    validate: (v) => v !== "" || "This field is required",
   });
 
   function clearForm() {
@@ -256,25 +261,26 @@ export default function AddTaskForm({ contacts }: AddTaskFormProps) {
               Due date<span className="text-[#FF8190]">*</span>
             </label>
             <div
-              className={`relative border rounded-[10px] transition-colors duration-100 ${errors.dueDate ? "border-error" : "border-border"}`}
+              className={`relative flex items-center justify-between bg-white border rounded-[10px] px-4 py-3 cursor-pointer transition-colors duration-100 ${errors.dueDate ? "border-error" : "border-border hover:border-blue"}`}
             >
+              <span
+                className={`text-[20px] ${watch("dueDate") ? "text-navy" : "text-muted"}`}
+              >
+                {watch("dueDate")
+                  ? watch("dueDate").split("-").reverse().join("/")
+                  : "dd/mm/yyyy"}
+              </span>
+              <CalendarIcon />
               <input
-                {...register("dueDate", {
-                  validate: (v) => v !== "" || "This field is required",
-                })}
+                {...dueDateRest}
+                ref={(e) => {
+                  dueDateRef(e);
+                  dateInputRef.current = e;
+                }}
                 type="date"
-                className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                onClick={() => dateInputRef.current?.showPicker?.()}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
               />
-              <div className="flex items-center justify-between bg-white rounded-[10px] px-4 py-3 pointer-events-none">
-                <span
-                  className={`text-[20px] ${watch("dueDate") ? "text-navy" : "text-muted"}`}
-                >
-                  {watch("dueDate")
-                    ? watch("dueDate").split("-").reverse().join(".")
-                    : "dd.mm.yyyy"}
-                </span>
-                <CalendarIcon />
-              </div>
             </div>
             {errors.dueDate && (
               <p className="text-error text-sm">{errors.dueDate.message}</p>
