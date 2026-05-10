@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import Avatar from "@/components/ui/Avatar";
 import JoinLogo from "@/components/ui/JoinLogo";
-import { HelpIcon } from "@/components/ui/icons";
 import type { Profile } from "@/lib/types";
 
 export default function Header() {
@@ -45,14 +45,6 @@ export default function Header() {
       </span>
 
       <div className="flex items-center gap-4">
-        <a
-          href="/help"
-          className="text-[#A8A8A8] hover:text-navy transition-colors duration-100"
-          aria-label="Help"
-        >
-          <HelpIcon />
-        </a>
-
         <div className="relative">
           <button
             onClick={() => setMenuOpen((v) => !v)}
@@ -72,10 +64,24 @@ export default function Header() {
                 className="fixed inset-0 z-10"
                 onClick={() => setMenuOpen(false)}
               />
-              <div className="absolute right-0 top-10 z-20 bg-white rounded-[10px] shadow-card border border-[#D1D1D1] min-w-[140px] py-1 overflow-hidden">
+              <div className="absolute right-0 top-10 z-20 bg-navy rounded-tl-[20px] rounded-br-[20px] rounded-bl-[20px] shadow-[0_0_4px_rgba(0,0,0,0.1)] p-[10px]">
+                {[
+                  { label: "Help", href: "/help" },
+                  { label: "Legal Notice", href: "/legal-notice" },
+                  { label: "Privacy Policy", href: "/privacy-policy" },
+                ].map(({ label, href }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={() => setMenuOpen(false)}
+                    className="flex items-center h-[46px] px-[16px] rounded-[8px] text-[#cdcdcd] text-[16px] whitespace-nowrap hover:bg-white/10 transition-colors duration-100"
+                  >
+                    {label}
+                  </Link>
+                ))}
                 <button
                   onClick={handleLogout}
-                  className="w-full text-left px-4 py-2 text-sm text-navy hover:bg-bg-app transition-colors duration-100"
+                  className="flex items-center w-full h-[46px] px-[16px] rounded-[8px] text-[#cdcdcd] text-[16px] whitespace-nowrap hover:bg-white/10 transition-colors duration-100"
                 >
                   Log out
                 </button>
