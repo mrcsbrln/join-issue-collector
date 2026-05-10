@@ -21,15 +21,10 @@ function CalendarIcon() {
       width="24"
       height="24"
       viewBox="0 0 24 24"
-      fill="none"
+      fill="#2A3647"
       aria-hidden="true"
     >
-      <path
-        d="M8 2V5M16 2V5M3 8H21M4 4H20C20.55 4 21 4.45 21 5V20C21 20.55 20.55 21 20 21H4C3.45 21 3 20.55 3 20V5C3 4.45 3.45 4 4 4Z"
-        stroke="#A8A8A8"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
+      <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z" />
     </svg>
   );
 }
@@ -150,26 +145,22 @@ async function insertTask(
   if (error || !task) throw error ?? new Error("Insert failed");
 
   if (assignedIds.length > 0) {
-    await supabase
-      .from("task_contacts")
-      .insert(
-        assignedIds.map((contactId) => ({
-          task_id: task.id,
-          contact_id: contactId,
-        })),
-      );
+    await supabase.from("task_contacts").insert(
+      assignedIds.map((contactId) => ({
+        task_id: task.id,
+        contact_id: contactId,
+      })),
+    );
   }
   if (subtasks.length > 0) {
-    await supabase
-      .from("subtasks")
-      .insert(
-        subtasks.map((title, position) => ({
-          task_id: task.id,
-          title,
-          completed: false,
-          position,
-        })),
-      );
+    await supabase.from("subtasks").insert(
+      subtasks.map((title, position) => ({
+        task_id: task.id,
+        title,
+        completed: false,
+        position,
+      })),
+    );
   }
 }
 
@@ -271,7 +262,7 @@ export default function AddTaskForm({ contacts }: AddTaskFormProps) {
                   validate: (v) => v !== "" || "This field is required",
                 })}
                 type="date"
-                className="flex-1 text-[20px] text-navy bg-transparent outline-none border-none [color-scheme:light]"
+                className="flex-1 text-[20px] text-navy bg-transparent outline-none border-none scheme-light [&::-webkit-calendar-picker-indicator]:hidden"
               />
               <CalendarIcon />
             </div>
