@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { TaskWithRelations } from "@/lib/types";
+import { TaskWithRelations, Contact } from "@/lib/types";
 import KanbanBoard from "@/components/board/KanbanBoard";
 
 async function getTasks(): Promise<TaskWithRelations[]> {
@@ -17,7 +17,13 @@ async function getTasks(): Promise<TaskWithRelations[]> {
   }));
 }
 
+async function getContacts(): Promise<Contact[]> {
+  const supabase = await createClient();
+  const { data } = await supabase.from("contacts").select("*").order("name");
+  return data ?? [];
+}
+
 export default async function BoardPage() {
-  const tasks = await getTasks();
-  return <KanbanBoard initialTasks={tasks} />;
+  const [tasks, contacts] = await Promise.all([getTasks(), getContacts()]);
+  return <KanbanBoard initialTasks={tasks} contacts={contacts} />;
 }

@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { Contact, Priority, Category } from "@/lib/types";
+import { Contact, Priority, Category, TaskStatus } from "@/lib/types";
 import { createClient } from "@/lib/supabase/client";
 import PrioritySelector from "./PrioritySelector";
 import AssignedToDropdown from "./AssignedToDropdown";
@@ -128,6 +128,7 @@ async function insertTask(
   category: Category,
   assignedIds: string[],
   subtasks: string[],
+  status: TaskStatus = "todo",
 ) {
   const supabase = createClient();
   const { data: task, error } = await supabase
@@ -138,7 +139,7 @@ async function insertTask(
       category,
       priority,
       due_date: values.dueDate,
-      status: "todo",
+      status,
     })
     .select("id")
     .single();
@@ -166,9 +167,17 @@ async function insertTask(
 
 interface AddTaskFormProps {
   contacts: Contact[];
+  onSuccess?: () => void;
+  onCancel?: () => void;
+  initialStatus?: TaskStatus;
 }
 
-export default function AddTaskForm({ contacts }: AddTaskFormProps) {
+export default function AddTaskForm({
+  contacts,
+  onSuccess,
+  onCancel,
+  initialStatus = "todo",
+}: AddTaskFormProps) {
   const [priority, setPriority] = useState<Priority>("medium");
   const [assignedIds, setAssignedIds] = useState<string[]>([]);
   const [subtasks, setSubtasks] = useState<string[]>([]);
@@ -208,8 +217,19 @@ export default function AddTaskForm({ contacts }: AddTaskFormProps) {
     setCategoryError("");
     setLoading(true);
     try {
-      await insertTask(values, priority, category, assignedIds, subtasks);
-      toast.success("Task created!");
+      await insertTask(
+        values,
+        priority,
+        category,
+        assignedIds,
+        subtasks,
+        initialStatus,
+      );
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        toast.success("Task created!");
+      }
       clearForm();
     } catch {
       toast.error("Could not create task. Please try again.");
@@ -336,10 +356,10 @@ export default function AddTaskForm({ contacts }: AddTaskFormProps) {
       <div className="flex justify-end gap-4 mt-[60px]">
         <button
           type="button"
-          onClick={clearForm}
+          onClick={onCancel ?? clearForm}
           className="flex items-center gap-1 px-6 py-4 text-[20px] text-navy bg-bg-app border-2 border-navy rounded-[10px] cursor-pointer hover:border-blue hover:text-blue hover:shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-all duration-100"
         >
-          Clear <CancelIcon />
+          {onCancel ? "Cancel" : "Clear"} <CancelIcon />
         </button>
         <button
           type="submit"

@@ -3,14 +3,13 @@
 import { Droppable } from "@hello-pangea/dnd";
 import { TaskWithRelations, TaskStatus } from "@/lib/types";
 import TaskCard from "./TaskCard";
-import Link from "next/link";
 
 function PlusIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
       <path
         d="M7 1V13M1 7H13"
-        stroke="#2A3647"
+        stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
       />
@@ -30,12 +29,14 @@ interface KanbanColumnProps {
   status: TaskStatus;
   title: string;
   tasks: TaskWithRelations[];
+  onAdd: () => void;
 }
 
 export default function KanbanColumn({
   status,
   title,
   tasks,
+  onAdd,
 }: KanbanColumnProps) {
   const showPlusButton = status !== "done";
 
@@ -44,12 +45,13 @@ export default function KanbanColumn({
       <div className="flex items-center justify-between">
         <h2 className="text-[20px] font-bold text-[#42526E]">{title}</h2>
         {showPlusButton && (
-          <Link
-            href="/add-task"
-            className="size-6 flex items-center justify-center border-2 border-navy rounded-[8px] hover:border-blue hover:text-blue transition-colors duration-100"
+          <button
+            type="button"
+            onClick={onAdd}
+            className="size-6 flex items-center justify-center border-2 border-navy rounded-[8px] hover:border-blue hover:text-blue transition-colors duration-100 cursor-pointer bg-transparent"
           >
             <PlusIcon />
-          </Link>
+          </button>
         )}
       </div>
 
