@@ -12,6 +12,24 @@ export default function Header() {
   const router = useRouter();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuClosing, setMenuClosing] = useState(false);
+
+  function openMenu() {
+    setMenuOpen(true);
+    setMenuClosing(false);
+  }
+
+  function closeMenu() {
+    setMenuClosing(true);
+    setTimeout(() => {
+      setMenuOpen(false);
+      setMenuClosing(false);
+    }, 140);
+  }
+
+  function toggleMenu() {
+    menuOpen && !menuClosing ? closeMenu() : openMenu();
+  }
 
   useEffect(() => {
     async function load() {
@@ -47,7 +65,7 @@ export default function Header() {
       <div className="flex items-center gap-4">
         <div className="relative">
           <button
-            onClick={() => setMenuOpen((v) => !v)}
+            onClick={toggleMenu}
             className="rounded-full focus:outline-none"
             aria-label="User menu"
           >
@@ -60,13 +78,14 @@ export default function Header() {
 
           {menuOpen && (
             <>
-              <div
-                className="fixed inset-0 z-10"
-                onClick={() => setMenuOpen(false)}
-              />
+              <div className="fixed inset-0 z-10" onClick={closeMenu} />
               <div
                 className="absolute right-0 top-10 z-20 bg-navy rounded-tl-[20px] rounded-br-[20px] rounded-bl-[20px] shadow-[0_0_4px_rgba(0,0,0,0.1)] p-[10px] overflow-hidden"
-                style={{ animation: "slide-in-right 150ms ease-out" }}
+                style={{
+                  animation: menuClosing
+                    ? "slide-out-right 140ms ease-in forwards"
+                    : "slide-in-right 150ms ease-out",
+                }}
               >
                 {[
                   { label: "Help", href: "/help" },
@@ -76,7 +95,7 @@ export default function Header() {
                   <Link
                     key={href}
                     href={href}
-                    onClick={() => setMenuOpen(false)}
+                    onClick={closeMenu}
                     className="flex items-center h-[46px] px-[16px] rounded-[8px] text-[#cdcdcd] text-[16px] whitespace-nowrap hover:bg-white/10 transition-colors duration-100"
                   >
                     {label}
