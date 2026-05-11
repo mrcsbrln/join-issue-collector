@@ -78,7 +78,7 @@ export default function SubtaskInput({
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKey}
           placeholder="Add new subtask"
-          className="flex-1 text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
+          className="flex-1 text-[16px] lg:text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
         />
         <button
           type="button"

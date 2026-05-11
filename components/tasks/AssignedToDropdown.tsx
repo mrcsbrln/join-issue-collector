@@ -76,7 +76,9 @@ export default function AssignedToDropdown({
         onClick={() => setOpen((o) => !o)}
         className="flex items-center justify-between bg-white border border-border rounded-[10px] px-4 py-3 w-full cursor-pointer text-left focus:border-blue focus:outline-none transition-colors duration-100"
       >
-        <span className="text-[20px] text-navy">Select contacts to assign</span>
+        <span className="text-[16px] lg:text-[20px] text-navy">
+          Select contacts to assign
+        </span>
         <ChevronIcon open={open} />
       </button>
 

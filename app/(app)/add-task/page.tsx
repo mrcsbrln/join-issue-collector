@@ -11,8 +11,8 @@ export default async function AddTaskPage() {
   const contacts = await getContacts();
 
   return (
-    <div className="pl-14 pt-[70px]">
-      <h1 className="text-[61px] font-bold leading-[1.2] text-black mb-12">
+    <div className="md:pl-14 md:pt-[70px]">
+      <h1 className="text-[47px] md:text-[61px] font-bold leading-[1.2] text-black mb-6 md:mb-12">
         Add Task
       </h1>
       <AddTaskForm contacts={contacts} />

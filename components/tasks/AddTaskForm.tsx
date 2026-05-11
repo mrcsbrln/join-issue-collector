@@ -87,7 +87,9 @@ function CategoryDropdown({
         onClick={() => setOpen((o) => !o)}
         className={`flex items-center justify-between bg-white border rounded-[10px] px-4 py-3 w-full cursor-pointer text-left focus:outline-none transition-colors duration-100 ${error ? "border-error" : "border-border"}`}
       >
-        <span className={`text-[20px] ${value ? "text-navy" : "text-muted"}`}>
+        <span
+          className={`text-[16px] lg:text-[20px] ${value ? "text-navy" : "text-muted"}`}
+        >
           {value ?? "Select task category"}
         </span>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -240,13 +242,13 @@ export default function AddTaskForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
-      <div className="w-fit">
-        <div className="flex gap-12 items-start">
+      <div className="w-full">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-12 items-start">
           {/* Left column */}
-          <div className="flex flex-col gap-6 w-[440px] shrink-0">
+          <div className="flex flex-col gap-4 lg:gap-6 w-full lg:flex-1 lg:min-w-0 lg:max-w-[440px]">
             {/* Title */}
             <div className="flex flex-col gap-2">
-              <label className="text-[20px] text-navy">
+              <label className="text-[16px] lg:text-[20px] text-navy">
                 Title<span className="text-[#FF8190]">*</span>
               </label>
               <div
@@ -258,7 +260,7 @@ export default function AddTaskForm({
                       v.trim() !== "" || "This field is required",
                   })}
                   placeholder="Enter a title"
-                  className="w-full text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
+                  className="w-full text-[16px] lg:text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
                 />
               </div>
               {errors.title && (
@@ -268,25 +270,27 @@ export default function AddTaskForm({
 
             {/* Description */}
             <div className="flex flex-col gap-2">
-              <label className="text-[20px] text-navy">Description</label>
+              <label className="text-[16px] lg:text-[20px] text-navy">
+                Description
+              </label>
               <textarea
                 {...register("description")}
                 placeholder="Enter a Description"
                 rows={4}
-                className="w-full bg-white border border-border rounded-[10px] px-4 py-3 text-[20px] text-navy placeholder:text-muted outline-none resize-none focus:border-blue transition-colors duration-100"
+                className="w-full bg-white border border-border rounded-[10px] px-4 py-3 text-[16px] lg:text-[20px] text-navy placeholder:text-muted outline-none resize-none focus:border-blue transition-colors duration-100"
               />
             </div>
 
             {/* Due date */}
             <div className="flex flex-col gap-2">
-              <label className="text-[20px] text-navy">
+              <label className="text-[16px] lg:text-[20px] text-navy">
                 Due date<span className="text-[#FF8190]">*</span>
               </label>
               <div
                 className={`relative flex items-center justify-between bg-white border rounded-[10px] px-4 py-3 cursor-pointer transition-colors duration-100 ${errors.dueDate ? "border-error" : "border-border hover:border-blue"}`}
               >
                 <span
-                  className={`text-[20px] ${watch("dueDate") ? "text-navy" : "text-muted"}`}
+                  className={`text-[16px] lg:text-[20px] ${watch("dueDate") ? "text-navy" : "text-muted"}`}
                 >
                   {watch("dueDate")
                     ? watch("dueDate").split("-").reverse().join("/")
@@ -311,19 +315,23 @@ export default function AddTaskForm({
           </div>
 
           {/* Divider */}
-          <div className="w-px self-stretch bg-border shrink-0" />
+          <div className="hidden lg:block w-px self-stretch bg-border shrink-0" />
 
           {/* Right column */}
-          <div className="flex flex-col gap-6 w-[440px] shrink-0">
+          <div className="flex flex-col gap-4 lg:gap-6 w-full lg:flex-1 lg:min-w-0 lg:max-w-[440px]">
             {/* Priority */}
             <div className="flex flex-col gap-2">
-              <label className="text-[20px] text-navy">Priority</label>
+              <label className="text-[16px] lg:text-[20px] text-navy">
+                Priority
+              </label>
               <PrioritySelector value={priority} onChange={setPriority} />
             </div>
 
             {/* Assigned to */}
             <div className="flex flex-col gap-2">
-              <label className="text-[20px] text-navy">Assigned to</label>
+              <label className="text-[16px] lg:text-[20px] text-navy">
+                Assigned to
+              </label>
               <AssignedToDropdown
                 contacts={contacts}
                 value={assignedIds}
@@ -333,7 +341,7 @@ export default function AddTaskForm({
 
             {/* Category */}
             <div className="flex flex-col gap-2">
-              <label className="text-[20px] text-navy">
+              <label className="text-[16px] lg:text-[20px] text-navy">
                 Category<span className="text-[#FF8190]">*</span>
               </label>
               <CategoryDropdown
@@ -348,25 +356,27 @@ export default function AddTaskForm({
 
             {/* Subtasks */}
             <div className="flex flex-col gap-2">
-              <label className="text-[20px] text-navy">Subtasks</label>
+              <label className="text-[16px] lg:text-[20px] text-navy">
+                Subtasks
+              </label>
               <SubtaskInput subtasks={subtasks} onChange={setSubtasks} />
             </div>
           </div>
         </div>
 
         {/* Buttons */}
-        <div className="flex justify-end gap-4 mt-[60px]">
+        <div className="flex justify-end gap-4 mt-8 lg:mt-[60px]">
           <button
             type="button"
             onClick={onCancel ?? clearForm}
-            className="flex items-center gap-1 px-6 py-4 text-[20px] text-navy bg-bg-app border-2 border-navy rounded-[10px] cursor-pointer hover:border-blue hover:text-blue hover:shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-all duration-100"
+            className="flex items-center gap-1 px-6 py-3 lg:py-4 text-[16px] lg:text-[20px] text-navy bg-bg-app border-2 border-navy rounded-[10px] cursor-pointer hover:border-blue hover:text-blue hover:shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-all duration-100"
           >
             {onCancel ? "Cancel" : "Clear"} <CancelIcon />
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="flex items-center gap-1 px-6 py-4 text-[20px] text-white font-bold bg-navy rounded-[10px] cursor-pointer border-0 hover:bg-blue hover:shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-all duration-100 disabled:opacity-50"
+            className="flex items-center gap-1 px-6 py-3 lg:py-4 text-[16px] lg:text-[20px] text-white font-bold bg-navy rounded-[10px] cursor-pointer border-0 hover:bg-blue hover:shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-all duration-100 disabled:opacity-50"
           >
             {loading ? "Creating…" : "Create Task"} <CheckIcon />
           </button>
