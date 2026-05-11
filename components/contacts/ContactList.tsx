@@ -91,7 +91,7 @@ function LetterGroup({
       <div className="px-[36px] py-[17px]">
         <span className="text-[20px] text-black">{letter}</span>
       </div>
-      <div className="h-px bg-[#D1D1D1]" />
+      <div className="h-px bg-[#D1D1D1] mb-2" />
       {contacts.map((contact) => (
         <ContactRow
           key={contact.id}

@@ -106,14 +106,14 @@ export default function ContactsView({ initialContacts }: ContactsViewProps) {
 
         {/* Detail panel — hidden on mobile when no contact is selected */}
         <div
-          className={`${selectedId === null ? "hidden lg:block" : ""} pt-4 lg:flex-1 lg:pl-[55px] lg:pr-[40px] lg:pt-[110px] lg:pb-[40px] lg:overflow-y-auto`}
+          className={`${selectedId === null ? "hidden lg:block" : ""} pt-4 lg:flex-1 lg:min-w-0 lg:pl-[55px] lg:pr-[40px] lg:pt-[110px] lg:pb-[40px] lg:overflow-y-auto`}
         >
           {/* Desktop heading */}
-          <div className="hidden lg:flex items-center gap-[30px] mb-[55px]">
+          <div className="hidden lg:flex lg:flex-col xl:flex-row xl:items-center gap-4 xl:gap-[30px] mb-[55px]">
             <h1 className="text-[61px] font-bold leading-[1.2] text-black">
               Contacts
             </h1>
-            <div className="w-px h-[59px] bg-navy shrink-0" />
+            <div className="hidden xl:block w-px h-[59px] bg-navy shrink-0" />
             <span className="text-[27px] text-navy">Better with a team</span>
           </div>
           {selectedContact && (

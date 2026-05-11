@@ -51,8 +51,8 @@ export default function ContactDetail({
         >
           {getInitials(contact.name)}
         </div>
-        <div className="flex flex-col gap-2">
-          <span className="text-[27px] lg:text-[47px] font-medium text-black leading-[1.2]">
+        <div className="flex flex-col gap-2 min-w-0">
+          <span className="text-[27px] lg:text-[47px] font-medium text-black leading-[1.2] break-words">
             {contact.name}
           </span>
           <div className="flex items-center gap-6">
