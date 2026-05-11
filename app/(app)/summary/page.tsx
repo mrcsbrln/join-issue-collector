@@ -136,7 +136,7 @@ function StatCard({
   return (
     <Link
       href={href}
-      className={`${cardBase} flex items-center gap-[12px] lg:gap-[18px] flex-1 h-[110px] lg:h-[168px] justify-center`}
+      className={`${cardBase} flex items-center gap-[12px] lg:gap-[18px] lg:flex-1 h-[110px] lg:h-[168px] justify-center px-6 lg:px-0`}
     >
       {icon}
       <div className="flex flex-col items-center">
@@ -201,7 +201,7 @@ function MiniStatCard({
   return (
     <Link
       href={href}
-      className={`${cardBase} flex flex-col items-center justify-center flex-1 h-[116px] lg:size-[168px]`}
+      className={`${cardBase} flex flex-col items-center justify-center lg:flex-1 h-[116px] lg:size-[168px] px-6 lg:px-0`}
     >
       <span className="text-[47px] lg:text-[64px] font-semibold leading-[1.2] text-black group-hover:text-white">
         {count}
@@ -233,7 +233,7 @@ export default async function SummaryPage() {
 
       <div className="flex flex-col lg:flex-row lg:gap-20 lg:items-center">
         <div className="flex flex-col items-stretch gap-4 lg:gap-7 lg:w-[560px] lg:shrink-0">
-          <div className="flex gap-6 lg:gap-8">
+          <div className="flex gap-6 lg:gap-8 justify-center lg:justify-start">
             <StatCard
               href="/board"
               icon={<TodoCircleIcon />}
@@ -248,7 +248,7 @@ export default async function SummaryPage() {
             />
           </div>
           <UrgencyCard count={data.urgent} deadline={data.nextDeadline} />
-          <div className="flex gap-6 lg:gap-7">
+          <div className="flex gap-6 lg:gap-7 justify-center lg:justify-start">
             <MiniStatCard
               href="/board"
               count={data.total}
