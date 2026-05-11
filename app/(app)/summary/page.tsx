@@ -232,7 +232,7 @@ export default async function SummaryPage() {
       </div>
 
       <div className="flex flex-col lg:flex-row lg:gap-20 lg:items-center">
-        <div className="flex flex-col items-stretch gap-4 lg:gap-7 w-full max-w-[560px] mx-auto lg:mx-0 lg:shrink-0">
+        <div className="flex flex-col items-stretch gap-4 lg:gap-7 w-full lg:mx-0 lg:shrink-0">
           <div className="flex gap-6 lg:gap-8">
             <StatCard
               href="/board"
@@ -270,7 +270,7 @@ export default async function SummaryPage() {
           </div>
         </div>
 
-        <div className="hidden lg:block pl-20">
+        <div className="hidden xl:block pl-20">
           <p className="text-[47px] font-medium text-navy leading-[1.2]">
             {data.isGuest ? `${greeting.replace(/,$/, "")}!` : greeting}
           </p>

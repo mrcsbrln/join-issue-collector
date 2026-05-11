@@ -25,6 +25,7 @@
   --color-border: #d1d1d1;
 
   /* Breakpoints */
+  --breakpoint-xl: 1280px;
   --breakpoint-lg: 1025px;
 
   /* Typography */
