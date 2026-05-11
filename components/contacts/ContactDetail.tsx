@@ -46,7 +46,7 @@ export default function ContactDetail({
     <div className="flex flex-col gap-[21px]">
       <div className="flex gap-6 lg:gap-[54px] items-center">
         <div
-          className="size-[80px] lg:size-[120px] rounded-full flex items-center justify-center text-white text-[32px] lg:text-[47px] font-medium shrink-0 shadow-[0_0_2px_rgba(0,0,0,0.1)]"
+          className="size-[80px] lg:hidden xl:flex lg:size-[120px] rounded-full flex items-center justify-center text-white text-[32px] lg:text-[47px] font-medium shrink-0 shadow-[0_0_2px_rgba(0,0,0,0.1)]"
           style={{ backgroundColor: contact.color }}
         >
           {getInitials(contact.name)}
