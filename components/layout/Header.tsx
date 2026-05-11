@@ -70,7 +70,12 @@ export default function Header() {
             aria-label="User menu"
           >
             {profile ? (
-              <Avatar name={profile.name} color={profile.color} size="header" />
+              <Avatar
+                name={profile.name}
+                color={profile.color}
+                borderColor="#2A3647"
+                size="header"
+              />
             ) : (
               <div className="w-8 h-8 rounded-full bg-[#cdcdcd]" />
             )}

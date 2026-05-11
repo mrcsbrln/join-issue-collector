@@ -28,6 +28,7 @@ const borderMap = { sm: 2, md: 2, lg: 3, header: 4 };
 interface AvatarProps {
   name: string;
   color?: string;
+  borderColor?: string;
   size?: "sm" | "md" | "lg" | "header";
   className?: string;
 }
@@ -48,6 +49,7 @@ export function getInitials(name: string): string {
 export default function Avatar({
   name,
   color,
+  borderColor,
   size = "md",
   className = "",
 }: AvatarProps) {
@@ -65,7 +67,7 @@ export default function Avatar({
       style={{
         width: px,
         height: px,
-        border: `${borderPx}px solid ${ringColor}`,
+        border: `${borderPx}px solid ${borderColor ?? ringColor}`,
         color: ringColor,
       }}
       title={name}
