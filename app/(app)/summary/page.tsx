@@ -220,19 +220,19 @@ export default async function SummaryPage() {
 
   return (
     <div className="lg:pl-14 lg:pt-[70px]">
-      <div className="mb-8 lg:mb-[59px] flex flex-col lg:flex-row lg:items-center lg:gap-[30px]">
+      <div className="mb-8 lg:mb-[59px] flex flex-col xl:flex-row xl:items-center xl:gap-[30px]">
         <h1 className="text-[47px] lg:text-[61px] font-bold leading-[1.2] text-black whitespace-nowrap">
           Join 360
         </h1>
-        <div className="hidden lg:block w-px h-[59px] bg-border shrink-0" />
+        <div className="hidden xl:block w-px h-[59px] bg-border shrink-0" />
         <p className="text-[20px] lg:text-[27px] font-normal text-navy whitespace-nowrap">
           Key Metrics at a Glance
         </p>
-        <div className="w-[90px] h-px bg-blue mt-2 lg:hidden" />
+        <div className="w-[90px] h-px bg-blue mt-2 xl:hidden" />
       </div>
 
-      <div className="flex flex-col lg:flex-row lg:gap-20 lg:items-center">
-        <div className="flex flex-col items-stretch gap-4 lg:gap-7 w-full lg:mx-0 lg:shrink-0">
+      <div className="flex flex-col xl:flex-row xl:gap-20 xl:items-center">
+        <div className="flex flex-col items-stretch gap-4 lg:gap-7 w-full lg:max-w-[560px] xl:max-w-none xl:w-[560px] xl:shrink-0">
           <div className="flex gap-6 lg:gap-8">
             <StatCard
               href="/board"
