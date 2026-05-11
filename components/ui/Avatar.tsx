@@ -16,13 +16,19 @@ const AVATAR_COLORS = [
   "#FFBB2B",
 ];
 
-const sizeMap = { sm: 32, md: 42, lg: 64 };
-const fontSizeMap = { sm: "text-xs", md: "text-sm", lg: "text-xl" };
+const sizeMap = { sm: 32, md: 42, lg: 64, header: 56 };
+const fontSizeMap = {
+  sm: "text-xs",
+  md: "text-sm",
+  lg: "text-xl",
+  header: "text-[16px]",
+};
+const borderMap = { sm: 2, md: 2, lg: 3, header: 4 };
 
 interface AvatarProps {
   name: string;
   color?: string;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "header";
   className?: string;
 }
 
@@ -47,18 +53,19 @@ export default function Avatar({
 }: AvatarProps) {
   const ringColor = color ?? getAvatarColor(name);
   const px = sizeMap[size];
+  const borderPx = borderMap[size];
 
   return (
     <div
       className={[
-        "inline-flex items-center justify-center rounded-full font-bold bg-white select-none flex-shrink-0",
+        "inline-flex items-center justify-center rounded-full font-bold bg-white select-none shrink-0",
         fontSizeMap[size],
         className,
       ].join(" ")}
       style={{
         width: px,
         height: px,
-        border: `2px solid ${ringColor}`,
+        border: `${borderPx}px solid ${ringColor}`,
         color: ringColor,
       }}
       title={name}
