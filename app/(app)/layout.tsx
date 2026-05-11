@@ -7,8 +7,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen bg-bg-app">
       <Sidebar />
       <Header />
-      <main className="md:ml-[232px] pt-[96px] pb-20 md:pb-0 min-h-screen">
-        <div className="p-[16px] md:p-[40px]">{children}</div>
+      <main className="lg:ml-[232px] pt-[96px] pb-20 lg:pb-0 min-h-screen">
+        <div className="p-[16px] lg:p-[40px]">{children}</div>
       </main>
       <MobileNav />
     </div>

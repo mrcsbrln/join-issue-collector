@@ -63,9 +63,9 @@ function formatDeadline(dateStr: string): string {
 
 function TodoCircleIcon() {
   return (
-    <div className="size-[40px] md:size-[69px] rounded-full bg-navy group-hover:bg-white flex items-center justify-center shrink-0 text-white group-hover:text-navy transition-colors duration-100">
+    <div className="size-[40px] lg:size-[69px] rounded-full bg-navy group-hover:bg-white flex items-center justify-center shrink-0 text-white group-hover:text-navy transition-colors duration-100">
       <svg
-        className="w-[15px] h-[15px] md:w-[25px] md:h-[25px]"
+        className="w-[15px] h-[15px] lg:w-[25px] lg:h-[25px]"
         viewBox="0 0 25 25"
         fill="none"
       >
@@ -80,9 +80,9 @@ function TodoCircleIcon() {
 
 function DoneCircleIcon() {
   return (
-    <div className="size-[40px] md:size-[69px] rounded-full bg-navy group-hover:bg-white flex items-center justify-center shrink-0 text-white group-hover:text-navy transition-colors duration-100">
+    <div className="size-[40px] lg:size-[69px] rounded-full bg-navy group-hover:bg-white flex items-center justify-center shrink-0 text-white group-hover:text-navy transition-colors duration-100">
       <svg
-        className="w-[22px] h-[18px] md:w-[37px] md:h-[30px]"
+        className="w-[22px] h-[18px] lg:w-[37px] lg:h-[30px]"
         viewBox="0 0 37 30"
         fill="none"
       >
@@ -100,9 +100,9 @@ function DoneCircleIcon() {
 
 function UrgentCircleIcon() {
   return (
-    <div className="size-[40px] md:size-[60px] rounded-full bg-priority-urgent flex items-center justify-center shrink-0">
+    <div className="size-[40px] lg:size-[60px] rounded-full bg-priority-urgent flex items-center justify-center shrink-0">
       <svg
-        className="w-[22px] h-[16px] md:w-[35px] md:h-[26px]"
+        className="w-[22px] h-[16px] lg:w-[35px] lg:h-[26px]"
         viewBox="0 0 35 26"
         fill="none"
       >
@@ -136,14 +136,14 @@ function StatCard({
   return (
     <Link
       href={href}
-      className={`${cardBase} flex items-center gap-[12px] md:gap-[18px] flex-1 h-[110px] md:h-[168px] justify-center`}
+      className={`${cardBase} flex items-center gap-[12px] lg:gap-[18px] flex-1 h-[110px] lg:h-[168px] justify-center`}
     >
       {icon}
       <div className="flex flex-col items-center">
-        <span className="text-[47px] md:text-[64px] font-semibold leading-[1.2] text-black group-hover:text-white">
+        <span className="text-[47px] lg:text-[64px] font-semibold leading-[1.2] text-black group-hover:text-white">
           {count}
         </span>
-        <span className="text-[16px] md:text-[20px] font-normal text-navy group-hover:text-white whitespace-nowrap">
+        <span className="text-[16px] lg:text-[20px] font-normal text-navy group-hover:text-white whitespace-nowrap">
           {label}
         </span>
       </div>
@@ -161,12 +161,12 @@ function UrgencyCard({
   return (
     <Link
       href="/board"
-      className={`${cardBase} flex items-center justify-center gap-[24px] md:gap-[61px] h-[110px] md:h-[168px] px-4 md:px-12`}
+      className={`${cardBase} flex items-center justify-center gap-[24px] lg:gap-[61px] h-[110px] lg:h-[168px] px-4 lg:px-12`}
     >
-      <div className="flex items-center gap-[12px] md:gap-[18px]">
+      <div className="flex items-center gap-[12px] lg:gap-[18px]">
         <UrgentCircleIcon />
         <div className="flex flex-col items-center">
-          <span className="text-[47px] md:text-[64px] font-semibold leading-[1.2] text-black group-hover:text-white w-[50px] text-center">
+          <span className="text-[47px] lg:text-[64px] font-semibold leading-[1.2] text-black group-hover:text-white w-[50px] text-center">
             {count}
           </span>
           <span className="text-[16px] font-normal text-navy group-hover:text-white">
@@ -174,9 +174,9 @@ function UrgencyCard({
           </span>
         </div>
       </div>
-      <div className="w-px h-[70px] md:h-[102px] bg-border group-hover:bg-white/30 shrink-0" />
-      <div className="flex flex-col gap-[8px] md:gap-[13px]">
-        <span className="text-[16px] md:text-[21px] font-bold text-navy group-hover:text-white leading-[1.2]">
+      <div className="w-px h-[70px] lg:h-[102px] bg-border group-hover:bg-white/30 shrink-0" />
+      <div className="flex flex-col gap-[8px] lg:gap-[13px]">
+        <span className="text-[16px] lg:text-[21px] font-bold text-navy group-hover:text-white leading-[1.2]">
           {deadline ? formatDeadline(deadline) : "No deadline"}
         </span>
         <span className="text-[16px] font-normal text-navy group-hover:text-white">
@@ -201,12 +201,12 @@ function MiniStatCard({
   return (
     <Link
       href={href}
-      className={`${cardBase} flex flex-col items-center justify-center flex-1 h-[116px] md:size-[168px]`}
+      className={`${cardBase} flex flex-col items-center justify-center flex-1 h-[116px] lg:size-[168px]`}
     >
-      <span className="text-[47px] md:text-[64px] font-semibold leading-[1.2] text-black group-hover:text-white">
+      <span className="text-[47px] lg:text-[64px] font-semibold leading-[1.2] text-black group-hover:text-white">
         {count}
       </span>
-      <div className="text-[14px] md:text-[20px] font-normal text-navy group-hover:text-white text-center leading-[1.2]">
+      <div className="text-[14px] lg:text-[20px] font-normal text-navy group-hover:text-white text-center leading-[1.2]">
         <p>{line1}</p>
         <p>{line2}</p>
       </div>
@@ -219,21 +219,21 @@ export default async function SummaryPage() {
   const greeting = getGreeting();
 
   return (
-    <div className="md:pl-14 md:pt-[70px]">
-      <div className="mb-8 md:mb-[59px] flex flex-col md:flex-row md:items-center md:gap-[30px]">
-        <h1 className="text-[47px] md:text-[61px] font-bold leading-[1.2] text-black whitespace-nowrap">
+    <div className="lg:pl-14 lg:pt-[70px]">
+      <div className="mb-8 lg:mb-[59px] flex flex-col lg:flex-row lg:items-center lg:gap-[30px]">
+        <h1 className="text-[47px] lg:text-[61px] font-bold leading-[1.2] text-black whitespace-nowrap">
           Join 360
         </h1>
-        <div className="hidden md:block w-px h-[59px] bg-border shrink-0" />
-        <p className="text-[20px] md:text-[27px] font-normal text-navy whitespace-nowrap">
+        <div className="hidden lg:block w-px h-[59px] bg-border shrink-0" />
+        <p className="text-[20px] lg:text-[27px] font-normal text-navy whitespace-nowrap">
           Key Metrics at a Glance
         </p>
-        <div className="w-[90px] h-px bg-blue mt-2 md:hidden" />
+        <div className="w-[90px] h-px bg-blue mt-2 lg:hidden" />
       </div>
 
-      <div className="flex flex-col md:flex-row md:gap-20 md:items-center">
-        <div className="flex flex-col items-stretch gap-4 md:gap-7 md:w-[560px] md:shrink-0">
-          <div className="flex gap-6 md:gap-8">
+      <div className="flex flex-col lg:flex-row lg:gap-20 lg:items-center">
+        <div className="flex flex-col items-stretch gap-4 lg:gap-7 lg:w-[560px] lg:shrink-0">
+          <div className="flex gap-6 lg:gap-8">
             <StatCard
               href="/board"
               icon={<TodoCircleIcon />}
@@ -248,7 +248,7 @@ export default async function SummaryPage() {
             />
           </div>
           <UrgencyCard count={data.urgent} deadline={data.nextDeadline} />
-          <div className="flex gap-6 md:gap-7">
+          <div className="flex gap-6 lg:gap-7">
             <MiniStatCard
               href="/board"
               count={data.total}
@@ -270,7 +270,7 @@ export default async function SummaryPage() {
           </div>
         </div>
 
-        <div className="hidden md:block pl-20">
+        <div className="hidden lg:block pl-20">
           <p className="text-[47px] font-medium text-navy leading-[1.2]">
             {data.isGuest ? `${greeting.replace(/,$/, "")}!` : greeting}
           </p>
