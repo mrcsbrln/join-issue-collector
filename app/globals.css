@@ -24,6 +24,9 @@
   --color-muted: #a8a8a8;
   --color-border: #d1d1d1;
 
+  /* Breakpoints */
+  --breakpoint-lg: 1025px;
+
   /* Typography */
   --font-sans: "Inter", sans-serif;
 
