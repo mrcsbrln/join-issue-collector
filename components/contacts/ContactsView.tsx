@@ -126,6 +126,14 @@ export default function ContactsView({ initialContacts }: ContactsViewProps) {
           contact={modalContact}
           onClose={closeModal}
           onSuccess={handleSuccess}
+          onDelete={
+            modalContact
+              ? async () => {
+                  await handleDelete(modalContact.id);
+                  closeModal();
+                }
+              : undefined
+          }
         />
       )}
     </>
