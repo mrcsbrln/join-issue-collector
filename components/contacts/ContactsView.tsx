@@ -72,16 +72,9 @@ export default function ContactsView({ initialContacts }: ContactsViewProps) {
 
   return (
     <>
-      {/* Mobile: heading (list view) or back button (detail view) */}
-      <div className="lg:hidden mb-6">
-        {selectedId === null ? (
-          <div>
-            <h1 className="text-[47px] font-bold leading-[1.2] text-black">
-              Contacts
-            </h1>
-            <p className="text-[20px] text-navy mt-1">Better with a team</p>
-          </div>
-        ) : (
+      {/* Mobile: back button in detail view only */}
+      {selectedId !== null && (
+        <div className="lg:hidden mb-6">
           <button
             type="button"
             onClick={() => setSelectedId(null)}
@@ -90,10 +83,12 @@ export default function ContactsView({ initialContacts }: ContactsViewProps) {
             <ArrowLeftIcon />
             Contacts
           </button>
-        )}
-      </div>
+        </div>
+      )}
 
-      <div className="lg:-m-[40px] lg:flex lg:h-[calc(100vh-96px)]">
+      <div
+        className={`-mx-[16px] ${selectedId === null ? "-mt-[16px]" : ""} lg:-m-[40px] lg:flex lg:h-[calc(100vh-96px)]`}
+      >
         {/* Contact list panel — hidden on mobile when a contact is selected */}
         <div className={selectedId !== null ? "hidden lg:flex" : ""}>
           <ContactList
@@ -106,7 +101,7 @@ export default function ContactsView({ initialContacts }: ContactsViewProps) {
 
         {/* Detail panel — hidden on mobile when no contact is selected */}
         <div
-          className={`${selectedId === null ? "hidden lg:block" : ""} pt-4 lg:flex-1 lg:min-w-0 lg:pl-[55px] lg:pr-[40px] lg:pt-[110px] lg:pb-[40px] lg:overflow-y-auto`}
+          className={`${selectedId === null ? "hidden lg:block" : ""} px-[16px] pt-4 lg:flex-1 lg:min-w-0 lg:px-0 lg:pl-[55px] lg:pr-[40px] lg:pt-[110px] lg:pb-[40px] lg:overflow-y-auto`}
         >
           {/* Desktop heading */}
           <div className="hidden lg:flex lg:flex-col xl:flex-row xl:items-center gap-4 xl:gap-[30px] mb-[55px]">

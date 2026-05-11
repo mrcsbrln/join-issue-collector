@@ -88,8 +88,8 @@
   }
 }
 
-/* Landscape-Modus auf Mobile deaktivieren */
-@media (orientation: landscape) and (max-height: 500px) {
+/* Landscape-Modus auf Mobile/Tablet deaktivieren */
+@media (orientation: landscape) and (hover: none) and (pointer: coarse) {
   .landscape-block {
     display: flex;
     position: fixed;
