@@ -50,6 +50,23 @@
     box-sizing: border-box;
   }
 
+  /* Custom thin scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #2a3647 transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #2a3647;
+    border-radius: 9999px;
+  }
+
   body {
     background-color: #f6f7f8;
     font-family: "Inter", sans-serif;
