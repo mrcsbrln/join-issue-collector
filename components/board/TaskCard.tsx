@@ -78,9 +78,10 @@ function PriorityIcon({ priority }: { priority: Priority }) {
 interface TaskCardProps {
   task: TaskWithRelations;
   index: number;
+  onSelect: () => void;
 }
 
-export default function TaskCard({ task, index }: TaskCardProps) {
+export default function TaskCard({ task, index, onSelect }: TaskCardProps) {
   const completedSubtasks = task.subtasks.filter((s) => s.completed).length;
 
   return (
@@ -90,6 +91,7 @@ export default function TaskCard({ task, index }: TaskCardProps) {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
+          onClick={onSelect}
           className={`bg-white rounded-[24px] p-4 flex flex-col gap-6 cursor-pointer select-none transition-shadow duration-100 ${snapshot.isDragging ? "shadow-[0_8px_16px_rgba(0,0,0,0.15)]" : "shadow-[0_0_5px_rgba(0,0,0,0.08)]"}`}
         >
           <CategoryBadge category={task.category} />

@@ -30,6 +30,7 @@ interface KanbanColumnProps {
   title: string;
   tasks: TaskWithRelations[];
   onAdd: () => void;
+  onTaskSelect: (task: TaskWithRelations) => void;
 }
 
 export default function KanbanColumn({
@@ -37,6 +38,7 @@ export default function KanbanColumn({
   title,
   tasks,
   onAdd,
+  onTaskSelect,
 }: KanbanColumnProps) {
   const showPlusButton = status !== "done";
 
@@ -66,7 +68,12 @@ export default function KanbanColumn({
               <EmptyState label={title} />
             )}
             {tasks.map((task, index) => (
-              <TaskCard key={task.id} task={task} index={index} />
+              <TaskCard
+                key={task.id}
+                task={task}
+                index={index}
+                onSelect={() => onTaskSelect(task)}
+              />
             ))}
             {provided.placeholder}
           </div>

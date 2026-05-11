@@ -38,16 +38,16 @@ export default function AddTaskModal({
   return (
     <>
       <div className="fixed inset-0 bg-black/30 z-40" onClick={onClose} />
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-8 overflow-y-auto">
-        <div className="bg-white rounded-[30px] shadow-[0_0_4px_rgba(0,0,0,0.1)] w-full max-w-[1125px] relative px-[74px] py-16">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 lg:p-8 overflow-y-auto">
+        <div className="bg-white rounded-[30px] shadow-[0_0_4px_rgba(0,0,0,0.1)] w-full max-w-[1125px] relative px-4 py-8 lg:px-[74px] lg:py-16">
           <button
             type="button"
             onClick={onClose}
-            className="absolute top-8 right-10 text-navy hover:text-blue transition-colors duration-100 cursor-pointer border-0 bg-transparent"
+            className="absolute top-4 right-4 lg:top-8 lg:right-10 text-navy hover:text-blue transition-colors duration-100 cursor-pointer border-0 bg-transparent"
           >
             <CloseIcon />
           </button>
-          <h1 className="text-[61px] font-bold leading-[1.2] text-black mb-12">
+          <h1 className="text-[47px] lg:text-[61px] font-bold leading-[1.2] text-black mb-6 lg:mb-12">
             Add Task
           </h1>
           <AddTaskForm

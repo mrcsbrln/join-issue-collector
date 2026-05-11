@@ -13,6 +13,7 @@ import {
 import { createClient } from "@/lib/supabase/client";
 import KanbanColumn from "./KanbanColumn";
 import AddTaskModal from "./AddTaskModal";
+import TaskDetailModal from "./TaskDetailModal";
 
 const COLUMN_TITLES: Record<TaskStatus, string> = {
   todo: "To do",
@@ -77,6 +78,9 @@ export default function KanbanBoard({
   const [search, setSearch] = useState("");
   const [modalStatus, setModalStatus] = useState<TaskStatus | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<TaskWithRelations | null>(
+    null,
+  );
 
   useEffect(() => {
     setTasks(initialTasks);
@@ -102,6 +106,14 @@ export default function KanbanBoard({
       .eq("id", draggableId);
   }
 
+  async function handleDeleteTask(taskId: string) {
+    const supabase = createClient();
+    await supabase.from("tasks").delete().eq("id", taskId);
+    setTasks((prev) => prev.filter((t) => t.id !== taskId));
+    setSelectedTask(null);
+    router.refresh();
+  }
+
   function handleSuccess() {
     setModalStatus(null);
     setShowSuccess(true);
@@ -110,8 +122,34 @@ export default function KanbanBoard({
   }
 
   return (
-    <div className="pl-14 pr-8 pt-[70px]">
-      <div className="flex items-center justify-between mb-12">
+    <div className="lg:pl-14 lg:pr-8 lg:pt-[70px]">
+      {/* Mobile header: title + icon add button */}
+      <div className="flex items-center justify-between mb-4 lg:hidden">
+        <h1 className="text-[47px] font-bold leading-[1.2] text-black">
+          Board
+        </h1>
+        <Link
+          href="/add-task"
+          className="size-[50px] flex items-center justify-center bg-navy rounded-[12px] hover:bg-blue transition-colors duration-100"
+          aria-label="Add task"
+        >
+          <AddIcon />
+        </Link>
+      </div>
+
+      {/* Mobile search */}
+      <div className="lg:hidden flex items-center gap-4 bg-white border border-muted rounded-[10px] px-4 py-2 mb-4 focus-within:border-navy transition-colors duration-100">
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Find Task"
+          className="flex-1 text-[16px] text-navy placeholder:text-muted bg-transparent outline-none"
+        />
+        <SearchIcon />
+      </div>
+
+      {/* Desktop header: title + search + text button */}
+      <div className="hidden lg:flex items-center justify-between mb-12">
         <h1 className="text-[61px] font-bold leading-[1.2] text-black">
           Board
         </h1>
@@ -135,7 +173,7 @@ export default function KanbanBoard({
       </div>
 
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-6">
           {COLUMN_ORDER.map((status) => (
             <KanbanColumn
               key={status}
@@ -143,6 +181,7 @@ export default function KanbanBoard({
               title={COLUMN_TITLES[status]}
               tasks={filtered.filter((t) => t.status === status)}
               onAdd={() => setModalStatus(status)}
+              onTaskSelect={setSelectedTask}
             />
           ))}
         </div>
@@ -154,6 +193,14 @@ export default function KanbanBoard({
           initialStatus={modalStatus}
           onClose={() => setModalStatus(null)}
           onSuccess={handleSuccess}
+        />
+      )}
+
+      {selectedTask && (
+        <TaskDetailModal
+          task={selectedTask}
+          onClose={() => setSelectedTask(null)}
+          onDelete={() => handleDeleteTask(selectedTask.id)}
         />
       )}
 
