@@ -149,7 +149,7 @@ export default function ContactFormModal({
           <form onSubmit={handleSubmit(onSubmit)} noValidate>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-2">
-                <label className="text-[20px] text-navy">
+                <label className="text-[16px] lg:text-[20px] text-navy">
                   Name<span className="text-[#FF8190]">*</span>
                 </label>
                 <div
@@ -161,7 +161,7 @@ export default function ContactFormModal({
                         v.trim() !== "" || "This field is required",
                     })}
                     placeholder="Enter name"
-                    className="w-full text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
+                    className="w-full text-[16px] lg:text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
                   />
                 </div>
                 {errors.name && (
@@ -170,7 +170,7 @@ export default function ContactFormModal({
               </div>
 
               <div className="flex flex-col gap-2">
-                <label className="text-[20px] text-navy">
+                <label className="text-[16px] lg:text-[20px] text-navy">
                   Email<span className="text-[#FF8190]">*</span>
                 </label>
                 <div
@@ -182,7 +182,7 @@ export default function ContactFormModal({
                         v.trim() !== "" || "This field is required",
                     })}
                     placeholder="Enter email"
-                    className="w-full text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
+                    className="w-full text-[16px] lg:text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
                   />
                 </div>
                 {errors.email && (
@@ -191,29 +191,31 @@ export default function ContactFormModal({
               </div>
 
               <div className="flex flex-col gap-2">
-                <label className="text-[20px] text-navy">Phone</label>
+                <label className="text-[16px] lg:text-[20px] text-navy">
+                  Phone
+                </label>
                 <div className="bg-white border border-border rounded-[10px] px-4 py-3 focus-within:border-blue transition-colors duration-100">
                   <input
                     {...register("phone")}
                     placeholder="Enter phone number"
-                    className="w-full text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
+                    className="w-full text-[16px] lg:text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
                   />
                 </div>
               </div>
             </div>
 
-            <div className="flex justify-end gap-4 mt-10">
+            <div className="flex flex-col-reverse gap-3 mt-8 lg:flex-row lg:justify-end lg:gap-4 lg:mt-10">
               <button
                 type="button"
                 onClick={onClose}
-                className="flex items-center gap-1 px-6 py-4 text-[20px] text-navy bg-bg-app border-2 border-navy rounded-[10px] cursor-pointer hover:border-blue hover:text-blue transition-all duration-100"
+                className="flex items-center justify-center gap-1 w-full lg:w-auto px-4 py-3 lg:px-6 lg:py-4 text-[16px] lg:text-[20px] text-navy bg-bg-app border-2 border-navy rounded-[10px] cursor-pointer hover:border-blue hover:text-blue transition-all duration-100"
               >
                 Cancel <CancelIcon />
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="flex items-center gap-1 px-6 py-4 text-[20px] text-white font-bold bg-navy rounded-[10px] cursor-pointer border-0 hover:bg-blue transition-all duration-100 disabled:opacity-50"
+                className="flex items-center justify-center gap-1 w-full lg:w-auto px-4 py-3 lg:px-6 lg:py-4 text-[16px] lg:text-[20px] text-white font-bold bg-navy rounded-[10px] cursor-pointer border-0 hover:bg-blue transition-all duration-100 disabled:opacity-50"
               >
                 {loading ? "Saving…" : "Save"} <CheckIcon />
               </button>

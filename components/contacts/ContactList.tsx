@@ -56,7 +56,7 @@ function ContactRow({
     <button
       type="button"
       onClick={onSelect}
-      className={`flex gap-[35px] items-center px-[24px] py-[15px] rounded-[10px] w-full lg:w-[352px] cursor-pointer border-0 text-left transition-colors duration-100 ${
+      className={`flex gap-4 lg:gap-[35px] items-center px-[24px] py-[15px] rounded-[10px] w-full lg:w-[352px] cursor-pointer border-0 text-left transition-colors duration-100 ${
         selected ? "bg-navy" : "bg-white hover:bg-navy/5"
       }`}
     >
