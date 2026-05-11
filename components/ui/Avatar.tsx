@@ -16,20 +16,15 @@ const AVATAR_COLORS = [
   "#FFBB2B",
 ];
 
-const sizeMap = { sm: 32, md: 42, lg: 64, header: 56 };
-const fontSizeMap = {
-  sm: "text-xs",
-  md: "text-sm",
-  lg: "text-xl",
-  header: "text-[16px]",
-};
-const borderMap = { sm: 2, md: 2, lg: 3, header: 4 };
+const sizeMap = { sm: 32, md: 42, header: 56 };
+const fontSizeMap = { sm: "text-xs", md: "text-sm", header: "text-[16px]" };
+const borderMap = { sm: 2, md: 2, header: 3 };
 
 interface AvatarProps {
   name: string;
   color?: string;
   borderColor?: string;
-  size?: "sm" | "md" | "lg" | "header";
+  size?: "sm" | "md" | "header";
   className?: string;
 }
 
