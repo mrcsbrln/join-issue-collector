@@ -171,6 +171,11 @@ export default function ContactFormModal({
     setLoading(true);
     try {
       await saveContact(values, contact);
+      toast.success(
+        isEdit
+          ? "Contact successfully updated"
+          : "Contact successfully created",
+      );
       onSuccess();
     } catch {
       toast.error("Could not save contact. Please try again.");
