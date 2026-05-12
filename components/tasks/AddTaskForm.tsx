@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Contact, Priority, Category, TaskStatus } from "@/lib/types";
@@ -78,47 +78,60 @@ function CategoryDropdown({
   error?: string;
 }) {
   const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
   const options: Category[] = ["Technical Task", "User Story"];
 
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node))
+        setOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
   return (
-    <div className="flex flex-col gap-1 relative">
-      <button
-        type="button"
-        onClick={() => setOpen((o) => !o)}
-        className={`flex items-center justify-between bg-white border rounded-[10px] px-4 py-3 w-full cursor-pointer text-left focus:outline-none transition-colors duration-100 ${error ? "border-error" : "border-border"}`}
-      >
-        <span
-          className={`text-[16px] lg:text-[20px] ${value ? "text-navy" : "text-muted"}`}
+    <div className="flex flex-col gap-1" ref={ref}>
+      <div className="relative">
+        <button
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          className={`flex items-center justify-between bg-white border px-4 py-[12px] w-full cursor-pointer text-left transition-colors duration-100 ${open ? "rounded-t-[10px] border-b-0" : "rounded-[10px]"} ${error ? "border-error" : "border-border"}`}
         >
-          {value ?? "Select task category"}
-        </span>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M6 9L12 15L18 9"
-            stroke="#2A3647"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </button>
-      {open && (
-        <div className="absolute top-full left-0 right-0 z-10 bg-white border border-border rounded-[10px] shadow-[0_0_4px_rgba(0,0,0,0.1)] mt-1 overflow-hidden">
-          {options.map((opt) => (
-            <button
-              key={opt}
-              type="button"
-              onClick={() => {
-                onChange(opt);
-                setOpen(false);
-              }}
-              className={`block w-full text-left px-4 py-3 text-[16px] cursor-pointer border-0 transition-colors duration-100 ${value === opt ? "bg-navy text-white" : "bg-transparent text-navy hover:bg-bg-app"}`}
-            >
-              {opt}
-            </button>
-          ))}
-        </div>
-      )}
+          <span className={`text-[16px] ${value ? "text-navy" : "text-muted"}`}>
+            {value ?? "Select task category"}
+          </span>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="#2A3647"
+            className={`transition-transform duration-100 shrink-0 ${open ? "rotate-180" : ""}`}
+          >
+            <path d="M7 10l5 5 5-5z" />
+          </svg>
+        </button>
+
+        {open && (
+          <div
+            className={`absolute left-0 right-0 z-20 bg-white border border-t-0 rounded-b-[10px] overflow-hidden shadow-[0_4px_6px_rgba(0,0,0,0.08)] ${error ? "border-error" : "border-border"}`}
+          >
+            {options.map((opt) => (
+              <button
+                key={opt}
+                type="button"
+                onClick={() => {
+                  onChange(opt);
+                  setOpen(false);
+                }}
+                className="block w-full text-left px-4 py-[12px] text-[16px] text-navy cursor-pointer border-0 hover:bg-bg-app transition-colors duration-100"
+              >
+                {opt}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
       {error && <p className="text-error text-sm">{error}</p>}
     </div>
   );
@@ -287,10 +300,10 @@ export default function AddTaskForm({
                 Due date<span className="text-[#FF8190]">*</span>
               </label>
               <div
-                className={`relative flex items-center justify-between bg-white border rounded-[10px] px-4 py-3 cursor-pointer transition-colors duration-100 ${errors.dueDate ? "border-error" : "border-border hover:border-blue"}`}
+                className={`relative flex items-center justify-between bg-white border rounded-[10px] px-[21px] py-[8px] cursor-pointer transition-colors duration-100 ${errors.dueDate ? "border-error" : "border-border hover:border-blue focus-within:border-blue"}`}
               >
                 <span
-                  className={`text-[16px] lg:text-[20px] ${watch("dueDate") ? "text-navy" : "text-muted"}`}
+                  className={`text-[16px] ${watch("dueDate") ? "text-navy" : "text-muted"}`}
                 >
                   {watch("dueDate")
                     ? watch("dueDate").split("-").reverse().join("/")
@@ -309,7 +322,9 @@ export default function AddTaskForm({
                 />
               </div>
               {errors.dueDate && (
-                <p className="text-error text-sm">{errors.dueDate.message}</p>
+                <p className="text-error text-[16px]">
+                  {errors.dueDate.message}
+                </p>
               )}
             </div>
           </div>
@@ -364,22 +379,26 @@ export default function AddTaskForm({
           </div>
         </div>
 
-        {/* Buttons */}
-        <div className="flex justify-end gap-4 mt-8 lg:mt-[60px]">
-          <button
-            type="button"
-            onClick={onCancel ?? clearForm}
-            className="flex items-center gap-1 px-6 py-3 lg:py-4 text-[16px] lg:text-[20px] text-navy bg-bg-app border-2 border-navy rounded-[10px] cursor-pointer hover:border-blue hover:text-blue hover:shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-all duration-100"
-          >
-            {onCancel ? "Cancel" : "Clear"} <CancelIcon />
-          </button>
-          <button
-            type="submit"
-            disabled={loading}
-            className="flex items-center gap-1 px-6 py-3 lg:py-4 text-[16px] lg:text-[20px] text-white font-bold bg-navy rounded-[10px] cursor-pointer border-0 hover:bg-blue hover:shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-all duration-100 disabled:opacity-50"
-          >
-            {loading ? "Creating…" : "Create Task"} <CheckIcon />
-          </button>
+        {/* Buttons — mirror two-column layout so they align with the right column */}
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-12 mt-8 lg:mt-[60px]">
+          <div className="hidden lg:block lg:flex-1 lg:min-w-0 lg:max-w-[440px]" />
+          <div className="hidden lg:block w-px shrink-0" />
+          <div className="flex justify-end gap-4 lg:flex-1 lg:min-w-0 lg:max-w-[440px]">
+            <button
+              type="button"
+              onClick={onCancel ?? clearForm}
+              className="flex items-center gap-1 p-[16px] text-[16px] lg:text-[20px] text-navy bg-white border border-navy rounded-[10px] cursor-pointer hover:border-blue hover:text-blue hover:shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-all duration-100"
+            >
+              {onCancel ? "Cancel" : "Clear"} <CancelIcon />
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex items-center gap-1 p-[16px] text-[16px] lg:text-[21px] text-white font-bold bg-navy rounded-[10px] cursor-pointer border-0 hover:bg-blue hover:shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-all duration-100 disabled:opacity-50"
+            >
+              {loading ? "Creating…" : "Create Task"} <CheckIcon />
+            </button>
+          </div>
         </div>
       </div>
     </form>

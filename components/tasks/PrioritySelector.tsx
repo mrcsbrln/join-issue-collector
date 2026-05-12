@@ -94,10 +94,10 @@ export default function PrioritySelector({
             key={p.value}
             type="button"
             onClick={() => onChange(p.value)}
-            className={`flex-1 flex items-center justify-center gap-2 py-2.5 lg:py-4 rounded-[10px] text-[16px] lg:text-[20px] transition-all duration-100 cursor-pointer border-0 ${
+            className={`flex-1 flex items-center justify-center gap-2 h-[41px] lg:h-auto lg:py-[16px] rounded-[10px] transition-all duration-100 cursor-pointer border-0 ${
               active
-                ? "text-white font-bold shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
-                : "bg-white text-black font-normal shadow-[0_0_4px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
+                ? "text-white font-bold text-[16px] lg:text-[21px] lg:hover:shadow-[0_0_4px_rgba(0,0,0,0.1)]"
+                : "bg-white text-black font-normal text-[16px] lg:text-[20px] shadow-[0_0_4px_rgba(0,0,0,0.1)] lg:hover:shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
             }`}
             style={{ backgroundColor: active ? p.color : undefined }}
           >

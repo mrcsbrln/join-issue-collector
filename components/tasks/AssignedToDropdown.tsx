@@ -94,25 +94,10 @@ export default function AssignedToDropdown({
 
   return (
     <div className="flex flex-col gap-2" ref={ref}>
-      {/* Closed — static trigger */}
-      {!open && (
-        <button
-          type="button"
-          onClick={openDropdown}
-          className="flex items-center justify-between bg-white border border-border rounded-[10px] px-4 py-[12px] w-full cursor-pointer text-left transition-colors duration-100 hover:border-navy"
-        >
-          <span className="text-[16px] text-navy">
-            Select contacts to assign
-          </span>
-          <ChevronIcon open={false} />
-        </button>
-      )}
-
-      {/* Open — unified container: input + scrollable list */}
-      {open && (
-        <div className="border border-blue rounded-[10px] bg-white overflow-hidden">
-          {/* Input row */}
-          <div className="flex items-center px-4 py-[12px]">
+      <div className="relative">
+        {/* Trigger — always in flow, never pushes content */}
+        {open ? (
+          <div className="flex items-center bg-white border border-blue border-b-0 rounded-t-[10px] px-4 py-[12px]">
             <input
               ref={inputRef}
               type="text"
@@ -131,9 +116,22 @@ export default function AssignedToDropdown({
               <ChevronIcon open={true} />
             </button>
           </div>
+        ) : (
+          <button
+            type="button"
+            onClick={openDropdown}
+            className="flex items-center justify-between bg-white border border-border rounded-[10px] px-4 py-[12px] w-full cursor-pointer text-left transition-colors duration-100 hover:border-navy"
+          >
+            <span className="text-[16px] text-navy">
+              Select contacts to assign
+            </span>
+            <ChevronIcon open={false} />
+          </button>
+        )}
 
-          {/* Contact list */}
-          <div className="max-h-[240px] overflow-y-auto">
+        {/* Dropdown list — absolute, overlays content below */}
+        {open && (
+          <div className="absolute left-0 right-0 z-20 bg-white border border-blue border-t-0 rounded-b-[10px] max-h-[240px] overflow-y-auto shadow-[0_4px_6px_rgba(0,0,0,0.08)]">
             {filtered.length === 0 && (
               <p className="px-4 py-3 text-muted text-[16px]">
                 No contacts found
@@ -159,11 +157,11 @@ export default function AssignedToDropdown({
               </button>
             ))}
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
-      {/* Selected avatar chips — only shown when closed */}
-      {!open && selected.length > 0 && (
+      {/* Selected avatar chips */}
+      {selected.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {selected.map((c) => (
             <Avatar key={c.id} name={c.name} color={c.color} size="md" filled />
