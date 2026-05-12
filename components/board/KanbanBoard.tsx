@@ -113,6 +113,27 @@ export default function KanbanBoard({
     router.refresh();
   }
 
+  function handleUpdateTask(updated: TaskWithRelations) {
+    setTasks((prev) => prev.map((t) => (t.id === updated.id ? updated : t)));
+    setSelectedTask(updated);
+    router.refresh();
+  }
+
+  function handleSubtaskToggle(subtaskId: string, completed: boolean) {
+    setTasks((prev) =>
+      prev.map((t) =>
+        t.id !== selectedTask?.id
+          ? t
+          : {
+              ...t,
+              subtasks: t.subtasks.map((s) =>
+                s.id === subtaskId ? { ...s, completed } : s,
+              ),
+            },
+      ),
+    );
+  }
+
   function handleSuccess() {
     setModalStatus(null);
     setShowSuccess(true);
@@ -200,8 +221,11 @@ export default function KanbanBoard({
       {selectedTask && (
         <TaskDetailModal
           task={selectedTask}
+          contacts={contacts}
           onClose={() => setSelectedTask(null)}
           onDelete={() => handleDeleteTask(selectedTask.id)}
+          onUpdate={handleUpdateTask}
+          onSubtaskToggle={handleSubtaskToggle}
         />
       )}
 
