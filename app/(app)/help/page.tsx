@@ -185,10 +185,10 @@ export default function HelpPage() {
                 <p>
                   Have more questions about <Join />? Feel free to contact us at{" "}
                   <a
-                    href="mailto:hrtmnn.mrcs@gmail.com"
+                    href="mailto:info@marcus-hartmann.net"
                     className="text-[#29abe2] hover:underline"
                   >
-                    hrtmnn.mrcs@gmail.com
+                    info@marcus-hartmann.net
                   </a>
                   . We&apos;re here to help you!
                 </p>
