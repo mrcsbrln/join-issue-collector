@@ -75,7 +75,15 @@ export default function KanbanColumn({
                 onSelect={() => onTaskSelect(task)}
               />
             ))}
-            {provided.placeholder}
+            <div
+              className={
+                snapshot.isDraggingOver
+                  ? "border border-dashed border-[#A8A8A8] rounded-[30px] drop-shadow-[0_0_2px_rgba(0,0,0,0.16)] overflow-hidden"
+                  : ""
+              }
+            >
+              {provided.placeholder}
+            </div>
           </div>
         )}
       </Droppable>
