@@ -183,12 +183,13 @@ export default function TaskDetailModal({
 
   return (
     <>
+      <div className="fixed inset-0 bg-black/30 z-40" />
       <div
-        className="fixed inset-0 bg-black/30 z-40"
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 lg:p-8 overflow-y-auto"
         onClick={isEditing ? undefined : onClose}
-      />
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 lg:p-8 overflow-y-auto">
+      >
         <div
+          onClick={(e) => e.stopPropagation()}
           className={`bg-white rounded-[30px] shadow-[0_0_4px_rgba(0,0,0,0.1)] w-full ${maxW} relative px-[40px] py-[48px] transition-all duration-100`}
         >
           {isEditing ? (

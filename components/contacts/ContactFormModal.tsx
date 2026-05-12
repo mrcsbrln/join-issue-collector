@@ -167,9 +167,15 @@ export default function ContactFormModal({
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/30 z-40" onClick={onClose} />
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 lg:p-8 overflow-y-auto">
-        <div className="bg-white rounded-[30px] shadow-[0_0_4px_rgba(0,0,0,0.1)] w-full max-w-[440px] lg:max-w-[1125px] relative overflow-hidden">
+      <div className="fixed inset-0 bg-black/30 z-40" />
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 lg:p-8 overflow-y-auto"
+        onClick={onClose}
+      >
+        <div
+          className="bg-white rounded-[30px] shadow-[0_0_4px_rgba(0,0,0,0.1)] w-full max-w-[440px] lg:max-w-[1125px] relative overflow-hidden"
+          onClick={(e) => e.stopPropagation()}
+        >
           {/* Close button — positioned relative to the card, over the navy header on mobile */}
           <button
             type="button"
