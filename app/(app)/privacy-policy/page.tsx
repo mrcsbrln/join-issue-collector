@@ -46,35 +46,66 @@ export default function PrivacyPolicyPage() {
             Data Collection
           </h2>
           <p>
-            Join is a student project built for educational purposes. We collect
-            only the data you explicitly provide during registration: your name,
-            email address, and optionally a phone number. This data is stored
-            securely in our database and is used solely to provide the Join
-            application&apos;s functionality.
+            Join is a student project built for educational purposes. Registered
+            users provide their name, email address, and optionally a phone
+            number. This data is used solely to provide the application&apos;s
+            functionality. Guest users may use the application anonymously via a
+            temporary session — no personal data is required for guest access.
+          </p>
+          <p>
+            Tasks and contacts you create within the application are visible to
+            all registered users, including guests, as Join operates on a shared
+            board. Please do not enter sensitive personal information into tasks
+            or contact fields.
           </p>
         </div>
 
         <div className="flex flex-col gap-[10px]">
           <h2 className="text-[27px] font-bold leading-[1.2]">
-            Data Usage &amp; Storage
+            Data Storage &amp; Hosting
           </h2>
           <p>
-            Your data is stored using Supabase, a secure cloud database
-            provider. We do not share, sell, or transmit your personal data to
-            third parties. All data is used exclusively within the Join
-            application for project management purposes. Guest users may use the
-            application without providing personal information.
+            All data is stored in a <span className="font-bold">Supabase</span>{" "}
+            PostgreSQL database hosted in{" "}
+            <span className="font-bold">Frankfurt, Germany</span> (EU). The
+            application itself is hosted on{" "}
+            <span className="font-bold">Vercel</span>, also using the Frankfurt
+            (EU) region. Both providers are subject to EU data protection law
+            (GDPR). We do not share, sell, or transmit your personal data to
+            third parties.
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-[10px]">
+          <h2 className="text-[27px] font-bold leading-[1.2]">
+            Cookies &amp; Session Data
+          </h2>
+          <p>
+            Join uses HTTP-only cookies to manage authentication sessions via
+            Supabase Auth. These cookies are strictly necessary for the
+            application to function and do not track you across other websites.
+            No analytics cookies or third-party tracking scripts are used.
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-[10px]">
+          <h2 className="text-[27px] font-bold leading-[1.2]">Server Logs</h2>
+          <p>
+            Vercel automatically collects standard server access logs, which may
+            include your IP address, browser type, and request timestamps. These
+            logs are retained by Vercel for operational and security purposes
+            and are not used by us for any form of tracking or profiling.
           </p>
         </div>
 
         <div className="flex flex-col gap-[10px]">
           <h2 className="text-[27px] font-bold leading-[1.2]">Your Rights</h2>
           <p>
-            You have the right to access, correct, or delete your personal data
-            at any time. Since Join is an educational project and not intended
-            for extensive business use, we cannot guarantee consistent
-            availability or data retention. If you have any questions or
-            requests regarding your data, please contact us at{" "}
+            Under GDPR you have the right to access, correct, or delete your
+            personal data at any time. Since Join is an educational project not
+            intended for extensive business use, we cannot guarantee consistent
+            availability or long-term data retention. To exercise your rights or
+            for any data-related questions, please contact us at{" "}
             <a
               href="mailto:info@marcus-hartmann.net"
               className="text-[#29abe2] hover:underline"
