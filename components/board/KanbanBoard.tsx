@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import {
   TaskWithRelations,
   TaskStatus,
@@ -128,13 +127,14 @@ export default function KanbanBoard({
         <h1 className="text-[47px] font-bold leading-[1.2] text-black">
           Board
         </h1>
-        <Link
-          href="/add-task"
-          className="size-[50px] flex items-center justify-center bg-navy rounded-[12px] hover:bg-blue transition-colors duration-100"
+        <button
+          type="button"
+          onClick={() => setModalStatus("todo")}
+          className="size-[50px] flex items-center justify-center bg-navy rounded-[12px] hover:bg-blue transition-colors duration-100 border-0 cursor-pointer"
           aria-label="Add task"
         >
           <AddIcon />
-        </Link>
+        </button>
       </div>
 
       {/* Mobile search */}
@@ -163,12 +163,13 @@ export default function KanbanBoard({
             />
             <SearchIcon />
           </div>
-          <Link
-            href="/add-task"
-            className="flex items-center gap-2 px-4 py-2 bg-navy text-white text-[20px] font-bold rounded-[10px] hover:bg-blue transition-colors duration-100"
+          <button
+            type="button"
+            onClick={() => setModalStatus("todo")}
+            className="flex items-center gap-2 px-4 py-2 bg-navy text-white text-[20px] font-bold rounded-[10px] hover:bg-blue transition-colors duration-100 border-0 cursor-pointer"
           >
             Add task <AddIcon />
-          </Link>
+          </button>
         </div>
       </div>
 
