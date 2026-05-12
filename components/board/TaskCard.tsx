@@ -122,7 +122,12 @@ export default function TaskCard({ task, index, onSelect }: TaskCardProps) {
                   className="rounded-full ring-2 ring-white"
                   style={{ marginLeft: i === 0 ? 0 : -8 }}
                 >
-                  <Avatar name={contact.name} color={contact.color} size="sm" />
+                  <Avatar
+                    name={contact.name}
+                    color={contact.color}
+                    size="sm"
+                    filled
+                  />
                 </div>
               ))}
             </div>

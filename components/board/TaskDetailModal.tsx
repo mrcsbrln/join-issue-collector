@@ -187,6 +187,7 @@ export default function TaskDetailModal({
                           name={contact.name}
                           color={contact.color}
                           size="sm"
+                          filled
                         />
                         <span className="text-[14px] lg:text-[16px] text-navy">
                           {contact.name}

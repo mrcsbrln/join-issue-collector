@@ -25,6 +25,7 @@ interface AvatarProps {
   color?: string;
   borderColor?: string;
   size?: "sm" | "md" | "header";
+  filled?: boolean;
   className?: string;
 }
 
@@ -46,6 +47,7 @@ export default function Avatar({
   color,
   borderColor,
   size = "md",
+  filled = false,
   className = "",
 }: AvatarProps) {
   const ringColor = color ?? getAvatarColor(name);
@@ -55,16 +57,26 @@ export default function Avatar({
   return (
     <div
       className={[
-        "inline-flex items-center justify-center rounded-full font-bold bg-white select-none shrink-0",
+        "inline-flex items-center justify-center rounded-full font-bold select-none shrink-0",
         fontSizeMap[size],
         className,
       ].join(" ")}
-      style={{
-        width: px,
-        height: px,
-        border: `${borderPx}px solid ${borderColor ?? ringColor}`,
-        color: ringColor,
-      }}
+      style={
+        filled
+          ? {
+              width: px,
+              height: px,
+              backgroundColor: ringColor,
+              color: "#ffffff",
+            }
+          : {
+              width: px,
+              height: px,
+              backgroundColor: "#ffffff",
+              border: `${borderPx}px solid ${borderColor ?? ringColor}`,
+              color: ringColor,
+            }
+      }
       title={name}
     >
       {getInitials(name)}
