@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { TaskWithRelations, Priority, Contact } from "@/lib/types";
+import { TaskWithRelations, Priority, Contact, CreatorType } from "@/lib/types";
 import { createClient } from "@/lib/supabase/client";
 import Avatar from "@/components/ui/Avatar";
 import EditTaskForm from "./EditTaskForm";
@@ -131,6 +131,17 @@ function PriorityBadge({ priority }: { priority: Priority }) {
   );
 }
 
+function CreatorTypeBadge({ type }: { type: CreatorType }) {
+  const isInternal = type === "internal";
+  return (
+    <span
+      className={`text-white text-[14px] px-3 py-1 rounded-[8px] shrink-0 ${isInternal ? "bg-[#42526E]" : "bg-[#FF6B35]"}`}
+    >
+      {isInternal ? "Intern" : "Extern"}
+    </span>
+  );
+}
+
 function CategoryBadge({ category }: { category: string }) {
   const isTechnical = category === "Technical Task";
   return (
@@ -252,6 +263,19 @@ export default function TaskDetailModal({
                 <span className="text-navy shrink-0">Priority:</span>
                 <PriorityBadge priority={currentTask.priority} />
               </div>
+
+              {/* Creator */}
+              {currentTask.creator_email && (
+                <div className="flex gap-[25px] items-center text-[16px] lg:text-[20px]">
+                  <span className="text-navy shrink-0">Creator:</span>
+                  <span className="text-black">
+                    {currentTask.creator_email}
+                  </span>
+                  {currentTask.creator_type && (
+                    <CreatorTypeBadge type={currentTask.creator_type} />
+                  )}
+                </div>
+              )}
 
               {/* Assigned To */}
               {currentTask.contacts.length > 0 && (

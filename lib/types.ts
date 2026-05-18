@@ -1,6 +1,12 @@
 export type Priority = "urgent" | "medium" | "low";
 export type Category = "Technical Task" | "User Story";
-export type TaskStatus = "todo" | "in-progress" | "awaiting-feedback" | "done";
+export type TaskStatus =
+  | "triage"
+  | "todo"
+  | "in-progress"
+  | "awaiting-feedback"
+  | "done";
+export type CreatorType = "internal" | "external";
 
 export interface Profile {
   id: string;
@@ -37,6 +43,8 @@ export interface Task {
   due_date: string;
   status: TaskStatus;
   created_at: string;
+  creator_email: string | null;
+  creator_type: CreatorType | null;
 }
 
 export interface TaskWithRelations extends Task {
@@ -45,6 +53,7 @@ export interface TaskWithRelations extends Task {
 }
 
 export const COLUMN_LABELS: Record<TaskStatus, string> = {
+  triage: "Triage",
   todo: "To do",
   "in-progress": "In Progress",
   "awaiting-feedback": "Awaiting Feedback",
@@ -52,6 +61,7 @@ export const COLUMN_LABELS: Record<TaskStatus, string> = {
 };
 
 export const COLUMN_ORDER: TaskStatus[] = [
+  "triage",
   "todo",
   "in-progress",
   "awaiting-feedback",

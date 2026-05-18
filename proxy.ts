@@ -2,13 +2,15 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 const PUBLIC_ROUTES = [
+  "/",
+  "/stakeholder",
   "/login",
   "/register",
   "/legal-notice",
   "/privacy-policy",
 ];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const response = NextResponse.next({ request });
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -44,10 +46,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  if (
-    user &&
-    (pathname === "/" || pathname === "/login" || pathname === "/register")
-  ) {
+  if (user && (pathname === "/login" || pathname === "/register")) {
     return NextResponse.redirect(new URL("/summary", request.url));
   }
 

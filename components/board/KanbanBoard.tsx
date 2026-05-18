@@ -15,6 +15,7 @@ import AddTaskModal from "./AddTaskModal";
 import TaskDetailModal from "./TaskDetailModal";
 
 const COLUMN_TITLES: Record<TaskStatus, string> = {
+  triage: "Triage",
   todo: "To do",
   "in-progress": "In progress",
   "awaiting-feedback": "Await feedback",
@@ -91,10 +92,30 @@ export default function KanbanBoard({
       )
     : tasks;
 
+  async function notifyStatusChange(
+    task: TaskWithRelations,
+    newStatus: TaskStatus,
+  ) {
+    if (!task.creator_email) return;
+    const url = process.env.NEXT_PUBLIC_N8N_STATUS_WEBHOOK_URL;
+    if (!url) return;
+    fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        taskId: task.id,
+        taskTitle: task.title,
+        newStatus,
+        creatorEmail: task.creator_email,
+      }),
+    });
+  }
+
   async function onDragEnd(result: DropResult) {
     if (!result.destination) return;
     const { draggableId, destination } = result;
     const newStatus = destination.droppableId as TaskStatus;
+    const draggedTask = tasks.find((t) => t.id === draggableId);
     setTasks((prev) =>
       prev.map((t) => (t.id === draggableId ? { ...t, status: newStatus } : t)),
     );
@@ -103,6 +124,7 @@ export default function KanbanBoard({
       .from("tasks")
       .update({ status: newStatus })
       .eq("id", draggableId);
+    if (draggedTask) notifyStatusChange(draggedTask, newStatus);
   }
 
   async function handleDeleteTask(taskId: string) {
@@ -150,7 +172,7 @@ export default function KanbanBoard({
         </h1>
         <button
           type="button"
-          onClick={() => setModalStatus("todo")}
+          onClick={() => setModalStatus("triage")}
           className="size-[50px] flex items-center justify-center bg-navy rounded-[12px] hover:bg-blue transition-colors duration-100 border-0 cursor-pointer"
           aria-label="Add task"
         >
@@ -186,7 +208,7 @@ export default function KanbanBoard({
           </div>
           <button
             type="button"
-            onClick={() => setModalStatus("todo")}
+            onClick={() => setModalStatus("triage")}
             className="flex items-center gap-2 px-4 py-2 bg-navy text-white text-[20px] font-bold rounded-[10px] hover:bg-blue transition-colors duration-100 border-0 cursor-pointer"
           >
             Add task <AddIcon />
@@ -195,7 +217,7 @@ export default function KanbanBoard({
       </div>
 
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-6">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-5 lg:gap-6">
           {COLUMN_ORDER.map((status) => (
             <KanbanColumn
               key={status}

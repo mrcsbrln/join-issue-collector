@@ -3,7 +3,13 @@
 import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { Contact, Priority, Category, TaskStatus } from "@/lib/types";
+import {
+  Contact,
+  Priority,
+  Category,
+  TaskStatus,
+  CreatorType,
+} from "@/lib/types";
 import { createClient } from "@/lib/supabase/client";
 import PrioritySelector from "./PrioritySelector";
 import AssignedToDropdown from "./AssignedToDropdown";
@@ -137,47 +143,67 @@ function CategoryDropdown({
   );
 }
 
-async function insertTask(
-  values: FormValues,
-  priority: Priority,
-  category: Category,
-  assignedIds: string[],
-  subtasks: string[],
-  status: TaskStatus = "todo",
-) {
+interface TaskPayload {
+  values: FormValues;
+  priority: Priority;
+  category: Category;
+  status: TaskStatus;
+  creatorEmail: string | null;
+  creatorType: CreatorType;
+}
+
+async function insertTaskRecord(payload: TaskPayload): Promise<string> {
   const supabase = createClient();
   const { data: task, error } = await supabase
     .from("tasks")
     .insert({
-      title: values.title.trim(),
-      description: values.description.trim() || null,
-      category,
-      priority,
-      due_date: values.dueDate,
-      status,
+      title: payload.values.title.trim(),
+      description: payload.values.description.trim() || null,
+      category: payload.category,
+      priority: payload.priority,
+      due_date: payload.values.dueDate,
+      status: payload.status,
+      creator_email: payload.creatorEmail,
+      creator_type: payload.creatorType,
     })
     .select("id")
     .single();
   if (error || !task) throw error ?? new Error("Insert failed");
+  return task.id;
+}
 
-  if (assignedIds.length > 0) {
-    await supabase.from("task_contacts").insert(
-      assignedIds.map((contactId) => ({
-        task_id: task.id,
-        contact_id: contactId,
-      })),
-    );
-  }
-  if (subtasks.length > 0) {
-    await supabase.from("subtasks").insert(
-      subtasks.map((title, position) => ({
-        task_id: task.id,
-        title,
-        completed: false,
-        position,
-      })),
-    );
-  }
+async function insertTaskContacts(taskId: string, assignedIds: string[]) {
+  if (assignedIds.length === 0) return;
+  const supabase = createClient();
+  await supabase.from("task_contacts").insert(
+    assignedIds.map((contactId) => ({
+      task_id: taskId,
+      contact_id: contactId,
+    })),
+  );
+}
+
+async function insertTaskSubtasks(taskId: string, subtasks: string[]) {
+  if (subtasks.length === 0) return;
+  const supabase = createClient();
+  await supabase.from("subtasks").insert(
+    subtasks.map((title, position) => ({
+      task_id: taskId,
+      title,
+      completed: false,
+      position,
+    })),
+  );
+}
+
+async function insertTask(
+  payload: TaskPayload,
+  assignedIds: string[],
+  subtasks: string[],
+) {
+  const taskId = await insertTaskRecord(payload);
+  await insertTaskContacts(taskId, assignedIds);
+  await insertTaskSubtasks(taskId, subtasks);
 }
 
 interface AddTaskFormProps {
@@ -191,7 +217,7 @@ export default function AddTaskForm({
   contacts,
   onSuccess,
   onCancel,
-  initialStatus = "todo",
+  initialStatus = "triage",
 }: AddTaskFormProps) {
   const [priority, setPriority] = useState<Priority>("medium");
   const [assignedIds, setAssignedIds] = useState<string[]>([]);
@@ -232,13 +258,21 @@ export default function AddTaskForm({
     setCategoryError("");
     setLoading(true);
     try {
+      const supabase = createClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       await insertTask(
-        values,
-        priority,
-        category,
+        {
+          values,
+          priority,
+          category,
+          status: initialStatus,
+          creatorEmail: user?.email ?? null,
+          creatorType: "internal",
+        },
         assignedIds,
         subtasks,
-        initialStatus,
       );
       if (onSuccess) {
         onSuccess();
