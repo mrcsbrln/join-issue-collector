@@ -23,13 +23,7 @@ function validateApiKey(request: NextRequest): boolean {
 
 function parseBody(body: unknown): TaskBody {
   const b = body as Record<string, unknown>;
-  if (
-    !b.title ||
-    !b.category ||
-    !b.priority ||
-    !b.due_date ||
-    !b.creator_email
-  ) {
+  if (!b.title || !b.category || !b.priority || !b.creator_email) {
     throw new Error(
       "Missing required fields: title, category, priority, due_date, creator_email",
     );
