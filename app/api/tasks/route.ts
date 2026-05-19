@@ -41,7 +41,9 @@ function buildTaskPayload(body: TaskBody) {
     category: body.category?.toLowerCase().includes("technical")
       ? "Technical Task"
       : "User Story",
-    priority: body.priority,
+    priority: ["urgent", "medium", "low"].includes(body.priority?.toLowerCase())
+      ? (body.priority.toLowerCase() as "urgent" | "medium" | "low")
+      : "medium",
     due_date: body.due_date?.trim() || null,
     status: "triage" as const,
     creator_email: body.creator_email,
