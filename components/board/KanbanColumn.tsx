@@ -2,6 +2,7 @@
 
 import { Droppable } from "@hello-pangea/dnd";
 import { TaskWithRelations, TaskStatus } from "@/lib/types";
+
 import TaskCard from "./TaskCard";
 
 function PlusIcon() {
@@ -31,6 +32,7 @@ interface KanbanColumnProps {
   tasks: TaskWithRelations[];
   onAdd: () => void;
   onTaskSelect: (task: TaskWithRelations) => void;
+  onMove: (taskId: string, newStatus: TaskStatus) => void;
 }
 
 export default function KanbanColumn({
@@ -39,6 +41,7 @@ export default function KanbanColumn({
   tasks,
   onAdd,
   onTaskSelect,
+  onMove,
 }: KanbanColumnProps) {
   const showPlusButton = status !== "done";
 
@@ -73,6 +76,7 @@ export default function KanbanColumn({
                 task={task}
                 index={index}
                 onSelect={() => onTaskSelect(task)}
+                onMove={onMove}
               />
             ))}
             <div

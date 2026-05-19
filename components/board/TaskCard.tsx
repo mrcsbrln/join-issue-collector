@@ -1,7 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import { Draggable } from "@hello-pangea/dnd";
-import { TaskWithRelations, Priority } from "@/lib/types";
+import {
+  TaskWithRelations,
+  Priority,
+  TaskStatus,
+  COLUMN_ORDER,
+  COLUMN_LABELS,
+} from "@/lib/types";
 import Avatar from "@/components/ui/Avatar";
 import ProgressBar from "@/components/ui/ProgressBar";
 
@@ -75,14 +82,53 @@ function PriorityIcon({ priority }: { priority: Priority }) {
   );
 }
 
+function ChevronRightIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M9 18l6-6-6-6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 interface TaskCardProps {
   task: TaskWithRelations;
   index: number;
   onSelect: () => void;
+  onMove: (taskId: string, newStatus: TaskStatus) => void;
 }
 
-export default function TaskCard({ task, index, onSelect }: TaskCardProps) {
+export default function TaskCard({
+  task,
+  index,
+  onSelect,
+  onMove,
+}: TaskCardProps) {
+  const [showMoveMenu, setShowMoveMenu] = useState(false);
   const completedSubtasks = task.subtasks.filter((s) => s.completed).length;
+  const moveOptions = COLUMN_ORDER.filter((s) => s !== task.status);
+
+  function toggleMoveMenu(e: React.MouseEvent) {
+    e.stopPropagation();
+    setShowMoveMenu((p) => !p);
+  }
+
+  function handleMoveSelect(e: React.MouseEvent, newStatus: TaskStatus) {
+    e.stopPropagation();
+    onMove(task.id, newStatus);
+    setShowMoveMenu(false);
+  }
 
   return (
     <Draggable draggableId={task.id} index={index}>
@@ -94,7 +140,42 @@ export default function TaskCard({ task, index, onSelect }: TaskCardProps) {
           onClick={onSelect}
           className={`bg-white rounded-[24px] p-4 flex flex-col gap-6 cursor-pointer select-none transition-all duration-100 ${snapshot.isDragging ? "shadow-[0_8px_16px_rgba(0,0,0,0.15)] rotate-[5deg]" : "shadow-[0_0_5px_rgba(0,0,0,0.08)] hover:shadow-[0_0_10px_3px_rgba(0,0,0,0.08)]"}`}
         >
-          <CategoryBadge category={task.category} />
+          <div className="flex items-start justify-between gap-2">
+            <CategoryBadge category={task.category} />
+            <div className="relative lg:hidden shrink-0">
+              <button
+                type="button"
+                onClick={toggleMoveMenu}
+                className="flex items-center justify-center size-[28px] text-navy hover:text-blue transition-colors duration-100 cursor-pointer border-0 bg-transparent"
+                aria-label="Move task"
+              >
+                <ChevronRightIcon />
+              </button>
+              {showMoveMenu && (
+                <>
+                  <div
+                    className="fixed inset-0 z-[25]"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowMoveMenu(false);
+                    }}
+                  />
+                  <div className="absolute top-8 right-0 z-[30] bg-white rounded-[12px] shadow-[0_4px_12px_rgba(0,0,0,0.15)] py-1 min-w-[160px]">
+                    {moveOptions.map((s) => (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={(e) => handleMoveSelect(e, s)}
+                        className="w-full text-left px-4 py-2 text-[14px] text-navy hover:bg-bg-app transition-colors duration-100 cursor-pointer border-0 bg-transparent"
+                      >
+                        {COLUMN_LABELS[s]}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
 
           <div className="flex flex-col gap-2">
             <p className="font-bold text-[16px] text-navy leading-[1.2]">

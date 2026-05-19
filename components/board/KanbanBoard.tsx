@@ -111,20 +111,22 @@ export default function KanbanBoard({
     });
   }
 
-  async function onDragEnd(result: DropResult) {
-    if (!result.destination) return;
-    const { draggableId, destination } = result;
-    const newStatus = destination.droppableId as TaskStatus;
-    const draggedTask = tasks.find((t) => t.id === draggableId);
+  async function moveTask(taskId: string, newStatus: TaskStatus) {
+    const task = tasks.find((t) => t.id === taskId);
     setTasks((prev) =>
-      prev.map((t) => (t.id === draggableId ? { ...t, status: newStatus } : t)),
+      prev.map((t) => (t.id === taskId ? { ...t, status: newStatus } : t)),
     );
     const supabase = createClient();
-    await supabase
-      .from("tasks")
-      .update({ status: newStatus })
-      .eq("id", draggableId);
-    if (draggedTask) notifyStatusChange(draggedTask, newStatus);
+    await supabase.from("tasks").update({ status: newStatus }).eq("id", taskId);
+    if (task) notifyStatusChange(task, newStatus);
+  }
+
+  async function onDragEnd(result: DropResult) {
+    if (!result.destination) return;
+    await moveTask(
+      result.draggableId,
+      result.destination.droppableId as TaskStatus,
+    );
   }
 
   async function handleDeleteTask(taskId: string) {
@@ -226,6 +228,7 @@ export default function KanbanBoard({
               tasks={filtered.filter((t) => t.status === status)}
               onAdd={() => setModalStatus(status)}
               onTaskSelect={setSelectedTask}
+              onMove={moveTask}
             />
           ))}
         </div>
