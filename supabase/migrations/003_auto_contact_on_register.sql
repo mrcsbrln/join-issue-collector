@@ -1,33 +1,41 @@
 -- Update handle_new_user trigger: also create a contact for non-anonymous users
+-- Uses v_ prefixed variables to avoid name collision with SQL column names.
+-- Uses coalesce(..., false) for is_anon to handle NULL raw_app_meta_data safely.
 
 create or replace function public.handle_new_user()
 returns trigger language plpgsql security definer as $$
 declare
-  user_name  text;
-  user_email text;
-  is_anon    boolean;
-  colors     text[] := ARRAY[
-    '#FF7A00','#FF5EB3','#6E52FF','#9327FF','#00BEE8',
-    '#1FD7C1','#FF745E','#FFA35E','#FC71FF','#FFC701',
-    '#0038FF','#C3FF2B','#FFE62B','#FF4646','#FFBB2B'
-  ];
-  color text;
+  v_name    text;
+  v_email   text;
+  v_is_anon boolean;
+  v_colors  text[];
+  v_color   text;
 begin
-  user_name  := coalesce(new.raw_user_meta_data->>'name', '');
-  user_email := coalesce(new.email, '');
-  is_anon    := (new.raw_app_meta_data->>'provider' = 'anonymous');
+  v_name    := coalesce(new.raw_user_meta_data->>'name', '');
+  v_email   := coalesce(new.email, '');
+  v_is_anon := coalesce(
+    new.raw_app_meta_data->>'provider' = 'anonymous',
+    false
+  );
 
   insert into public.profiles (id, name, email, is_guest)
-  values (new.id, user_name, user_email, is_anon)
+  values (new.id, v_name, v_email, v_is_anon)
   on conflict (id) do nothing;
 
-  if not is_anon and user_name <> '' then
-    color := colors[(ascii(left(user_name, 1)) % array_length(colors, 1)) + 1];
+  if not v_is_anon and v_name <> '' then
+    v_colors := ARRAY[
+      '#FF7A00','#FF5EB3','#6E52FF','#9327FF','#00BEE8',
+      '#1FD7C1','#FF745E','#FFA35E','#FC71FF','#FFC701',
+      '#0038FF','#C3FF2B','#FFE62B','#FF4646','#FFBB2B'
+    ];
+    v_color := v_colors[
+      (ascii(left(v_name, 1)) % array_length(v_colors, 1)) + 1
+    ];
     insert into public.contacts (name, email, color)
-    select user_name, user_email, color
+    select v_name, v_email, v_color
     where not exists (
       select 1 from public.contacts c
-      where c.email = user_email and user_email <> ''
+      where c.email = v_email and v_email <> ''
     );
   end if;
 
