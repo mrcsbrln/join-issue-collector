@@ -1,6 +1,6 @@
-# Join – KI-gestütztes Kanban-Board
+# Join – AI-Powered Kanban Board
 
-Ein kollaboratives Kanban-Board mit integriertem KI-Issue-Collector. Stakeholder können Feature Requests und Bug-Meldungen per E-Mail einreichen – die KI analysiert die Mail automatisch und erstellt ein priorisiertes Ticket in der Triage-Spalte.
+A collaborative Kanban board with a built-in AI issue collector. Stakeholders can submit feature requests and bug reports via email — the AI automatically analyses the message and creates a prioritised ticket in the Triage column.
 
 **Live:** [join-issue-collector.vercel.app](https://join-issue-collector.vercel.app)
 
@@ -8,63 +8,63 @@ Ein kollaboratives Kanban-Board mit integriertem KI-Issue-Collector. Stakeholder
 
 ## Features
 
-- **Kanban-Board** mit den Spalten Triage, To Do, In Progress, Awaiting Feedback, Done
-- **Drag & Drop** zwischen Spalten (Desktop) + Move-Menü (Mobile)
-- **KI-Issue-Collector:** E-Mail → Mistral AI → Ticket in Triage (vollautomatisch)
-- **Stakeholder-Landing-Page** mit Tageszähler und direktem E-Mail-Link
-- **Bestätigungsmail** an den Absender nach erfolgreicher Ticket-Erstellung
-- **Ersteller-Badge** (Intern / Extern) im Task-Detail
-- **Kontaktverwaltung** mit alphabetischer Sortierung
-- **Gast-Login** ohne Registrierung
+- **Kanban board** with columns: Triage, To Do, In Progress, Awaiting Feedback, Done
+- **Drag & Drop** between columns (desktop) + move menu (mobile)
+- **AI Issue Collector:** Email → Mistral AI → ticket in Triage (fully automated)
+- **Stakeholder landing page** with daily request counter and direct email link
+- **Confirmation email** to the sender after successful ticket creation
+- **Creator badge** (Internal / External) in the task detail view
+- **Contact management** with alphabetical sorting
+- **Guest login** without registration
 
 ---
 
 ## Demo
 
-### Als Stakeholder (ohne Login)
+### As a Stakeholder (no login required)
 
-1. [join-issue-collector.vercel.app](https://join-issue-collector.vercel.app) aufrufen
-2. „Create Email Request" klicken → E-Mail an `issue-collector@marcus-hartmann.net` schicken
-3. Betreff und Body frei formulieren – die KI generiert daraus ein Ticket
-4. Bestätigungsmail abwarten (ca. 30–60 Sekunden)
-5. Im Board unter [/board](https://join-issue-collector.vercel.app/board) erscheint das neue Ticket in der Triage-Spalte
+1. Visit [join-issue-collector.vercel.app](https://join-issue-collector.vercel.app)
+2. Click "Create Email Request" → send an email to `issue-collector@marcus-hartmann.net`
+3. Write any subject and body — the AI generates a ticket from it
+4. Wait for the confirmation email (approx. 30–60 seconds)
+5. The new ticket appears in the Triage column at [/board](https://join-issue-collector.vercel.app/board)
 
-> **Tageslimit:** 10 KI-generierte Tickets pro Tag
+> **Daily limit:** 10 AI-generated tickets per day
 
-### Als Teammitglied
+### As a Team Member
 
-1. [join-issue-collector.vercel.app/login](https://join-issue-collector.vercel.app/login) aufrufen
-2. Als Gast einloggen oder registrieren
-3. Tickets per Drag & Drop durch die Spalten verschieben
-4. Tasks und Kontakte anlegen, bearbeiten und löschen
+1. Visit [join-issue-collector.vercel.app/login](https://join-issue-collector.vercel.app/login)
+2. Log in as guest or register
+3. Move tickets between columns via drag & drop
+4. Create, edit and delete tasks and contacts
 
 ---
 
 ## Tech Stack
 
-| Bereich             | Technologie                         |
-| ------------------- | ----------------------------------- |
-| Framework           | Next.js 16 (App Router)             |
-| Sprache             | TypeScript                          |
-| Styling             | Tailwind CSS                        |
-| Datenbank / Auth    | Supabase (PostgreSQL + RLS)         |
-| Hosting App         | Vercel (Frankfurt, EU)              |
-| Workflow-Automation | n8n (self-hosted, Hetzner Nürnberg) |
-| KI-Modell           | Mistral AI – Magistral Small        |
-| Drag & Drop         | @hello-pangea/dnd                   |
+| Area                | Technology                               |
+| ------------------- | ---------------------------------------- |
+| Framework           | Next.js 16 (App Router)                  |
+| Language            | TypeScript                               |
+| Styling             | Tailwind CSS                             |
+| Database / Auth     | Supabase (PostgreSQL + RLS)              |
+| App Hosting         | Vercel (Frankfurt, EU)                   |
+| Workflow Automation | n8n (self-hosted, Hetzner Nuremberg, EU) |
+| AI Model            | Mistral AI – Magistral Small             |
+| Drag & Drop         | @hello-pangea/dnd                        |
 
 ---
 
-## Lokale Entwicklung
+## Local Development
 
 ```bash
 npm install
 npm run dev
 ```
 
-Öffne [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000).
 
-### Umgebungsvariablen
+### Environment Variables
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=
@@ -78,13 +78,13 @@ NEXT_PUBLIC_N8N_STATUS_WEBHOOK_URL=
 
 ## n8n Workflows
 
-Die Workflow-JSONs liegen unter [`/n8n`](./n8n/).
+Workflow JSON files are located in [`/n8n`](./n8n/).
 
-**Workflow 1 – E-Mail → Ticket:**
-`IMAP Trigger → Tageszähler → LLM-Analyse → POST /api/tasks → Bestätigungsmail`
+**Workflow 1 – Email → Ticket:**
+`IMAP Trigger → Daily counter → LLM analysis → POST /api/tasks → Confirmation email`
 
-**Workflow 2 – Statusänderung → Benachrichtigung:**
-`Webhook → E-Mail an Ersteller`
+**Workflow 2 – Status change → Notification:**
+`Webhook → Email to creator`
 
 ---
 
@@ -92,17 +92,17 @@ Die Workflow-JSONs liegen unter [`/n8n`](./n8n/).
 
 ### `POST /api/tasks`
 
-Erstellt einen Task in der Triage-Spalte. Gesichert via `x-api-key` Header.
+Creates a task in the Triage column. Secured via `x-api-key` header.
 
 ```json
 {
-  "title": "Pflichtfeld",
-  "description": "Optional",
+  "title": "required",
+  "description": "optional",
   "category": "Technical Task | User Story",
   "priority": "urgent | medium | low",
   "due_date": "YYYY-MM-DD | null",
-  "creator_email": "Pflichtfeld"
+  "creator_email": "required"
 }
 ```
 
-Antwort: `201 { "id": "uuid" }`
+Response: `201 { "id": "uuid" }`
