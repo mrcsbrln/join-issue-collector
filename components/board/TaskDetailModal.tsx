@@ -235,13 +235,13 @@ export default function TaskDetailModal({
 
                 {/* Creator */}
                 {currentTask.creator_email && (
-                  <div className="flex items-center justify-between text-[16px] lg:text-[20px]">
-                    <div className="flex gap-[16px] items-center">
+                  <div className="flex items-center justify-between gap-[12px] text-[16px] lg:text-[20px]">
+                    <div className="flex gap-[16px] items-center min-w-0">
                       <span className="text-navy shrink-0">Creator:</span>
                       {currentTask.creator_type && (
                         <CreatorTypeBadge type={currentTask.creator_type} />
                       )}
-                      <span className="text-black">
+                      <span className="text-black truncate min-w-0">
                         {currentTask.creator_email}
                       </span>
                     </div>
