@@ -7,7 +7,7 @@ Lies und befolge die Checkliste in [CHECKLIST-ISSUE-COLLECTOR.md](./CHECKLIST-IS
 
 ## Tech Stack
 
-- **Framework:** Next.js 14 (App Router)
+- **Framework:** Next.js 16 (App Router)
 - **Sprache:** TypeScript
 - **Styling:** Tailwind CSS
 - **Datenbank/Auth:** Supabase (PostgreSQL + Row Level Security)
@@ -73,3 +73,7 @@ Alle Tabellen haben RLS aktiviert: authentifizierte User haben vollen Zugriff (g
 - Kanban-Spalten: vertikal auf Mobile (`flex-col`), horizontal ab `md:` (`flex-row`)
 - Landscape-Modus auf Mobile deaktivieren via CSS media query
 - Erstellter Content muss sofort sichtbar sein (kein Page-Reload)
+
+## Deployment
+
+-Das Projekt ist über das Github Repo au Vercel deployed
