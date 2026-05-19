@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TaskWithRelations, Contact, CreatorType } from "@/lib/types";
 import { createClient } from "@/lib/supabase/client";
 import Avatar from "@/components/ui/Avatar";
@@ -129,6 +129,11 @@ export default function TaskDetailModal({
   const [subtasks, setSubtasks] = useState(task.subtasks);
   const [currentTask, setCurrentTask] = useState(task);
   const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    document.body.classList.add("overflow-hidden");
+    return () => document.body.classList.remove("overflow-hidden");
+  }, []);
 
   async function toggleSubtask(id: string, completed: boolean) {
     setSubtasks((prev) =>
