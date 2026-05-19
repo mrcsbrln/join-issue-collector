@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Join – KI-gestütztes Kanban-Board
 
-## Getting Started
+Ein kollaboratives Kanban-Board mit integriertem KI-Issue-Collector. Stakeholder können Feature Requests und Bug-Meldungen per E-Mail einreichen – die KI analysiert die Mail automatisch und erstellt ein priorisiertes Ticket in der Triage-Spalte.
 
-First, run the development server:
+**Live:** [join-issue-collector.vercel.app](https://join-issue-collector.vercel.app)
+
+---
+
+## Features
+
+- **Kanban-Board** mit den Spalten Triage, To Do, In Progress, Awaiting Feedback, Done
+- **Drag & Drop** zwischen Spalten (Desktop) + Move-Menü (Mobile)
+- **KI-Issue-Collector:** E-Mail → Mistral AI → Ticket in Triage (vollautomatisch)
+- **Stakeholder-Landing-Page** mit Tageszähler und direktem E-Mail-Link
+- **Bestätigungsmail** an den Absender nach erfolgreicher Ticket-Erstellung
+- **Ersteller-Badge** (Intern / Extern) im Task-Detail
+- **Kontaktverwaltung** mit alphabetischer Sortierung
+- **Gast-Login** ohne Registrierung
+
+---
+
+## Demo
+
+### Als Stakeholder (ohne Login)
+
+1. [join-issue-collector.vercel.app](https://join-issue-collector.vercel.app) aufrufen
+2. „Create Email Request" klicken → E-Mail an `issue-collector@marcus-hartmann.net` schicken
+3. Betreff und Body frei formulieren – die KI generiert daraus ein Ticket
+4. Bestätigungsmail abwarten (ca. 30–60 Sekunden)
+5. Im Board unter [/board](https://join-issue-collector.vercel.app/board) erscheint das neue Ticket in der Triage-Spalte
+
+> **Tageslimit:** 10 KI-generierte Tickets pro Tag
+
+### Als Teammitglied
+
+1. [join-issue-collector.vercel.app/login](https://join-issue-collector.vercel.app/login) aufrufen
+2. Als Gast einloggen oder registrieren
+3. Tickets per Drag & Drop durch die Spalten verschieben
+4. Tasks und Kontakte anlegen, bearbeiten und löschen
+
+---
+
+## Tech Stack
+
+| Bereich             | Technologie                         |
+| ------------------- | ----------------------------------- |
+| Framework           | Next.js 16 (App Router)             |
+| Sprache             | TypeScript                          |
+| Styling             | Tailwind CSS                        |
+| Datenbank / Auth    | Supabase (PostgreSQL + RLS)         |
+| Hosting App         | Vercel (Frankfurt, EU)              |
+| Workflow-Automation | n8n (self-hosted, Hetzner Nürnberg) |
+| KI-Modell           | Mistral AI – Magistral Small        |
+| Drag & Drop         | @hello-pangea/dnd                   |
+
+---
+
+## Lokale Entwicklung
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Öffne [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Umgebungsvariablen
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+JOIN_API_KEY=
+NEXT_PUBLIC_N8N_STATUS_WEBHOOK_URL=
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## n8n Workflows
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Die Workflow-JSONs liegen unter [`/n8n`](./n8n/).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Workflow 1 – E-Mail → Ticket:**
+`IMAP Trigger → Tageszähler → LLM-Analyse → POST /api/tasks → Bestätigungsmail`
 
-## Deploy on Vercel
+**Workflow 2 – Statusänderung → Benachrichtigung:**
+`Webhook → E-Mail an Ersteller`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## API
+
+### `POST /api/tasks`
+
+Erstellt einen Task in der Triage-Spalte. Gesichert via `x-api-key` Header.
+
+```json
+{
+  "title": "Pflichtfeld",
+  "description": "Optional",
+  "category": "Technical Task | User Story",
+  "priority": "urgent | medium | low",
+  "due_date": "YYYY-MM-DD | null",
+  "creator_email": "Pflichtfeld"
+}
+```
+
+Antwort: `201 { "id": "uuid" }`
