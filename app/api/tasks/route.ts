@@ -38,7 +38,9 @@ function buildTaskPayload(body: TaskBody) {
     description: body.description
       ? aiPrefix + body.description
       : aiPrefix.trim(),
-    category: body.category,
+    category: body.category?.toLowerCase().includes("technical")
+      ? "Technical Task"
+      : "User Story",
     priority: body.priority,
     due_date: body.due_date?.trim() || null,
     status: "triage" as const,
