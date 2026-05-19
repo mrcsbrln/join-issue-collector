@@ -40,7 +40,7 @@ function buildTaskPayload(body: TaskBody) {
       : aiPrefix.trim(),
     category: body.category,
     priority: body.priority,
-    due_date: body.due_date,
+    due_date: body.due_date?.trim() || null,
     status: "triage" as const,
     creator_email: body.creator_email,
     creator_type: "external" as const,
