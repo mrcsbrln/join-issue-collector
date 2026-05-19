@@ -234,12 +234,24 @@ export default function ContactFormModal({
                   </div>
                 )}
               </div>
-              {isEdit && contact && (
+              {isEdit && contact ? (
                 <div
                   className="hidden lg:flex absolute -left-[60px] top-1/2 -translate-y-1/2 size-[120px] rounded-full items-center justify-center text-white text-[47px] font-medium shrink-0 border-[3px] border-white shadow-[0_0_2px_rgba(0,0,0,0.1)]"
                   style={{ backgroundColor: contact.color }}
                 >
                   {getInitials(contact.name)}
+                </div>
+              ) : (
+                <div className="hidden lg:flex absolute -left-[60px] top-1/2 -translate-y-1/2 size-[120px] rounded-full items-center justify-center bg-[#d1d1d1] shrink-0 border-[3px] border-white shadow-[0_0_2px_rgba(0,0,0,0.1)]">
+                  <svg
+                    width="64"
+                    height="64"
+                    viewBox="0 0 24 24"
+                    fill="white"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                  </svg>
                 </div>
               )}
 
