@@ -71,8 +71,49 @@ export default function PrivacyPolicyPage() {
             application itself is hosted on{" "}
             <span className="font-bold">Vercel</span>, also using the Frankfurt
             (EU) region. Both providers are subject to EU data protection law
-            (GDPR). We do not share, sell, or transmit your personal data to
-            third parties.
+            (GDPR).
+          </p>
+          <p>
+            The AI Issue Collector workflow runs on a self-hosted{" "}
+            <span className="font-bold">n8n</span> instance on a{" "}
+            <span className="font-bold">Hetzner</span> server located in{" "}
+            <span className="font-bold">Nuremberg, Germany</span> (EU). Hetzner
+            Online GmbH is a German provider subject to GDPR.
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-[10px]">
+          <h2 className="text-[27px] font-bold leading-[1.2]">
+            AI Processing (Issue Collector)
+          </h2>
+          <p>
+            When a feature request or bug report is submitted via email to the
+            issue collector address, the email&apos;s subject and body are
+            forwarded to <span className="font-bold">Mistral AI</span> (Mistral
+            AI SAS, Paris, France) for automated ticket generation. Mistral AI
+            processes this data to extract a title, description, category,
+            priority, and optional due date.
+          </p>
+          <p>
+            By sending an email to the issue collector address you consent to
+            this processing. Please do not include sensitive personal data in
+            your email beyond what is necessary to describe the issue. Your
+            sender email address is stored in the ticket as the creator and may
+            be used to notify you of status changes.
+          </p>
+          <p>
+            Mistral AI&apos;s data processing is governed by their{" "}
+            <a
+              href="https://mistral.ai/terms/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#29abe2] hover:underline"
+            >
+              terms of service
+            </a>
+            . As a French company, Mistral AI is subject to EU data protection
+            law (GDPR). Email content sent for processing is not used to train
+            Mistral AI models.
           </p>
         </div>
 
