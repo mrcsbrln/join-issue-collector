@@ -3,14 +3,88 @@
   "nodes": [
     {
       "parameters": {
-        "options": {
-          "postProcessAction": "read"
+        "jsCode": "const { ImapFlow } = require('imapflow');\nconst uid = $('Email Trigger (IMAP)').first().json.uid;\n\nconst client = new ImapFlow({\n  host: 'w01fb947.kasserver.com',\n  port: 993,\n  secure: true,\n  auth: {\n    user: 'issue-collector@marcus-hartmann.net',\n    pass: $vars['IMAP_PASSWORD']\n  },\n  logger: false\n});\n\nawait client.connect();\nawait client.mailboxOpen('INBOX');\nawait client.messageMove([uid], 'erledigt', { uid: true });\nawait client.logout();\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1136, 480],
+      "id": "ab8733fb-0638-4621-b0cc-3797c795daa8",
+      "name": "Move to Erledigt",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const { ImapFlow } = require('imapflow');\nconst uid = $('Email Trigger (IMAP)').first().json.uid;\n\nconst client = new ImapFlow({\n  host: 'w01fb947.kasserver.com',\n  port: 993,\n  secure: true,\n  auth: {\n    user: 'issue-collector@marcus-hartmann.net',\n    pass: $vars['IMAP_PASSWORD']\n  },\n  logger: false\n});\n\nawait client.connect();\nawait client.mailboxOpen('INBOX');\nawait client.messageMove([uid], 'zu bearbeiten', { uid: true });\nawait client.logout();\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1136, 672],
+      "id": "55b20915-3980-4561-a933-91803dc1ea24",
+      "name": "Move zu bearbeiten",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const { ImapFlow } = require('imapflow');\nconst uid = $('Email Trigger (IMAP)').first().json.uid;\n\nconst client = new ImapFlow({\n  host: 'w01fb947.kasserver.com',\n  port: 993,\n  secure: true,\n  auth: {\n    user: 'issue-collector@marcus-hartmann.net',\n    pass: $vars['IMAP_PASSWORD']\n  },\n  logger: false\n});\n\nawait client.connect();\nawait client.mailboxOpen('INBOX');\nawait client.messageMove([uid], 'zu bearbeiten', { uid: true });\nawait client.logout();\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [176, 272],
+      "id": "a07ad971-668b-4268-b4d3-973b44c50e78",
+      "name": "Move zu bearbeiten Limit",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "fromEmail": "issue-collector@marcus-hartmann.net",
+        "toEmail": "={{ $('Parse LLM Response').first().json.creator_email }}",
+        "subject": "Ihr Ticket wurde erstellt",
+        "html": "=Vielen Dank für Ihre Nachricht!<br><br>Ihr Ticket \"{{ $('Parse LLM Response').first().json.title }}\" wurde erfolgreich erstellt und wird von unserem Team bearbeitet.<br><br>Das Join-Team",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [912, 480],
+      "id": "e11ca7f9-8ae4-41d6-b602-2fbcb7a6d378",
+      "name": "Confirmation Mail1",
+      "webhookId": "9a93f195-e044-4387-b9b3-244abbc8e8ad",
+      "credentials": {
+        "smtp": {
+          "id": "EzoF48HcgxSZmMxH",
+          "name": "SMTP account"
         }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "fromEmail": "issue-collector@marcus-hartmann.net",
+        "toEmail": "={{ $('Parse LLM Response').first().json.creator_email }}",
+        "subject": "Fehler bei der Ticket-Erstellung",
+        "html": "Vielen Dank für Ihre Nachricht.<br><br>Leider konnte Ihr Ticket nicht automatisch erstellt werden.<br>Unser Team wurde benachrichtigt und wird Ihre Anfrage manuell bearbeiten.<br><br>Das Join-Team",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [912, 672],
+      "id": "3d6f5866-3e6a-4b9d-9b26-a690347b956e",
+      "name": "Error Mail1",
+      "webhookId": "c946e98a-a465-44eb-9273-7206426c5549",
+      "credentials": {
+        "smtp": {
+          "id": "EzoF48HcgxSZmMxH",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
       },
       "type": "n8n-nodes-base.emailReadImap",
       "typeVersion": 2.1,
-      "position": [16, 52],
-      "id": "823c0b52-ee9d-4f07-99c9-2fed06d8ae2c",
+      "position": [-784, 432],
+      "id": "0fee0a66-42ac-46c0-a795-d397ccba5c57",
       "name": "Email Trigger (IMAP)",
       "credentials": {
         "imap": {
@@ -21,13 +95,51 @@
     },
     {
       "parameters": {
-        "jsCode": "const staticData = $getWorkflowStaticData(\"global\");\nconst today = new Date().toISOString().split(\"T\")[0];\nconst DAILY_REQUEST_LIMIT = 10;\n\nif (staticData.date !== today) {\n  staticData.date = today;\n  staticData.count = 0;\n}\n\nstaticData.count += 1;\n\nreturn [{\n  json: {\n    count: staticData.count,\n    limitReached: staticData.count > DAILY_REQUEST_LIMIT,\n    ...($input.first().json)\n  }\n}];"
+        "fromEmail": "issue-collector@marcus-hartmann.net",
+        "toEmail": "={{ $('Email Trigger (IMAP)').first().json.from }}",
+        "subject": "Ihr Request konnte nicht bearbeitet werden",
+        "emailFormat": "text",
+        "text": "Vielen Dank für Ihre Nachricht.\n\nLeider wurde das Tageslimit von 10 Requests bereits erreicht.\nIhre E-Mail wird manuell von unserem Team geprüft.\n\nDas Join-Team",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [-48, 272],
+      "id": "61dc890b-fcec-475f-844f-6bf741a73c2f",
+      "name": "Send an Email",
+      "webhookId": "8231331c-082b-4974-8bbb-d5f3f75507a7",
+      "credentials": {
+        "smtp": {
+          "id": "EzoF48HcgxSZmMxH",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
+      "typeVersion": 1,
+      "position": [-48, 800],
+      "id": "d9813a4e-a96b-4db7-850f-e618ee4cc604",
+      "name": "Mistral Cloud Chat Model",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "EPvhx7FiTpcouYxd",
+          "name": "Mistral Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const staticData = $getWorkflowStaticData(\"global\");\nconst today = new Date().toISOString().split(\"T\")[0];\n\nif (staticData.date !== today) {\n  staticData.date = today;\n  staticData.count = 0;\n}\n\nstaticData.count += 1;\n\nreturn [{\n  json: {\n    count: staticData.count,\n    limitReached: staticData.count > 10,\n    ...($input.first().json)\n  }\n}];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [240, 52],
-      "id": "36d3bff2-573b-421b-96dc-045cf1b0f54a",
-      "name": "Tageslimit prüfen"
+      "position": [-560, 432],
+      "id": "3381e8b4-e957-4a37-9c94-1a974857b08c",
+      "name": "Limit Check"
     },
     {
       "parameters": {
@@ -56,9 +168,9 @@
       },
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
-      "position": [464, 52],
-      "id": "227c243e-4b1d-45d6-be99-1958257d58e1",
-      "name": "Limit erreicht?"
+      "position": [-336, 432],
+      "id": "70d85d31-e251-45b9-be41-7f00454b0ca9",
+      "name": "If Limit"
     },
     {
       "parameters": {
@@ -75,47 +187,9 @@
       },
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.9,
-      "position": [688, 200],
-      "id": "b7fbd4f3-c295-4712-97f9-5cc0171edd3a",
-      "name": "E-Mail per KI analysieren"
-    },
-    {
-      "parameters": {
-        "model": "magistral-small-latest",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
-      "typeVersion": 1,
-      "position": [760, 424],
-      "id": "9485a787-d4e0-4ccd-bd88-0db5a5eeade3",
-      "name": "Mistral Cloud Chat Model",
-      "credentials": {
-        "mistralCloudApi": {
-          "id": "EPvhx7FiTpcouYxd",
-          "name": "Mistral Cloud account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "fromEmail": "issue-collector@marcus-hartmann.net",
-        "toEmail": "={{ $('Email Trigger (IMAP)').first().json.from }}",
-        "subject": "Ihr Request konnte nicht bearbeitet werden",
-        "emailFormat": "text",
-        "text": "Vielen Dank für Ihre Nachricht.\n\nLeider wurde das Tageslimit von 10 Requests bereits erreicht.\nIhre E-Mail wird manuell von unserem Team geprüft.\n\nDas Join-Team",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.emailSend",
-      "typeVersion": 2.1,
-      "position": [752, -96],
-      "id": "3cb5ec3c-77f7-49d5-87cf-1fee7f79a50d",
-      "name": "Limit-Hinweis senden",
-      "credentials": {
-        "smtp": {
-          "id": "EzoF48HcgxSZmMxH",
-          "name": "SMTP account"
-        }
-      }
+      "position": [-112, 576],
+      "id": "b5bc5588-bbcc-480d-976b-de192de1777c",
+      "name": "Basic LLM Chain"
     },
     {
       "parameters": {
@@ -123,9 +197,9 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1040, 200],
-      "id": "0cdbf797-c6de-4d7e-8ea9-2c0fd888594c",
-      "name": "API-Payload aufbereiten"
+      "position": [240, 576],
+      "id": "560c89cb-5dc8-443b-b360-f3253785f9cd",
+      "name": "Parse LLM Response"
     },
     {
       "parameters": {
@@ -177,9 +251,9 @@
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
-      "position": [1264, 200],
-      "id": "f26cdafb-4df3-4452-82af-127c9512f3af",
-      "name": "Ticket in Join erstellen",
+      "position": [464, 576],
+      "id": "5dbd3d7f-f819-4235-af4f-0e9b2fa054d1",
+      "name": "HTTP Post Request",
       "onError": "continueRegularOutput"
     },
     {
@@ -209,190 +283,14 @@
       },
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
-      "position": [1488, 200],
-      "id": "a12da814-a2eb-414d-bb20-0cd31a48c511",
-      "name": "Ticket erfolgreich?"
-    },
-    {
-      "parameters": {
-        "fromEmail": "issue-collector@marcus-hartmann.net",
-        "toEmail": "={{ $('API-Payload aufbereiten').first().json.creator_email }}",
-        "subject": "Ihr Ticket wurde erstellt",
-        "html": "=Vielen Dank für Ihre Nachricht!<br><br>Ihr Ticket \"{{ $('API-Payload aufbereiten').first().json.title }}\" wurde erfolgreich erstellt und wird von unserem Team bearbeitet.<br><br>Das Join-Team",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.emailSend",
-      "typeVersion": 2.1,
-      "position": [1712, 104],
-      "id": "8ebc93fe-de2e-4743-a16e-0a59d00ab4a0",
-      "name": "Bestätigungsmail senden",
-      "credentials": {
-        "smtp": {
-          "id": "EzoF48HcgxSZmMxH",
-          "name": "SMTP account"
-        }
-      },
-      "onError": "continueErrorOutput"
-    },
-    {
-      "parameters": {
-        "fromEmail": "issue-collector@marcus-hartmann.net",
-        "toEmail": "={{ $('API-Payload aufbereiten').first().json.creator_email }}",
-        "subject": "Fehler bei der Ticket-Erstellung",
-        "html": "Vielen Dank für Ihre Nachricht.<br><br>Leider konnte Ihr Ticket nicht automatisch erstellt werden.<br>Unser Team wurde benachrichtigt und wird Ihre Anfrage manuell bearbeiten.<br><br>Das Join-Team",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.emailSend",
-      "typeVersion": 2.1,
-      "position": [1712, 296],
-      "id": "1551bb44-ee74-46e3-aa77-7e7656adac31",
-      "name": "Fehlermail senden",
-      "credentials": {
-        "smtp": {
-          "id": "EzoF48HcgxSZmMxH",
-          "name": "SMTP account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "jsCode": "const { ImapFlow } = require('imapflow');\nconst uid = $('Email Trigger (IMAP)').first().json.uid;\n\nconst client = new ImapFlow({\n  host: 'w01fb947.kasserver.com',\n  port: 993,\n  secure: true,\n  auth: {\n    user: 'issue-collector@marcus-hartmann.net',\n    pass: process.env.IMAP_PASSWORD\n  },\n  logger: false\n});\n\nawait client.connect();\nawait client.mailboxOpen('INBOX');\nawait client.messageMove([uid], 'erledigt', { uid: true });\nawait client.logout();\n\nreturn $input.all();"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [1936, 104],
-      "id": "b2e4f6a8-c0d2-4e8f-a1b3-c5d7e9f2b4d6",
-      "name": "Move to Erledigt",
-      "onError": "continueErrorOutput"
-    },
-    {
-      "parameters": {
-        "jsCode": "const { ImapFlow } = require('imapflow');\nconst uid = $('Email Trigger (IMAP)').first().json.uid;\n\nconst client = new ImapFlow({\n  host: 'w01fb947.kasserver.com',\n  port: 993,\n  secure: true,\n  auth: {\n    user: 'issue-collector@marcus-hartmann.net',\n    pass: process.env.IMAP_PASSWORD\n  },\n  logger: false\n});\n\nawait client.connect();\nawait client.mailboxOpen('INBOX');\nawait client.messageMove([uid], 'zu bearbeiten', { uid: true });\nawait client.logout();\n\nreturn $input.all();"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [1936, 296],
-      "id": "d4f6b8e0-a2c4-4f8a-b5d7-e9f1c3e5a7c9",
-      "name": "Move zu bearbeiten",
-      "onError": "continueErrorOutput"
-    },
-    {
-      "parameters": {
-        "jsCode": "const { ImapFlow } = require('imapflow');\nconst uid = $('Email Trigger (IMAP)').first().json.uid;\n\nconst client = new ImapFlow({\n  host: 'w01fb947.kasserver.com',\n  port: 993,\n  secure: true,\n  auth: {\n    user: 'issue-collector@marcus-hartmann.net',\n    pass: process.env.IMAP_PASSWORD\n  },\n  logger: false\n});\n\nawait client.connect();\nawait client.mailboxOpen('INBOX');\nawait client.messageMove([uid], 'zu bearbeiten', { uid: true });\nawait client.logout();\n\nreturn $input.all();"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [976, -96],
-      "id": "f6b8d0f2-c4e6-4a8c-d7f9-a1b3c5d7e9f1",
-      "name": "Move zu bearbeiten Limit",
-      "onError": "continueErrorOutput"
+      "position": [688, 576],
+      "id": "b9b9605c-05ef-4d0b-a154-ac0a10646e10",
+      "name": "If Success"
     }
   ],
   "pinData": {},
   "connections": {
-    "Email Trigger (IMAP)": {
-      "main": [
-        [
-          {
-            "node": "Tageslimit prüfen",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Tageslimit prüfen": {
-      "main": [
-        [
-          {
-            "node": "Limit erreicht?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Limit erreicht?": {
-      "main": [
-        [
-          {
-            "node": "Limit-Hinweis senden",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "E-Mail per KI analysieren",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Mistral Cloud Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "E-Mail per KI analysieren",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "E-Mail per KI analysieren": {
-      "main": [
-        [
-          {
-            "node": "API-Payload aufbereiten",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "API-Payload aufbereiten": {
-      "main": [
-        [
-          {
-            "node": "Ticket in Join erstellen",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Ticket in Join erstellen": {
-      "main": [
-        [
-          {
-            "node": "Ticket erfolgreich?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Ticket erfolgreich?": {
-      "main": [
-        [
-          {
-            "node": "Bestätigungsmail senden",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Fehlermail senden",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Bestätigungsmail senden": {
+    "Confirmation Mail1": {
       "main": [
         [
           {
@@ -410,7 +308,7 @@
         ]
       ]
     },
-    "Fehlermail senden": {
+    "Error Mail1": {
       "main": [
         [
           {
@@ -421,11 +319,113 @@
         ]
       ]
     },
-    "Limit-Hinweis senden": {
+    "Email Trigger (IMAP)": {
+      "main": [
+        [
+          {
+            "node": "Limit Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send an Email": {
       "main": [
         [
           {
             "node": "Move zu bearbeiten Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mistral Cloud Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit Check": {
+      "main": [
+        [
+          {
+            "node": "If Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Limit": {
+      "main": [
+        [
+          {
+            "node": "Send an Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Parse LLM Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse LLM Response": {
+      "main": [
+        [
+          {
+            "node": "HTTP Post Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Post Request": {
+      "main": [
+        [
+          {
+            "node": "If Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Success": {
+      "main": [
+        [
+          {
+            "node": "Confirmation Mail1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Mail1",
             "type": "main",
             "index": 0
           }
@@ -438,7 +438,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "6ebe9f7e-fa20-4154-9690-b1f4659ffd5a",
+  "versionId": "6da731b7-7df2-4130-8a8a-ecf07485cfce",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "a747d0894c59420f2efe012b7586b2561193b56ba215956ec64677dcb258cd79"
