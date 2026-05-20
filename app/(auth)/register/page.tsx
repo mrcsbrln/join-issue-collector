@@ -172,7 +172,18 @@ export default function RegisterPage() {
             ) : null}
 
             <div className="flex justify-center mt-2">
-              <Button type="submit" variant="primary" loading={loading}>
+              <Button
+                type="submit"
+                variant="primary"
+                loading={loading}
+                disabled={
+                  !name.trim() ||
+                  !email.trim() ||
+                  !password ||
+                  !confirmPassword ||
+                  !acceptPolicy
+                }
+              >
                 Sign up
               </Button>
             </div>

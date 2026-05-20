@@ -1,0 +1,446 @@
+{
+  "name": "join-issue-collector",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailReadImap",
+      "typeVersion": 2.1,
+      "position": [16, 52],
+      "id": "823c0b52-ee9d-4f07-99c9-2fed06d8ae2c",
+      "name": "Email Trigger (IMAP)",
+      "credentials": {
+        "imap": {
+          "id": "jLBBHRQq81svPTnu",
+          "name": "IMAP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const staticData = $getWorkflowStaticData(\"global\");\nconst today = new Date().toISOString().split(\"T\")[0];\n\nif (staticData.date !== today) {\n  staticData.date = today;\n  staticData.count = 0;\n}\n\nstaticData.count += 1;\n\nreturn [{\n  json: {\n    count: staticData.count,\n    limitReached: staticData.count > 10,\n    ...($input.first().json)\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [240, 52],
+      "id": "36d3bff2-573b-421b-96dc-045cf1b0f54a",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "b61dbc02-02f5-43c9-adab-aa180705f8a3",
+              "leftValue": "={{ $json.limitReached }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [464, 52],
+      "id": "227c243e-4b1d-45d6-be99-1958257d58e1",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=E-Mail Betreff: {{ $('Email Trigger (IMAP)').first().json.subject }}\nE-Mail Body: {{ $('Email Trigger (IMAP)').first().json.textPlain }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "Du bist ein Assistent, der E-Mails in strukturierte Tickets umwandelt. Analysiere diese E-Mail und antworte NUR mit einem validen JSON-Objekt (kein Markdown, keine Erklärung, kein Text darum):\n\n{\"title\": \"Prägnanter Titel (max 60 Zeichen)\", \"description\": \"Vollständige Beschreibung\", \"category\": \"Technical Task oder User Story\", \"priority\": \"urgent oder medium oder low\", \"due_date\": \"YYYY-MM-DD oder null\"}\n\nRegeln für priority:\n- urgent: Wörter wie dringend, kritisch, sofort, asap, urgent\n- low: Wörter wie irgendwann, nice to have, optional\n- medium: alles andere"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [688, 200],
+      "id": "b7fbd4f3-c295-4712-97f9-5cc0171edd3a",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "model": "magistral-small-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
+      "typeVersion": 1,
+      "position": [760, 424],
+      "id": "9485a787-d4e0-4ccd-bd88-0db5a5eeade3",
+      "name": "Mistral Cloud Chat Model",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "EPvhx7FiTpcouYxd",
+          "name": "Mistral Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "issue-collector@marcus-hartmann.net",
+        "toEmail": "={{ $('Email Trigger (IMAP)').first().json.from }}",
+        "subject": "Ihr Request konnte nicht bearbeitet werden",
+        "emailFormat": "text",
+        "text": "Vielen Dank für Ihre Nachricht.\n\nLeider wurde das Tageslimit von 10 Requests bereits erreicht.\nIhre E-Mail wird manuell von unserem Team geprüft.\n\nDas Join-Team",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [752, -96],
+      "id": "3cb5ec3c-77f7-49d5-87cf-1fee7f79a50d",
+      "name": "Send an Email",
+      "credentials": {
+        "smtp": {
+          "id": "EzoF48HcgxSZmMxH",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const output = $input.first().json;\nconst raw = output.text ?? output.output ?? output.response ?? JSON.stringify(output);\nconst jsonMatch = raw.match(/\\{[\\s\\S]*\\}/);\nif (!jsonMatch) throw new Error(\"No JSON found in LLM response\");\n\nconst parsed = JSON.parse(jsonMatch[0]);\n\nconst fromRaw = $('Email Trigger (IMAP)').first().json.from;\nconst creator_email = typeof fromRaw === 'string'\n  ? (fromRaw.match(/<(.+?)>/) || [null, fromRaw])[1]\n  : fromRaw?.value?.[0]?.address;\n\nreturn [{\n  json: {\n    title: parsed.title,\n    description: parsed.description ?? \"\",\n    category: parsed.category,\n    priority: parsed.priority,\n    due_date: parsed.due_date ?? null,\n    creator_email\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1040, 200],
+      "id": "0cdbf797-c6de-4d7e-8ea9-2c0fd888594c",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://join-issue-collector.vercel.app/api/tasks",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "7e0a3e0aa25636bf0ef9433ef51af0b57ef54f83083f4d72b8f91f8a591e1560"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "={{ $json.title }}"
+            },
+            {
+              "name": "description",
+              "value": "={{ $json.description }}"
+            },
+            {
+              "name": "category",
+              "value": "={{ $json.category }}"
+            },
+            {
+              "name": "priority",
+              "value": "={{ $json.priority }}"
+            },
+            {
+              "name": "due_date",
+              "value": "={{ $json.due_date }}"
+            },
+            {
+              "name": "creator_email",
+              "value": "={{ $json.creator_email }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [1264, 200],
+      "id": "f26cdafb-4df3-4452-82af-127c9512f3af",
+      "name": "HTTP Request",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "a4f0f41c-2a4d-4009-9bfa-88ebbe007a6a",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [1488, 200],
+      "id": "a12da814-a2eb-414d-bb20-0cd31a48c511",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "fromEmail": "issue-collector@marcus-hartmann.net",
+        "toEmail": "={{ $('Code in JavaScript1').first().json.creator_email }}",
+        "subject": "Ihr Ticket wurde erstellt",
+        "html": "=Vielen Dank für Ihre Nachricht!<br><br>Ihr Ticket \"{{ $('Code in JavaScript1').first().json.title }}\" wurde erfolgreich erstellt und wird von unserem Team bearbeitet.<br><br>Das Join-Team",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1712, 104],
+      "id": "8ebc93fe-de2e-4743-a16e-0a59d00ab4a0",
+      "name": "Confirmation Mail",
+      "credentials": {
+        "smtp": {
+          "id": "EzoF48HcgxSZmMxH",
+          "name": "SMTP account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "fromEmail": "issue-collector@marcus-hartmann.net",
+        "toEmail": "={{ $('Code in JavaScript1').first().json.creator_email }}",
+        "subject": "Fehler bei der Ticket-Erstellung",
+        "html": "Vielen Dank für Ihre Nachricht.<br><br>Leider konnte Ihr Ticket nicht automatisch erstellt werden.<br>Unser Team wurde benachrichtigt und wird Ihre Anfrage manuell bearbeiten.<br><br>Das Join-Team",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1712, 296],
+      "id": "1551bb44-ee74-46e3-aa77-7e7656adac31",
+      "name": "Error Mail",
+      "credentials": {
+        "smtp": {
+          "id": "EzoF48HcgxSZmMxH",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const { ImapFlow } = require('imapflow');\nconst uid = $('Email Trigger (IMAP)').first().json.uid;\n\nconst client = new ImapFlow({\n  host: 'w01fb947.kasserver.com',\n  port: 993,\n  secure: true,\n  auth: {\n    user: 'issue-collector@marcus-hartmann.net',\n    pass: $vars.IMAP_PASSWORD\n  },\n  logger: false\n});\n\nawait client.connect();\nawait client.mailboxOpen('INBOX');\nawait client.messageMove([uid], 'erledigt', { uid: true });\nawait client.logout();\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1936, 104],
+      "id": "b2e4f6a8-c0d2-4e8f-a1b3-c5d7e9f2b4d6",
+      "name": "Move to Erledigt",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const { ImapFlow } = require('imapflow');\nconst uid = $('Email Trigger (IMAP)').first().json.uid;\n\nconst client = new ImapFlow({\n  host: 'w01fb947.kasserver.com',\n  port: 993,\n  secure: true,\n  auth: {\n    user: 'issue-collector@marcus-hartmann.net',\n    pass: $vars.IMAP_PASSWORD\n  },\n  logger: false\n});\n\nawait client.connect();\nawait client.mailboxOpen('INBOX');\nawait client.messageMove([uid], 'zu bearbeiten', { uid: true });\nawait client.logout();\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1936, 296],
+      "id": "d4f6b8e0-a2c4-4f8a-b5d7-e9f1c3e5a7c9",
+      "name": "Move zu bearbeiten",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const { ImapFlow } = require('imapflow');\nconst uid = $('Email Trigger (IMAP)').first().json.uid;\n\nconst client = new ImapFlow({\n  host: 'w01fb947.kasserver.com',\n  port: 993,\n  secure: true,\n  auth: {\n    user: 'issue-collector@marcus-hartmann.net',\n    pass: $vars.IMAP_PASSWORD\n  },\n  logger: false\n});\n\nawait client.connect();\nawait client.mailboxOpen('INBOX');\nawait client.messageMove([uid], 'zu bearbeiten', { uid: true });\nawait client.logout();\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [976, -96],
+      "id": "f6b8d0f2-c4e6-4a8c-d7f9-a1b3c5d7e9f1",
+      "name": "Move zu bearbeiten Limit",
+      "onError": "continueErrorOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Email Trigger (IMAP)": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send an Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mistral Cloud Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Confirmation Mail",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Mail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Confirmation Mail": {
+      "main": [
+        [
+          {
+            "node": "Move to Erledigt",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Move to Erledigt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Mail": {
+      "main": [
+        [
+          {
+            "node": "Move zu bearbeiten",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send an Email": {
+      "main": [
+        [
+          {
+            "node": "Move zu bearbeiten Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "6ebe9f7e-fa20-4154-9690-b1f4659ffd5a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a747d0894c59420f2efe012b7586b2561193b56ba215956ec64677dcb258cd79"
+  },
+  "id": "7C3Zogf3iq1UCcjr",
+  "tags": []
+}
