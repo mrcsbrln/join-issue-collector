@@ -3,7 +3,9 @@
   "nodes": [
     {
       "parameters": {
-        "options": {}
+        "options": {
+          "postProcessAction": "read"
+        }
       },
       "type": "n8n-nodes-base.emailReadImap",
       "typeVersion": 2.1,
@@ -19,13 +21,13 @@
     },
     {
       "parameters": {
-        "jsCode": "const staticData = $getWorkflowStaticData(\"global\");\nconst today = new Date().toISOString().split(\"T\")[0];\n\nif (staticData.date !== today) {\n  staticData.date = today;\n  staticData.count = 0;\n}\n\nstaticData.count += 1;\n\nreturn [{\n  json: {\n    count: staticData.count,\n    limitReached: staticData.count > 10,\n    ...($input.first().json)\n  }\n}];"
+        "jsCode": "const staticData = $getWorkflowStaticData(\"global\");\nconst today = new Date().toISOString().split(\"T\")[0];\nconst DAILY_REQUEST_LIMIT = 10;\n\nif (staticData.date !== today) {\n  staticData.date = today;\n  staticData.count = 0;\n}\n\nstaticData.count += 1;\n\nreturn [{\n  json: {\n    count: staticData.count,\n    limitReached: staticData.count > DAILY_REQUEST_LIMIT,\n    ...($input.first().json)\n  }\n}];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [240, 52],
       "id": "36d3bff2-573b-421b-96dc-045cf1b0f54a",
-      "name": "Code in JavaScript"
+      "name": "Tageslimit prüfen"
     },
     {
       "parameters": {
@@ -56,7 +58,7 @@
       "typeVersion": 2.3,
       "position": [464, 52],
       "id": "227c243e-4b1d-45d6-be99-1958257d58e1",
-      "name": "If"
+      "name": "Limit erreicht?"
     },
     {
       "parameters": {
@@ -75,7 +77,7 @@
       "typeVersion": 1.9,
       "position": [688, 200],
       "id": "b7fbd4f3-c295-4712-97f9-5cc0171edd3a",
-      "name": "Basic LLM Chain"
+      "name": "E-Mail per KI analysieren"
     },
     {
       "parameters": {
@@ -107,7 +109,7 @@
       "typeVersion": 2.1,
       "position": [752, -96],
       "id": "3cb5ec3c-77f7-49d5-87cf-1fee7f79a50d",
-      "name": "Send an Email",
+      "name": "Limit-Hinweis senden",
       "credentials": {
         "smtp": {
           "id": "EzoF48HcgxSZmMxH",
@@ -123,7 +125,7 @@
       "typeVersion": 2,
       "position": [1040, 200],
       "id": "0cdbf797-c6de-4d7e-8ea9-2c0fd888594c",
-      "name": "Code in JavaScript1"
+      "name": "API-Payload aufbereiten"
     },
     {
       "parameters": {
@@ -177,7 +179,7 @@
       "typeVersion": 4.4,
       "position": [1264, 200],
       "id": "f26cdafb-4df3-4452-82af-127c9512f3af",
-      "name": "HTTP Request",
+      "name": "Ticket in Join erstellen",
       "onError": "continueRegularOutput"
     },
     {
@@ -209,21 +211,21 @@
       "typeVersion": 2.3,
       "position": [1488, 200],
       "id": "a12da814-a2eb-414d-bb20-0cd31a48c511",
-      "name": "If1"
+      "name": "Ticket erfolgreich?"
     },
     {
       "parameters": {
         "fromEmail": "issue-collector@marcus-hartmann.net",
-        "toEmail": "={{ $('Code in JavaScript1').first().json.creator_email }}",
+        "toEmail": "={{ $('API-Payload aufbereiten').first().json.creator_email }}",
         "subject": "Ihr Ticket wurde erstellt",
-        "html": "=Vielen Dank für Ihre Nachricht!<br><br>Ihr Ticket \"{{ $('Code in JavaScript1').first().json.title }}\" wurde erfolgreich erstellt und wird von unserem Team bearbeitet.<br><br>Das Join-Team",
+        "html": "=Vielen Dank für Ihre Nachricht!<br><br>Ihr Ticket \"{{ $('API-Payload aufbereiten').first().json.title }}\" wurde erfolgreich erstellt und wird von unserem Team bearbeitet.<br><br>Das Join-Team",
         "options": {}
       },
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
       "position": [1712, 104],
       "id": "8ebc93fe-de2e-4743-a16e-0a59d00ab4a0",
-      "name": "Confirmation Mail",
+      "name": "Bestätigungsmail senden",
       "credentials": {
         "smtp": {
           "id": "EzoF48HcgxSZmMxH",
@@ -235,7 +237,7 @@
     {
       "parameters": {
         "fromEmail": "issue-collector@marcus-hartmann.net",
-        "toEmail": "={{ $('Code in JavaScript1').first().json.creator_email }}",
+        "toEmail": "={{ $('API-Payload aufbereiten').first().json.creator_email }}",
         "subject": "Fehler bei der Ticket-Erstellung",
         "html": "Vielen Dank für Ihre Nachricht.<br><br>Leider konnte Ihr Ticket nicht automatisch erstellt werden.<br>Unser Team wurde benachrichtigt und wird Ihre Anfrage manuell bearbeiten.<br><br>Das Join-Team",
         "options": {}
@@ -244,7 +246,7 @@
       "typeVersion": 2.1,
       "position": [1712, 296],
       "id": "1551bb44-ee74-46e3-aa77-7e7656adac31",
-      "name": "Error Mail",
+      "name": "Fehlermail senden",
       "credentials": {
         "smtp": {
           "id": "EzoF48HcgxSZmMxH",
@@ -292,36 +294,36 @@
       "main": [
         [
           {
-            "node": "Code in JavaScript",
+            "node": "Tageslimit prüfen",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Code in JavaScript": {
+    "Tageslimit prüfen": {
       "main": [
         [
           {
-            "node": "If",
+            "node": "Limit erreicht?",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "If": {
+    "Limit erreicht?": {
       "main": [
         [
           {
-            "node": "Send an Email",
+            "node": "Limit-Hinweis senden",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Basic LLM Chain",
+            "node": "E-Mail per KI analysieren",
             "type": "main",
             "index": 0
           }
@@ -332,65 +334,65 @@
       "ai_languageModel": [
         [
           {
-            "node": "Basic LLM Chain",
+            "node": "E-Mail per KI analysieren",
             "type": "ai_languageModel",
             "index": 0
           }
         ]
       ]
     },
-    "Basic LLM Chain": {
+    "E-Mail per KI analysieren": {
       "main": [
         [
           {
-            "node": "Code in JavaScript1",
+            "node": "API-Payload aufbereiten",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Code in JavaScript1": {
+    "API-Payload aufbereiten": {
       "main": [
         [
           {
-            "node": "HTTP Request",
+            "node": "Ticket in Join erstellen",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "HTTP Request": {
+    "Ticket in Join erstellen": {
       "main": [
         [
           {
-            "node": "If1",
+            "node": "Ticket erfolgreich?",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "If1": {
+    "Ticket erfolgreich?": {
       "main": [
         [
           {
-            "node": "Confirmation Mail",
+            "node": "Bestätigungsmail senden",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Error Mail",
+            "node": "Fehlermail senden",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Confirmation Mail": {
+    "Bestätigungsmail senden": {
       "main": [
         [
           {
@@ -408,7 +410,7 @@
         ]
       ]
     },
-    "Error Mail": {
+    "Fehlermail senden": {
       "main": [
         [
           {
@@ -419,7 +421,7 @@
         ]
       ]
     },
-    "Send an Email": {
+    "Limit-Hinweis senden": {
       "main": [
         [
           {

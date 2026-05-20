@@ -38,6 +38,7 @@ async function getSummaryData() {
     inProgress: allTasks.filter((t) => t.status === "in-progress").length,
     awaitingFeedback: allTasks.filter((t) => t.status === "awaiting-feedback")
       .length,
+    triage: allTasks.filter((t) => t.status === "triage").length,
     total: allTasks.length,
     urgent: urgentTasks.length,
     nextDeadline,
@@ -151,6 +152,23 @@ function StatCard({
   );
 }
 
+function EmailRequestsCard({ count }: { count: number }) {
+  return (
+    <Link
+      href="/board"
+      className={`${cardBase} flex flex-col items-center justify-center shrink-0 h-[110px] lg:size-[168px]`}
+    >
+      <span className="text-[47px] lg:text-[64px] font-semibold leading-[1.2] text-transparent bg-gradient-to-b from-[#8933fc] to-[#29abe2] bg-clip-text group-hover:text-white group-hover:bg-none">
+        {count}
+      </span>
+      <div className="text-[14px] lg:text-[20px] font-normal text-navy group-hover:text-white text-center leading-[1.2]">
+        <p>Email</p>
+        <p>requests</p>
+      </div>
+    </Link>
+  );
+}
+
 function UrgencyCard({
   count,
   deadline,
@@ -161,7 +179,7 @@ function UrgencyCard({
   return (
     <Link
       href="/board"
-      className={`${cardBase} flex items-center justify-center gap-[24px] lg:gap-[61px] h-[110px] lg:h-[168px] px-4 lg:px-12`}
+      className={`${cardBase} flex-1 flex items-center justify-center gap-[24px] lg:gap-[61px] h-[110px] lg:h-[168px] px-4 lg:px-12`}
     >
       <div className="flex items-center gap-[12px] lg:gap-[18px]">
         <UrgentCircleIcon />
@@ -247,7 +265,10 @@ export default async function SummaryPage() {
               label="Done"
             />
           </div>
-          <UrgencyCard count={data.urgent} deadline={data.nextDeadline} />
+          <div className="flex gap-6 lg:gap-7">
+            <UrgencyCard count={data.urgent} deadline={data.nextDeadline} />
+            <EmailRequestsCard count={data.triage} />
+          </div>
           <div className="flex gap-6 lg:gap-7">
             <MiniStatCard
               href="/board"
