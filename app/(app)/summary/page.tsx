@@ -156,7 +156,7 @@ function EmailRequestsCard({ count }: { count: number }) {
   return (
     <Link
       href="/board"
-      className={`${cardBase} flex flex-col items-center justify-center shrink-0 w-[110px] lg:w-[168px] h-[110px] lg:h-[168px]`}
+      className={`${cardBase} flex flex-col items-center justify-center shrink-0 w-[110px] lg:w-[168px] h-full`}
     >
       <span className="text-[47px] lg:text-[64px] font-semibold leading-[1.2] text-transparent bg-gradient-to-b from-[#8933fc] to-[#29abe2] bg-clip-text group-hover:text-white group-hover:bg-none">
         {count}
@@ -179,7 +179,7 @@ function UrgencyCard({
   return (
     <Link
       href="/board"
-      className={`${cardBase} flex-1 flex items-center justify-center gap-[16px] h-[110px] lg:h-[168px] px-4 lg:px-12`}
+      className={`${cardBase} flex-1 flex items-center justify-center gap-[16px] h-full px-4 lg:px-12`}
     >
       <div className="flex items-center gap-[12px] lg:gap-[18px]">
         <UrgentCircleIcon />
@@ -265,7 +265,7 @@ export default async function SummaryPage() {
               label="Done"
             />
           </div>
-          <div className="flex gap-6 lg:gap-7">
+          <div className="flex gap-6 lg:gap-7 h-[110px] lg:h-[168px]">
             <UrgencyCard count={data.urgent} deadline={data.nextDeadline} />
             <EmailRequestsCard count={data.triage} />
           </div>
