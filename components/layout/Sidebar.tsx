@@ -52,6 +52,7 @@ function NavLink({ href, label, icon }: NavItem) {
 }
 
 export default function Sidebar() {
+  const pathname = usePathname();
   return (
     <aside className="hidden lg:flex fixed top-0 left-0 h-full w-58 bg-navy flex-col z-40">
       <div className="px-14 pt-17 pb-14">
@@ -64,12 +65,17 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      <nav className="flex flex-col gap-1 pl-13 pb-10">
+      <nav className="flex flex-col pb-10">
         {bottomNav.map(({ href, label }) => (
           <Link
             key={href}
             href={href}
-            className="p-2 text-base font-normal text-muted hover:text-white transition-colors duration-100"
+            className={[
+              "px-15 py-2 text-base font-normal transition-colors duration-100",
+              pathname === href
+                ? "bg-[#091931] text-muted"
+                : "text-muted hover:text-white",
+            ].join(" ")}
           >
             {label}
           </Link>
