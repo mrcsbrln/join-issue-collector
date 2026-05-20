@@ -56,7 +56,7 @@ function getGreeting(): string {
 
 function formatDeadline(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString("en-US", {
-    month: "long",
+    month: "short",
     day: "numeric",
     year: "numeric",
   });
@@ -101,9 +101,9 @@ function DoneCircleIcon() {
 
 function UrgentCircleIcon() {
   return (
-    <div className="size-[40px] lg:size-[60px] rounded-full bg-priority-urgent flex items-center justify-center shrink-0">
+    <div className="size-[28px] lg:size-[60px] rounded-full bg-priority-urgent flex items-center justify-center shrink-0">
       <svg
-        className="w-[22px] h-[16px] lg:w-[35px] lg:h-[26px]"
+        className="w-[14px] h-[10px] lg:w-[35px] lg:h-[26px]"
         viewBox="0 0 35 26"
         fill="none"
       >
@@ -179,25 +179,25 @@ function UrgencyCard({
   return (
     <Link
       href="/board"
-      className={`${cardBase} flex-1 min-w-0 flex items-center justify-center gap-[16px] h-full px-4 lg:px-12`}
+      className={`${cardBase} flex-1 min-w-0 flex items-center justify-center gap-[4px] lg:gap-[16px] h-full px-4 lg:px-12`}
     >
-      <div className="flex items-center gap-[12px] lg:gap-[18px]">
+      <div className="flex items-center gap-[4px] lg:gap-[18px] shrink-0">
         <UrgentCircleIcon />
         <div className="flex flex-col items-center">
-          <span className="text-[47px] lg:text-[64px] font-semibold leading-[1.2] text-black group-hover:text-white w-[50px] text-center">
+          <span className="text-[28px] lg:text-[64px] font-semibold leading-[1.2] text-black group-hover:text-white w-[32px] lg:w-[50px] text-center">
             {count}
           </span>
-          <span className="text-[16px] font-normal text-navy group-hover:text-white">
+          <span className="text-[11px] lg:text-[16px] font-normal text-navy group-hover:text-white">
             Urgent
           </span>
         </div>
       </div>
-      <div className="w-px h-[70px] lg:h-[102px] bg-border group-hover:bg-white/30 shrink-0" />
-      <div className="flex flex-col gap-[8px] lg:gap-[13px]">
-        <span className="text-[16px] lg:text-[21px] font-bold text-navy group-hover:text-white leading-[1.2] whitespace-nowrap">
+      <div className="w-px h-[68px] lg:h-[102px] bg-border group-hover:bg-white/30 shrink-0" />
+      <div className="flex flex-col gap-[4px] lg:gap-[13px] min-w-0 max-w-[80px] lg:max-w-none">
+        <span className="text-[11px] lg:text-[21px] font-bold text-navy group-hover:text-white leading-[1.2]">
           {deadline ? formatDeadline(deadline) : "No deadline"}
         </span>
-        <span className="text-[16px] font-normal text-navy group-hover:text-white whitespace-nowrap">
+        <span className="text-[11px] lg:text-[16px] font-normal text-navy group-hover:text-white">
           Upcoming Deadline
         </span>
       </div>
