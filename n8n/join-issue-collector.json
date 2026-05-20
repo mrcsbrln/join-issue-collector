@@ -254,7 +254,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const { ImapFlow } = require('imapflow');\nconst uid = $('Email Trigger (IMAP)').first().json.uid;\n\nconst client = new ImapFlow({\n  host: 'w01fb947.kasserver.com',\n  port: 993,\n  secure: true,\n  auth: {\n    user: 'issue-collector@marcus-hartmann.net',\n    pass: $vars.IMAP_PASSWORD\n  },\n  logger: false\n});\n\nawait client.connect();\nawait client.mailboxOpen('INBOX');\nawait client.messageMove([uid], 'erledigt', { uid: true });\nawait client.logout();\n\nreturn $input.all();"
+        "jsCode": "const { ImapFlow } = require('imapflow');\nconst uid = $('Email Trigger (IMAP)').first().json.uid;\n\nconst client = new ImapFlow({\n  host: 'w01fb947.kasserver.com',\n  port: 993,\n  secure: true,\n  auth: {\n    user: 'issue-collector@marcus-hartmann.net',\n    pass: process.env.IMAP_PASSWORD\n  },\n  logger: false\n});\n\nawait client.connect();\nawait client.mailboxOpen('INBOX');\nawait client.messageMove([uid], 'erledigt', { uid: true });\nawait client.logout();\n\nreturn $input.all();"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -265,7 +265,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const { ImapFlow } = require('imapflow');\nconst uid = $('Email Trigger (IMAP)').first().json.uid;\n\nconst client = new ImapFlow({\n  host: 'w01fb947.kasserver.com',\n  port: 993,\n  secure: true,\n  auth: {\n    user: 'issue-collector@marcus-hartmann.net',\n    pass: $vars.IMAP_PASSWORD\n  },\n  logger: false\n});\n\nawait client.connect();\nawait client.mailboxOpen('INBOX');\nawait client.messageMove([uid], 'zu bearbeiten', { uid: true });\nawait client.logout();\n\nreturn $input.all();"
+        "jsCode": "const { ImapFlow } = require('imapflow');\nconst uid = $('Email Trigger (IMAP)').first().json.uid;\n\nconst client = new ImapFlow({\n  host: 'w01fb947.kasserver.com',\n  port: 993,\n  secure: true,\n  auth: {\n    user: 'issue-collector@marcus-hartmann.net',\n    pass: process.env.IMAP_PASSWORD\n  },\n  logger: false\n});\n\nawait client.connect();\nawait client.mailboxOpen('INBOX');\nawait client.messageMove([uid], 'zu bearbeiten', { uid: true });\nawait client.logout();\n\nreturn $input.all();"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -276,7 +276,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const { ImapFlow } = require('imapflow');\nconst uid = $('Email Trigger (IMAP)').first().json.uid;\n\nconst client = new ImapFlow({\n  host: 'w01fb947.kasserver.com',\n  port: 993,\n  secure: true,\n  auth: {\n    user: 'issue-collector@marcus-hartmann.net',\n    pass: $vars.IMAP_PASSWORD\n  },\n  logger: false\n});\n\nawait client.connect();\nawait client.mailboxOpen('INBOX');\nawait client.messageMove([uid], 'zu bearbeiten', { uid: true });\nawait client.logout();\n\nreturn $input.all();"
+        "jsCode": "const { ImapFlow } = require('imapflow');\nconst uid = $('Email Trigger (IMAP)').first().json.uid;\n\nconst client = new ImapFlow({\n  host: 'w01fb947.kasserver.com',\n  port: 993,\n  secure: true,\n  auth: {\n    user: 'issue-collector@marcus-hartmann.net',\n    pass: process.env.IMAP_PASSWORD\n  },\n  logger: false\n});\n\nawait client.connect();\nawait client.mailboxOpen('INBOX');\nawait client.messageMove([uid], 'zu bearbeiten', { uid: true });\nawait client.logout();\n\nreturn $input.all();"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
