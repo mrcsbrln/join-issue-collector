@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { getDailyLimitStatus } from "@/lib/dailyLimit";
 
 interface TaskBody {
   title: string;
@@ -52,33 +53,19 @@ function buildTaskPayload(body: TaskBody) {
   };
 }
 
-const DAILY_LIMIT = 10;
-
 export async function GET(request: NextRequest) {
   if (!validateApiKey(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const supabase = getSupabaseAdmin();
-  const today = new Date().toISOString().split("T")[0];
-  const { count, error } = await supabase
-    .from("tasks")
-    .select("*", { count: "exact", head: true })
-    .eq("creator_type", "external")
-    .gte("created_at", `${today}T00:00:00.000Z`)
-    .lt("created_at", `${today}T23:59:59.999Z`);
-  if (error) {
+  try {
+    const status = await getDailyLimitStatus();
+    return NextResponse.json(status);
+  } catch {
     return NextResponse.json(
-      { error: "Failed to count tasks", detail: error.message },
+      { error: "Failed to count tasks" },
       { status: 500 },
     );
   }
-  const dailyCount = count ?? 0;
-  return NextResponse.json({
-    date: today,
-    count: dailyCount,
-    limit: DAILY_LIMIT,
-    limitReached: dailyCount >= DAILY_LIMIT,
-  });
 }
 
 export async function POST(request: NextRequest) {

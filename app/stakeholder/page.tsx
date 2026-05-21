@@ -1,24 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { createClient } from "@supabase/supabase-js";
 import JoinLogo from "@/components/ui/JoinLogo";
-
-const DAILY_LIMIT = 10;
-
-async function getTodayCount(): Promise<number> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) return 0;
-  const supabase = createClient(url, key);
-  const today = new Date().toISOString().split("T")[0];
-  const { count } = await supabase
-    .from("tasks")
-    .select("id", { count: "exact", head: true })
-    .eq("creator_type", "external")
-    .gte("created_at", `${today}T00:00:00`)
-    .lt("created_at", `${today}T23:59:59`);
-  return count ?? 0;
-}
+import { getDailyLimitStatus } from "@/lib/dailyLimit";
 
 function BackArrowIcon() {
   return (
@@ -61,8 +44,11 @@ function CheckIcon() {
 }
 
 export default async function StakeholderPage() {
-  const todayCount = await getTodayCount();
-  const limitReached = todayCount >= DAILY_LIMIT;
+  const {
+    count: todayCount,
+    limit: DAILY_LIMIT,
+    limitReached,
+  } = await getDailyLimitStatus();
   const counterColor = limitReached ? "text-[#ff3d00]" : "text-[#29abe2]";
   const mailtoHref = `mailto:issue-collector@marcus-hartmann.net`;
 
