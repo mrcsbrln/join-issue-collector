@@ -206,7 +206,7 @@ export default function TaskDetailModal({
                 </div>
 
                 {/* Title */}
-                <h2 className="text-[35px] lg:text-[61px] font-bold leading-[1.2] text-black">
+                <h2 className="text-[35px] lg:text-[61px] font-bold leading-[1.2] text-black wrap-break-word">
                   {currentTask.title}
                 </h2>
 
