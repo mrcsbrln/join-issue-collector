@@ -156,17 +156,28 @@
       }
     },
     {
-      "parameters": {
-        "jsCode": "const staticData = $getWorkflowStaticData(\"global\");\nconst today = new Date().toISOString().split(\"T\")[0];\n\nif (staticData.date !== today) {\n  staticData.date = today;\n  staticData.count = 0;\n}\n\nstaticData.count += 1;\n\nreturn [{\n  json: {\n    count: staticData.count,\n    limitReached: staticData.count > 10,\n    ...($input.first().json)\n  }\n}];"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "id": "3381e8b4-e957-4a37-9c94-1a974857b08c",
+      "name": "Limit Check",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         -560,
         432
       ],
-      "id": "3381e8b4-e957-4a37-9c94-1a974857b08c",
-      "name": "Limit Check"
+      "parameters": {
+        "method": "GET",
+        "url": "https://join-issue-collector.vercel.app/api/tasks",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "7e0a3e0aa25636bf0ef9433ef51af0b57ef54f83083f4d72b8f91f8a591e1560"
+            }
+          ]
+        },
+        "options": {}
+      }
     },
     {
       "parameters": {
