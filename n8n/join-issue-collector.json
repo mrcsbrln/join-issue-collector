@@ -7,7 +7,10 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1136, 480],
+      "position": [
+        1136,
+        480
+      ],
       "id": "ab8733fb-0638-4621-b0cc-3797c795daa8",
       "name": "Move to Erledigt",
       "onError": "continueErrorOutput"
@@ -18,7 +21,10 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1136, 672],
+      "position": [
+        1136,
+        672
+      ],
       "id": "55b20915-3980-4561-a933-91803dc1ea24",
       "name": "Move zu bearbeiten",
       "onError": "continueErrorOutput"
@@ -29,7 +35,10 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [176, 272],
+      "position": [
+        176,
+        272
+      ],
       "id": "a07ad971-668b-4268-b4d3-973b44c50e78",
       "name": "Move zu bearbeiten Limit",
       "onError": "continueErrorOutput"
@@ -44,7 +53,10 @@
       },
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
-      "position": [912, 480],
+      "position": [
+        912,
+        480
+      ],
       "id": "e11ca7f9-8ae4-41d6-b602-2fbcb7a6d378",
       "name": "Confirmation Mail1",
       "webhookId": "9a93f195-e044-4387-b9b3-244abbc8e8ad",
@@ -66,7 +78,10 @@
       },
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
-      "position": [912, 672],
+      "position": [
+        912,
+        672
+      ],
       "id": "3d6f5866-3e6a-4b9d-9b26-a690347b956e",
       "name": "Error Mail1",
       "webhookId": "c946e98a-a465-44eb-9273-7206426c5549",
@@ -83,7 +98,10 @@
       },
       "type": "n8n-nodes-base.emailReadImap",
       "typeVersion": 2.1,
-      "position": [-784, 432],
+      "position": [
+        -784,
+        432
+      ],
       "id": "0fee0a66-42ac-46c0-a795-d397ccba5c57",
       "name": "Email Trigger (IMAP)",
       "credentials": {
@@ -104,7 +122,10 @@
       },
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
-      "position": [-48, 272],
+      "position": [
+        -48,
+        272
+      ],
       "id": "61dc890b-fcec-475f-844f-6bf741a73c2f",
       "name": "Send an Email",
       "webhookId": "8231331c-082b-4974-8bbb-d5f3f75507a7",
@@ -121,7 +142,10 @@
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
       "typeVersion": 1,
-      "position": [-48, 800],
+      "position": [
+        -48,
+        800
+      ],
       "id": "d9813a4e-a96b-4db7-850f-e618ee4cc604",
       "name": "Mistral Cloud Chat Model",
       "credentials": {
@@ -137,7 +161,10 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [-560, 432],
+      "position": [
+        -560,
+        432
+      ],
       "id": "3381e8b4-e957-4a37-9c94-1a974857b08c",
       "name": "Limit Check"
     },
@@ -168,7 +195,10 @@
       },
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
-      "position": [-336, 432],
+      "position": [
+        -336,
+        432
+      ],
       "id": "70d85d31-e251-45b9-be41-7f00454b0ca9",
       "name": "If Limit"
     },
@@ -179,7 +209,7 @@
         "messages": {
           "messageValues": [
             {
-              "message": "Du bist ein Assistent, der E-Mails in strukturierte Tickets umwandelt. Analysiere diese E-Mail und antworte NUR mit einem validen JSON-Objekt (kein Markdown, keine Erklärung, kein Text darum):\n\n{\"title\": \"Prägnanter Titel (max 60 Zeichen)\", \"description\": \"Vollständige Beschreibung\", \"category\": \"Technical Task oder User Story\", \"priority\": \"urgent oder medium oder low\", \"due_date\": \"YYYY-MM-DD oder null\"}\n\nRegeln für priority:\n- urgent: Wörter wie dringend, kritisch, sofort, asap, urgent\n- low: Wörter wie irgendwann, nice to have, optional\n- medium: alles andere"
+              "message": "Du bist ein Assistent, der E-Mails in strukturierte Tickets umwandelt. Analysiere diese E-Mail und antworte NUR mit einem validen JSON-Objekt (kein Markdown, keine Erklärung, kein Text darum):\n\n{\"title\": \"Prägnanter Titel (max 60 Zeichen)\", \"description\": \"Vollständige Beschreibung\", \"category\": \"Technical Task oder User Story\", \"priority\": \"urgent oder medium oder low\", \"due_date\": \"YYYY-MM-DD oder null\", \"subtasks\": [\"Schritt 1\", \"Schritt 2\"]}\n\nRegeln für priority:\n- urgent: Wörter wie dringend, kritisch, sofort, asap, urgent\n- low: Wörter wie irgendwann, nice to have, optional\n- medium: alles andere\n\nRegeln für subtasks:\n- Liste von 2–5 konkreten Arbeitsschritten, die zur Umsetzung nötig sind\n- Jeder Schritt max 60 Zeichen, als Infinitiv formuliert\n- Leeres Array [] wenn keine sinnvollen Schritte ableitbar"
             }
           ]
         },
@@ -187,17 +217,23 @@
       },
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.9,
-      "position": [-112, 576],
+      "position": [
+        -112,
+        576
+      ],
       "id": "b5bc5588-bbcc-480d-976b-de192de1777c",
       "name": "Basic LLM Chain"
     },
     {
       "parameters": {
-        "jsCode": "const output = $input.first().json;\nconst raw = output.text ?? output.output ?? output.response ?? JSON.stringify(output);\nconst jsonMatch = raw.match(/\\{[\\s\\S]*\\}/);\nif (!jsonMatch) throw new Error(\"No JSON found in LLM response\");\n\nconst parsed = JSON.parse(jsonMatch[0]);\n\nconst fromRaw = $('Email Trigger (IMAP)').first().json.from;\nconst creator_email = typeof fromRaw === 'string'\n  ? (fromRaw.match(/<(.+?)>/) || [null, fromRaw])[1]\n  : fromRaw?.value?.[0]?.address;\n\nreturn [{\n  json: {\n    title: parsed.title,\n    description: parsed.description ?? \"\",\n    category: parsed.category,\n    priority: parsed.priority,\n    due_date: parsed.due_date ?? null,\n    creator_email\n  }\n}];"
+        "jsCode": "const output = $input.first().json;\nconst raw = output.text ?? output.output ?? output.response ?? JSON.stringify(output);\nconst jsonMatch = raw.match(/\\{[\\s\\S]*\\}/);\nif (!jsonMatch) throw new Error(\"No JSON found in LLM response\");\n\nconst parsed = JSON.parse(jsonMatch[0]);\n\nconst fromRaw = $('Email Trigger (IMAP)').first().json.from;\nconst creator_email = typeof fromRaw === 'string'\n  ? (fromRaw.match(/<(.+?)>/) || [null, fromRaw])[1]\n  : fromRaw?.value?.[0]?.address;\n\nreturn [{\n  json: {\n    title: parsed.title,\n    description: parsed.description ?? \"\",\n    category: parsed.category,\n    priority: parsed.priority,\n    due_date: parsed.due_date ?? null,\n    subtasks: Array.isArray(parsed.subtasks) ? parsed.subtasks : [],\n    creator_email\n  }\n}];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [240, 576],
+      "position": [
+        240,
+        576
+      ],
       "id": "560c89cb-5dc8-443b-b360-f3253785f9cd",
       "name": "Parse LLM Response"
     },
@@ -219,39 +255,16 @@
           ]
         },
         "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "title",
-              "value": "={{ $json.title }}"
-            },
-            {
-              "name": "description",
-              "value": "={{ $json.description }}"
-            },
-            {
-              "name": "category",
-              "value": "={{ $json.category }}"
-            },
-            {
-              "name": "priority",
-              "value": "={{ $json.priority }}"
-            },
-            {
-              "name": "due_date",
-              "value": "={{ $json.due_date }}"
-            },
-            {
-              "name": "creator_email",
-              "value": "={{ $json.creator_email }}"
-            }
-          ]
-        },
-        "options": {}
+        "options": {},
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ title: $json.title, description: $json.description, category: $json.category, priority: $json.priority, due_date: $json.due_date, creator_email: $json.creator_email, subtasks: $json.subtasks }) }}"
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
-      "position": [464, 576],
+      "position": [
+        464,
+        576
+      ],
       "id": "5dbd3d7f-f819-4235-af4f-0e9b2fa054d1",
       "name": "HTTP Post Request",
       "onError": "continueRegularOutput"
@@ -283,7 +296,10 @@
       },
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
-      "position": [688, 576],
+      "position": [
+        688,
+        576
+      ],
       "id": "b9b9605c-05ef-4d0b-a154-ac0a10646e10",
       "name": "If Success"
     }

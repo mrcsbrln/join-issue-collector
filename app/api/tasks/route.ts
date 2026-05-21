@@ -8,6 +8,7 @@ interface TaskBody {
   priority: "urgent" | "medium" | "low";
   due_date: string;
   creator_email: string;
+  subtasks?: string[];
 }
 
 function getSupabaseAdmin() {
@@ -72,6 +73,15 @@ export async function POST(request: NextRequest) {
       { error: "Failed to create task", detail: error?.message },
       { status: 500 },
     );
+  }
+  if (body.subtasks && body.subtasks.length > 0) {
+    const subtaskRows = body.subtasks.map((title, index) => ({
+      task_id: data.id,
+      title: String(title).trim(),
+      completed: false,
+      position: index,
+    }));
+    await supabase.from("subtasks").insert(subtaskRows);
   }
   return NextResponse.json({ id: data.id }, { status: 201 });
 }
