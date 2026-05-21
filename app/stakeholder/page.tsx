@@ -62,40 +62,42 @@ export default async function StakeholderPage() {
       </div>
 
       {/* Content */}
-      <div className="flex flex-col gap-[56px] items-center mx-auto w-full max-w-[1121px] px-4 pt-[85px] pb-[100px]">
+      <div className="flex flex-col gap-8 lg:gap-[56px] items-center mx-auto w-full max-w-[1121px] px-4 pt-[85px] pb-[60px] lg:pb-[100px]">
         {/* Top bar: back arrow + counter */}
-        <div className="flex items-center justify-between w-full">
+        <div className="flex items-center justify-between w-full gap-4">
           <Link
             href="/"
-            className="flex items-center justify-center size-[37px] cursor-pointer hover:opacity-70 transition-opacity duration-100"
+            className="flex items-center justify-center size-[37px] shrink-0 cursor-pointer hover:opacity-70 transition-opacity duration-100"
             aria-label="Zurück"
           >
             <BackArrowIcon />
           </Link>
-          <p className={`text-[19px] leading-[1.2] ${counterColor}`}>
+          <p
+            className={`text-[13px] lg:text-[19px] leading-[1.2] text-right ${counterColor}`}
+          >
             <strong>{Math.min(todayCount, DAILY_LIMIT)}</strong> of{" "}
             <strong>{DAILY_LIMIT}</strong> requests used today
           </p>
         </div>
 
         {/* Main content */}
-        <div className="flex flex-col gap-[48px] items-center w-full">
-          <h1 className="font-bold text-[64px] leading-[1.2] text-[#2a3647] text-center">
+        <div className="flex flex-col gap-8 lg:gap-[48px] items-center w-full">
+          <h1 className="font-bold text-[40px] lg:text-[64px] leading-[1.2] text-[#2a3647] text-center">
             Welcome
           </h1>
 
-          <div className="flex flex-col lg:flex-row gap-[48px] items-start w-full max-w-[964px]">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-[48px] items-start w-full max-w-[964px]">
             {/* Left: text + CTA */}
-            <div className="flex flex-col gap-[40px] items-start flex-1">
+            <div className="flex flex-col gap-6 lg:gap-[40px] items-start flex-1 w-full">
               {limitReached ? (
                 <>
                   <div className="bg-[rgba(255,210,210,0.52)] flex items-center justify-center px-[24px] py-[16px] rounded-[8px] w-full">
-                    <p className="font-medium text-[20px] leading-[1.2] text-[#2a3647] text-center">
+                    <p className="font-medium text-[16px] lg:text-[20px] leading-[1.2] text-[#2a3647] text-center">
                       The daily 10-request limit has been reached!
                     </p>
                   </div>
                   <div className="flex flex-col gap-[16px]">
-                    <p className="text-[19px] leading-[1.2] text-[#2a3647] text-justify max-w-[502px]">
+                    <p className="text-[15px] lg:text-[19px] leading-[1.2] text-[#2a3647] text-justify">
                       Need more? No worries — you can still send emails, but our
                       team will review them manually instead of using AI to
                       create tickets.
@@ -103,12 +105,25 @@ export default async function StakeholderPage() {
                   </div>
                 </>
               ) : (
-                <div className="flex flex-col gap-[40px]">
-                  <p className="text-[28px] leading-[1.2] text-[#42526e]">
+                <div className="flex flex-col gap-6 lg:gap-[40px] w-full">
+                  <p className="text-[20px] lg:text-[28px] leading-[1.2] text-[#42526e]">
                     Easily create a ticket by sending an email — no extra steps
                     needed.
                   </p>
-                  <div className="flex flex-col gap-[16px] text-[19px] leading-[1.2] text-[#42526e] text-justify max-w-[502px]">
+
+                  {/* Illustration — mobile only, between subtitle and body text */}
+                  <div className="lg:hidden flex justify-center">
+                    <Image
+                      src="/stakeholder-illustration.png"
+                      alt="Kanban board illustration"
+                      width={292}
+                      height={201}
+                      className="object-contain rounded-[8px] w-full max-w-[292px]"
+                      loading="eager"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-[16px] text-[15px] lg:text-[19px] leading-[1.2] text-[#42526e] text-justify lg:max-w-[502px]">
                     <p>
                       On this platform, you can submit your feature requests via
                       email. Our AI system will automatically generate a ticket
@@ -125,14 +140,14 @@ export default async function StakeholderPage() {
 
               <a
                 href={mailtoHref}
-                className="bg-[#29abe2] text-white text-[23px] leading-[1.2] flex items-center gap-[4px] h-[60px] px-[18px] py-[16px] rounded-[10px] cursor-pointer hover:bg-[#1a8cc0] transition-colors duration-100"
+                className="bg-[#29abe2] text-white text-[18px] lg:text-[23px] leading-[1.2] flex items-center gap-[4px] h-[52px] lg:h-[60px] px-[18px] py-[14px] lg:py-[16px] rounded-[10px] cursor-pointer hover:bg-[#1a8cc0] transition-colors duration-100 shrink-0"
               >
                 {limitReached ? "Send an email" : "Create Email Request"}
                 <CheckIcon />
               </a>
             </div>
 
-            {/* Right: illustration */}
+            {/* Right: illustration — desktop only */}
             <div className="hidden lg:block shrink-0">
               <Image
                 src={
