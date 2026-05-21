@@ -189,20 +189,20 @@ export default function TaskDetailModal({
             ) : (
               <div className="flex flex-col gap-6">
                 {/* Header row */}
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-center justify-between gap-2">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex flex-col lg:flex-row lg:items-center gap-2">
                     <CategoryBadge category={currentTask.category} />
-                    <button
-                      type="button"
-                      onClick={onClose}
-                      className="text-navy hover:text-blue transition-colors duration-100 cursor-pointer border-0 bg-transparent shrink-0"
-                    >
-                      <CloseIcon />
-                    </button>
+                    {currentTask.creator_type === "external" && (
+                      <AiGeneratedBadge />
+                    )}
                   </div>
-                  {currentTask.creator_type === "external" && (
-                    <AiGeneratedBadge />
-                  )}
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="text-navy hover:text-blue transition-colors duration-100 cursor-pointer border-0 bg-transparent shrink-0"
+                  >
+                    <CloseIcon />
+                  </button>
                 </div>
 
                 {/* Title */}
