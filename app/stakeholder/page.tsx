@@ -3,6 +3,8 @@ import Link from "next/link";
 import JoinLogo from "@/components/ui/JoinLogo";
 import { getDailyLimitStatus } from "@/lib/dailyLimit";
 
+export const dynamic = "force-dynamic";
+
 function BackArrowIcon() {
   return (
     <svg
