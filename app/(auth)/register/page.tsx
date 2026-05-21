@@ -95,7 +95,7 @@ export default function RegisterPage() {
       </header>
 
       <main className="flex-1 flex items-center justify-center px-4 py-8">
-        <div className="bg-white rounded-[30px] shadow-card w-full max-w-120 px-12 py-10">
+        <div className="bg-white rounded-[30px] shadow-card w-full max-w-120 px-5 py-8 lg:px-12 lg:py-10">
           <div className="flex items-center justify-center gap-4 mb-2">
             <Link
               href="/login"
