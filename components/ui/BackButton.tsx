@@ -1,6 +1,4 @@
-"use client";
-
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 function ArrowLeftIcon() {
   return (
@@ -23,15 +21,13 @@ function ArrowLeftIcon() {
 }
 
 export default function BackButton() {
-  const router = useRouter();
   return (
-    <button
-      type="button"
-      onClick={() => router.back()}
-      className="flex items-center justify-center size-[37px] shrink-0 cursor-pointer hover:opacity-70 transition-opacity duration-100 border-0 bg-transparent"
+    <Link
+      href="/stakeholder"
+      className="flex items-center justify-center size-[37px] shrink-0 hover:opacity-70 transition-opacity duration-100"
       aria-label="Zurück"
     >
       <ArrowLeftIcon />
-    </button>
+    </Link>
   );
 }
