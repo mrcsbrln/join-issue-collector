@@ -1,4 +1,5 @@
 import StaticPageShell from "@/components/layout/StaticPageShell";
+import BackButton from "@/components/ui/BackButton";
 
 function Join() {
   return <span className="text-[#29abe2]">Join</span>;
@@ -11,9 +12,12 @@ function DevAkademie() {
 export default function LegalNoticePage() {
   return (
     <StaticPageShell>
-      <h1 className="text-[47px] lg:text-[61px] font-bold leading-[1.2] text-black mb-8 lg:mb-[35px]">
-        Legal Notice
-      </h1>
+      <div className="flex items-start justify-between mb-8 lg:mb-[35px]">
+        <h1 className="text-[47px] lg:text-[61px] font-bold leading-[1.2] text-black">
+          Legal Notice
+        </h1>
+        <BackButton />
+      </div>
 
       <div className="flex flex-col gap-[35px] max-w-[1014px] text-black text-[16px] leading-[1.2]">
         <div className="flex flex-col gap-[10px]">
