@@ -9,6 +9,7 @@ function WorkIcon() {
       viewBox="0 0 24 24"
       fill="none"
       aria-hidden="true"
+      className="shrink-0"
     >
       <rect
         x="2"
@@ -36,6 +37,7 @@ function TeamIcon() {
       viewBox="0 0 25 20"
       fill="none"
       aria-hidden="true"
+      className="shrink-0"
     >
       <circle cx="9" cy="6" r="4" stroke="#29ABE2" strokeWidth="2" />
       <path
@@ -57,63 +59,96 @@ function TeamIcon() {
 
 export default function WelcomePage() {
   return (
-    <main className="min-h-screen bg-[#2a3647] flex flex-col items-center justify-center p-4">
-      <div className="absolute top-8 left-8">
+    <main className="min-h-screen bg-[#2a3647] flex flex-col">
+      {/* Logo */}
+      <div className="px-8 pt-8 lg:absolute lg:top-8 lg:left-8">
         <JoinLogo width={60} variant="light" />
       </div>
 
-      <div className="bg-white rounded-[30px] shadow-[0px_0px_10px_3px_rgba(0,0,0,0.08)] px-[72px] py-[56px] w-full max-w-[789px]">
-        <div className="flex flex-col gap-[56px] items-start">
-          {/* Heading */}
-          <div className="flex flex-col gap-[24px] items-center w-full">
-            <div className="flex flex-col gap-[16px] items-center">
-              <h1 className="font-bold text-[32px] leading-[1.2] text-[#2a3647]">
-                Welcome
-              </h1>
-              <div className="h-[2px] w-[120px] bg-[#29abe2]" />
-            </div>
-            <p className="text-[23px] leading-[1.2] text-[#2a3647] text-center max-w-[645px]">
-              Pick the option that suits your role: create a request as a
-              stakeholder or log in if you&apos;re part of the team.
-            </p>
-          </div>
+      {/* Centered content area */}
+      <div className="flex-1 flex flex-col justify-center px-4 py-6 lg:items-center lg:p-4">
+        {/* "Not a Join user?" — mobile only, grouped with card so they center together */}
+        <div className="lg:hidden flex items-center justify-center gap-4 pb-4">
+          <span className="text-[16px] leading-[1.2] text-white">
+            Not a Join user?
+          </span>
+          <Link
+            href="/register"
+            className="text-[19px] leading-[1.2] text-white hover:opacity-70 transition-opacity duration-100"
+          >
+            Sign up
+          </Link>
+        </div>
 
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-[64px] items-start sm:items-end justify-center w-full">
-            {/* Stakeholder */}
-            <div className="flex flex-col gap-[24px] items-start">
-              <div className="flex gap-[8px] items-center">
-                <WorkIcon />
-                <span className="text-[23px] leading-[1.2] text-[#2a3647] whitespace-nowrap">
-                  Are you a stakeholder?
-                </span>
+        <div className="bg-white rounded-[30px] shadow-[0px_0px_10px_3px_rgba(0,0,0,0.08)] w-full max-w-[789px] mx-auto px-5 py-10 lg:px-[56px] lg:py-[56px]">
+          <div className="flex flex-col gap-10 lg:gap-[56px] items-center lg:items-start">
+            {/* Heading */}
+            <div className="flex flex-col gap-5 lg:gap-[24px] items-center w-full">
+              <div className="flex flex-col gap-4 items-center">
+                <h1 className="font-bold text-[40px] leading-[1.2] text-[#2a3647] text-center">
+                  Welcome
+                </h1>
+                <div className="h-[2px] w-[100px] lg:w-[120px] bg-[#29abe2]" />
               </div>
-              <Link
-                href="/stakeholder"
-                className="bg-[#29abe2] text-white text-[23px] leading-[1.2] px-[18px] py-[10px] rounded-[8px] cursor-pointer hover:bg-[#1a8cc0] transition-colors duration-100"
-              >
-                Create request
-              </Link>
+              <p className="text-[16px] lg:text-[23px] leading-[1.2] text-[#42526e] lg:text-[#2a3647] text-center max-w-[645px]">
+                Pick the option that suits your role: create a request as a
+                stakeholder or log in if you&apos;re part of the team.
+              </p>
             </div>
 
-            {/* Team member */}
-            <div className="flex flex-col gap-[24px] items-start">
-              <div className="flex gap-[8px] items-center">
-                <TeamIcon />
-                <span className="text-[23px] leading-[1.2] text-[#2a3647] whitespace-nowrap">
-                  Are you a team member?
-                </span>
+            {/* CTAs */}
+            <div className="flex flex-col lg:flex-row gap-14 lg:gap-[64px] items-center lg:items-end lg:justify-center w-full">
+              {/* Stakeholder */}
+              <div className="flex flex-col gap-4 lg:gap-[24px] items-center lg:items-start">
+                <div className="flex gap-2 items-center">
+                  <WorkIcon />
+                  <span className="text-[18px] lg:text-[23px] leading-[1.2] text-[#2a3647] lg:whitespace-nowrap">
+                    Are you a stakeholder?
+                  </span>
+                </div>
+                <Link
+                  href="/stakeholder"
+                  className="bg-[#2a3647] text-white text-[16px] lg:text-[23px] leading-[1.2] px-6 py-[15px] lg:px-[18px] lg:py-[10px] rounded-[8px] cursor-pointer hover:bg-[#29abe2] transition-colors duration-100 w-[240px] lg:w-auto text-center"
+                >
+                  Create request
+                </Link>
               </div>
-              <Link
-                href="/login"
-                className="bg-white border border-[#2a3647] text-[#2a3647] text-[19px] leading-[1.2] px-[18px] py-[12px] rounded-[8px] cursor-pointer hover:border-[#29abe2] hover:text-[#29abe2] transition-colors duration-100 h-[48px] flex items-center"
-              >
-                Member log in
-              </Link>
+
+              {/* Team member */}
+              <div className="flex flex-col gap-4 lg:gap-[24px] items-center lg:items-start">
+                <div className="flex gap-2 items-center">
+                  <TeamIcon />
+                  <span className="text-[18px] lg:text-[23px] leading-[1.2] text-[#2a3647] lg:whitespace-nowrap">
+                    Are you a team member?
+                  </span>
+                </div>
+                <Link
+                  href="/login"
+                  className="bg-white border border-[#2a3647] text-[#2a3647] text-[16px] lg:text-[19px] leading-[1.2] px-6 py-[15px] lg:px-[18px] lg:py-[12px] rounded-[8px] cursor-pointer hover:border-[#29abe2] hover:text-[#29abe2] transition-colors duration-100 w-[240px] lg:w-auto lg:h-[48px] flex items-center justify-center"
+                >
+                  Member log in
+                </Link>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="mt-auto flex items-center justify-center gap-0 pb-10 pt-2">
+        <Link
+          href="/privacy-policy"
+          className="text-[16px] leading-[1.2] text-white px-2 py-2 hover:opacity-70 transition-opacity duration-100"
+        >
+          Privacy Policy
+        </Link>
+        <Link
+          href="/legal-notice"
+          className="text-[16px] leading-[1.2] text-white px-2 py-2 hover:opacity-70 transition-opacity duration-100"
+        >
+          Legal Notice
+        </Link>
+      </footer>
     </main>
   );
 }
