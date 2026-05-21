@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { Contact, TaskStatus } from "@/lib/types";
 import AddTaskForm from "@/components/tasks/AddTaskForm";
 
@@ -35,6 +36,11 @@ export default function AddTaskModal({
   onClose,
   onSuccess,
 }: AddTaskModalProps) {
+  useEffect(() => {
+    document.body.classList.add("overflow-hidden");
+    return () => document.body.classList.remove("overflow-hidden");
+  }, []);
+
   return (
     <>
       <div className="fixed inset-0 bg-black/30 z-40" />

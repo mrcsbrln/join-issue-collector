@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Contact } from "@/lib/types";
@@ -135,6 +135,11 @@ export default function ContactFormModal({
 }: ContactFormModalProps) {
   const [loading, setLoading] = useState(false);
   const isEdit = contact !== null;
+
+  useEffect(() => {
+    document.body.classList.add("overflow-hidden");
+    return () => document.body.classList.remove("overflow-hidden");
+  }, []);
 
   const {
     register,
