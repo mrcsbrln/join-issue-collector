@@ -190,7 +190,7 @@ export default function TaskDetailModal({
               <div className="flex flex-col gap-6">
                 {/* Header row */}
                 <div className="flex items-start justify-between gap-2">
-                  <div className="flex flex-col lg:flex-row lg:items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     <CategoryBadge category={currentTask.category} />
                     {currentTask.creator_type === "external" && (
                       <AiGeneratedBadge />
