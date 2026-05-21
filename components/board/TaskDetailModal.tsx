@@ -164,11 +164,11 @@ export default function TaskDetailModal({
           onClick={(e) => e.stopPropagation()}
           className={`bg-white rounded-[30px] shadow-[0_0_4px_rgba(0,0,0,0.1)] w-full ${maxW} relative transition-all duration-100 max-h-[90vh] overflow-hidden`}
         >
-          <div className="overflow-y-auto max-h-[90vh] px-[40px] py-[48px]">
+          <div className="overflow-y-auto max-h-[90vh] px-5 py-6 lg:px-[40px] lg:py-[48px]">
             {isEditing ? (
               <>
                 <div className="flex items-center justify-between mb-6 lg:mb-10">
-                  <h2 className="text-[47px] lg:text-[61px] font-bold leading-[1.2] text-black">
+                  <h2 className="text-[36px] lg:text-[61px] font-bold leading-[1.2] text-black">
                     Edit Task
                   </h2>
                   <button
@@ -189,20 +189,20 @@ export default function TaskDetailModal({
             ) : (
               <div className="flex flex-col gap-6">
                 {/* Header row */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-[8px]">
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center justify-between gap-2">
                     <CategoryBadge category={currentTask.category} />
-                    {currentTask.creator_type === "external" && (
-                      <AiGeneratedBadge />
-                    )}
+                    <button
+                      type="button"
+                      onClick={onClose}
+                      className="text-navy hover:text-blue transition-colors duration-100 cursor-pointer border-0 bg-transparent shrink-0"
+                    >
+                      <CloseIcon />
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    onClick={onClose}
-                    className="text-navy hover:text-blue transition-colors duration-100 cursor-pointer border-0 bg-transparent shrink-0"
-                  >
-                    <CloseIcon />
-                  </button>
+                  {currentTask.creator_type === "external" && (
+                    <AiGeneratedBadge />
+                  )}
                 </div>
 
                 {/* Title */}
@@ -212,7 +212,7 @@ export default function TaskDetailModal({
 
                 {/* Description */}
                 {currentTask.description && (
-                  <p className="text-[16px] lg:text-[20px] text-black leading-[1.4]">
+                  <p className="text-[16px] lg:text-[20px] text-black leading-[1.4] wrap-break-word">
                     {currentTask.description}
                   </p>
                 )}
@@ -235,20 +235,20 @@ export default function TaskDetailModal({
 
                 {/* Creator */}
                 {currentTask.creator_email && (
-                  <div className="flex items-center justify-between gap-[12px] text-[16px] lg:text-[20px]">
-                    <div className="flex gap-[16px] items-center min-w-0">
+                  <div className="flex flex-col gap-1 text-[16px] lg:text-[20px]">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <span className="text-navy shrink-0">Creator:</span>
                       {currentTask.creator_type && (
                         <CreatorTypeBadge type={currentTask.creator_type} />
                       )}
-                      <span className="text-black truncate min-w-0">
+                      <span className="text-black break-all min-w-0">
                         {currentTask.creator_email}
                       </span>
                     </div>
                     {currentTask.creator_type === "external" && (
                       <a
                         href={`mailto:${currentTask.creator_email}`}
-                        className="flex items-center gap-[4px] text-[#42526e] hover:text-[#2a3647] transition-colors duration-100 shrink-0"
+                        className="flex items-center gap-[4px] text-[#42526e] hover:text-[#2a3647] transition-colors duration-100 self-start"
                       >
                         <svg
                           width="18"
