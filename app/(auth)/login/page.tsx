@@ -60,7 +60,7 @@ export default function LoginPage() {
       </header>
 
       <main className="flex-1 flex items-center justify-center px-4 py-8">
-        <div className="bg-white rounded-[30px] shadow-card w-full max-w-120 px-12 py-10">
+        <div className="bg-white rounded-[30px] shadow-card w-full max-w-120 px-5 py-8 lg:px-12 lg:py-10">
           <h1 className="text-4xl font-bold text-navy text-center">Log in</h1>
           <div className="w-28 h-0.5 bg-blue mx-auto mt-2 mb-8" />
 
@@ -88,8 +88,13 @@ export default function LoginPage() {
               <p className="text-error text-sm text-center">{error}</p>
             ) : null}
 
-            <div className="flex items-center justify-center gap-4 mt-2">
-              <Button type="submit" variant="primary" loading={loading}>
+            <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-center gap-4 mt-2">
+              <Button
+                type="submit"
+                variant="primary"
+                loading={loading}
+                className="whitespace-nowrap"
+              >
                 Log in
               </Button>
               <Button
@@ -97,6 +102,7 @@ export default function LoginPage() {
                 variant="secondary"
                 loading={guestLoading}
                 onClick={handleGuestLogin}
+                className="whitespace-nowrap"
               >
                 Guest Log in
               </Button>
