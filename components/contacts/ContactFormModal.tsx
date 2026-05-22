@@ -173,60 +173,79 @@ export default function ContactFormModal({
   return (
     <>
       <div className="fixed inset-0 bg-black/30 z-40" />
-      <div
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 lg:p-8 overflow-y-auto"
-        onClick={onClose}
-      >
-        <div
-          className="bg-white rounded-[30px] shadow-[0_0_4px_rgba(0,0,0,0.1)] w-full max-w-[440px] lg:max-w-[1125px] relative overflow-hidden"
-          onClick={(e) => e.stopPropagation()}
-        >
-          {/* Close button — positioned relative to the card, over the navy header on mobile */}
-          <button
-            type="button"
-            onClick={onClose}
-            className="absolute top-6 right-4 lg:top-[48px] lg:right-[48px] text-white lg:text-navy hover:text-blue transition-colors duration-100 cursor-pointer border-0 bg-transparent z-10"
+      <div className="fixed inset-0 z-50 overflow-y-auto" onClick={onClose}>
+        <div className="flex min-h-full items-start lg:items-center justify-center p-4 lg:p-8">
+          <div
+            className="bg-white rounded-[30px] shadow-[0_0_4px_rgba(0,0,0,0.1)] w-full max-w-[440px] lg:max-w-[1125px] relative overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
           >
-            <CloseIcon />
-          </button>
+            {/* Close button — positioned relative to the card, over the navy header on mobile */}
+            <button
+              type="button"
+              onClick={onClose}
+              className="absolute top-6 right-4 lg:top-[48px] lg:right-[48px] text-white lg:text-navy hover:text-blue transition-colors duration-100 cursor-pointer border-0 bg-transparent z-10"
+            >
+              <CloseIcon />
+            </button>
 
-          {/* Single form — prevents duplicate register() calls */}
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            noValidate
-            className="flex flex-col lg:flex-row lg:min-h-[560px]"
-          >
-            {/* Navy panel — top on mobile, left on desktop */}
-            <div className="bg-navy flex flex-col gap-3 px-6 pt-[66px] pb-[90px] lg:w-[520px] lg:shrink-0 lg:justify-center lg:py-[66px] lg:px-[46px]">
-              <div className="hidden lg:block">
-                <JoinLogo variant="light" width={55} />
+            {/* Single form — prevents duplicate register() calls */}
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              noValidate
+              className="flex flex-col lg:flex-row lg:min-h-[560px]"
+            >
+              {/* Navy panel — top on mobile, left on desktop */}
+              <div className="bg-navy flex flex-col gap-3 px-6 pt-10 pb-[90px] lg:w-[520px] lg:shrink-0 lg:justify-center lg:py-[66px] lg:px-[46px]">
+                <div className="hidden lg:block">
+                  <JoinLogo variant="light" width={55} />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <h1 className="text-[32px] lg:text-[47px] font-bold text-white leading-[1.2] lg:mt-4">
+                    {isEdit ? "Edit contact" : "Add contact"}
+                  </h1>
+                  {!isEdit && (
+                    <p className="lg:hidden text-[20px] text-white leading-[1.2]">
+                      Tasks are better with a team!
+                    </p>
+                  )}
+                </div>
+                <div className="w-[90px] h-[3px] bg-blue" />
               </div>
-              <div className="flex flex-col gap-2">
-                <h1 className="text-[47px] font-bold text-white leading-[1.2] lg:mt-4">
-                  {isEdit ? "Edit contact" : "Add contact"}
-                </h1>
-                {!isEdit && (
-                  <p className="lg:hidden text-[20px] text-white leading-[1.2]">
-                    Tasks are better with a team!
-                  </p>
-                )}
-              </div>
-              <div className="w-[90px] h-[3px] bg-blue" />
-            </div>
 
-            {/* Content area */}
-            <div className="flex-1 relative flex flex-col">
-              {/* Avatar — mobile: always visible, centered, overlaps header | desktop: edit mode only, straddling left border */}
-              <div className="lg:hidden flex justify-center -mt-[60px] relative z-10 mb-8">
+              {/* Content area */}
+              <div className="flex-1 relative flex flex-col">
+                {/* Avatar — mobile: always visible, centered, overlaps header | desktop: edit mode only, straddling left border */}
+                <div className="lg:hidden flex justify-center -mt-[60px] relative z-10 mb-8">
+                  {isEdit && contact ? (
+                    <div
+                      className="size-[120px] rounded-full flex items-center justify-center text-white text-[47px] font-medium border-[3px] border-white shadow-[0_0_2px_rgba(0,0,0,0.1)]"
+                      style={{ backgroundColor: contact.color }}
+                    >
+                      {getInitials(contact.name)}
+                    </div>
+                  ) : (
+                    <div className="size-[120px] rounded-full bg-[#d1d1d1] flex items-center justify-center border-[3px] border-white shadow-[0_0_2px_rgba(0,0,0,0.1)]">
+                      <svg
+                        width="64"
+                        height="64"
+                        viewBox="0 0 24 24"
+                        fill="white"
+                        aria-hidden="true"
+                      >
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                      </svg>
+                    </div>
+                  )}
+                </div>
                 {isEdit && contact ? (
                   <div
-                    className="size-[120px] rounded-full flex items-center justify-center text-white text-[47px] font-medium border-[3px] border-white shadow-[0_0_2px_rgba(0,0,0,0.1)]"
+                    className="hidden lg:flex absolute -left-[60px] top-1/2 -translate-y-1/2 size-[120px] rounded-full items-center justify-center text-white text-[47px] font-medium shrink-0 border-[3px] border-white shadow-[0_0_2px_rgba(0,0,0,0.1)]"
                     style={{ backgroundColor: contact.color }}
                   >
                     {getInitials(contact.name)}
                   </div>
                 ) : (
-                  <div className="size-[120px] rounded-full bg-[#d1d1d1] flex items-center justify-center border-[3px] border-white shadow-[0_0_2px_rgba(0,0,0,0.1)]">
+                  <div className="hidden lg:flex absolute -left-[60px] top-1/2 -translate-y-1/2 size-[120px] rounded-full items-center justify-center bg-[#d1d1d1] shrink-0 border-[3px] border-white shadow-[0_0_2px_rgba(0,0,0,0.1)]">
                     <svg
                       width="64"
                       height="64"
@@ -238,131 +257,113 @@ export default function ContactFormModal({
                     </svg>
                   </div>
                 )}
-              </div>
-              {isEdit && contact ? (
-                <div
-                  className="hidden lg:flex absolute -left-[60px] top-1/2 -translate-y-1/2 size-[120px] rounded-full items-center justify-center text-white text-[47px] font-medium shrink-0 border-[3px] border-white shadow-[0_0_2px_rgba(0,0,0,0.1)]"
-                  style={{ backgroundColor: contact.color }}
-                >
-                  {getInitials(contact.name)}
-                </div>
-              ) : (
-                <div className="hidden lg:flex absolute -left-[60px] top-1/2 -translate-y-1/2 size-[120px] rounded-full items-center justify-center bg-[#d1d1d1] shrink-0 border-[3px] border-white shadow-[0_0_2px_rgba(0,0,0,0.1)]">
-                  <svg
-                    width="64"
-                    height="64"
-                    viewBox="0 0 24 24"
-                    fill="white"
-                    aria-hidden="true"
-                  >
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                  </svg>
-                </div>
-              )}
 
-              {/* Fields + Buttons */}
-              <div
-                className={`flex flex-col flex-1 lg:justify-center gap-8 px-4 lg:pl-[110px] lg:pr-[74px] lg:py-[66px] pb-8 lg:pb-0 ${!isEdit ? "pt-8 lg:pt-0" : ""}`}
-              >
-                {/* Fields */}
+                {/* Fields + Buttons */}
                 <div
-                  className={`flex flex-col ${isEdit ? "gap-6" : "gap-[15px] lg:gap-6"}`}
+                  className={`flex flex-col flex-1 lg:justify-center gap-8 px-4 lg:pl-[110px] lg:pr-[74px] lg:py-[66px] pb-8 lg:pb-0 ${!isEdit ? "pt-8 lg:pt-0" : ""}`}
                 >
-                  {/* Name */}
-                  <div className="flex flex-col gap-1">
-                    <div
-                      className={`bg-white border rounded-[10px] h-[41px] px-[21px] flex items-center gap-3 focus-within:border-blue transition-colors duration-100 ${errors.name ? "border-error" : "border-border"}`}
-                    >
+                  {/* Fields */}
+                  <div
+                    className={`flex flex-col ${isEdit ? "gap-6" : "gap-[15px] lg:gap-6"}`}
+                  >
+                    {/* Name */}
+                    <div className="flex flex-col gap-1">
+                      <div
+                        className={`bg-white border rounded-[10px] h-[41px] px-[21px] flex items-center gap-3 focus-within:border-blue transition-colors duration-100 ${errors.name ? "border-error" : "border-border"}`}
+                      >
+                        <input
+                          {...register("name", {
+                            validate: (v) =>
+                              v.trim() !== "" || "This field is required",
+                          })}
+                          placeholder="Name"
+                          className="flex-1 text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
+                        />
+                        <PersonIcon />
+                      </div>
+                      {errors.name && (
+                        <p className="text-error text-sm">
+                          {errors.name.message}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Email */}
+                    <div className="flex flex-col gap-1">
+                      <div
+                        className={`bg-white border rounded-[10px] h-[41px] px-[21px] flex items-center gap-3 focus-within:border-blue transition-colors duration-100 ${errors.email ? "border-error" : "border-border"}`}
+                      >
+                        <input
+                          {...register("email", {
+                            validate: (v) =>
+                              v.trim() !== "" || "This field is required",
+                          })}
+                          placeholder="Email"
+                          className="flex-1 text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
+                        />
+                        <MailIcon />
+                      </div>
+                      {errors.email && (
+                        <p className="text-error text-sm">
+                          {errors.email.message}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Phone */}
+                    <div className="bg-white border border-border rounded-[10px] h-[41px] px-[21px] flex items-center gap-3 focus-within:border-blue transition-colors duration-100">
                       <input
-                        {...register("name", {
-                          validate: (v) =>
-                            v.trim() !== "" || "This field is required",
-                        })}
-                        placeholder="Name"
+                        {...register("phone")}
+                        placeholder="Phone"
                         className="flex-1 text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
                       />
-                      <PersonIcon />
+                      <PhoneIcon />
                     </div>
-                    {errors.name && (
-                      <p className="text-error text-sm">
-                        {errors.name.message}
-                      </p>
-                    )}
                   </div>
 
-                  {/* Email */}
-                  <div className="flex flex-col gap-1">
+                  {/* Buttons */}
+                  <div className="flex justify-center lg:justify-start gap-5 lg:gap-[25px]">
+                    {/* Cancel/Delete — hidden on mobile for add mode (X button closes) */}
                     <div
-                      className={`bg-white border rounded-[10px] h-[41px] px-[21px] flex items-center gap-3 focus-within:border-blue transition-colors duration-100 ${errors.email ? "border-error" : "border-border"}`}
+                      className={!isEdit ? "hidden lg:contents" : "contents"}
                     >
-                      <input
-                        {...register("email", {
-                          validate: (v) =>
-                            v.trim() !== "" || "This field is required",
-                        })}
-                        placeholder="Email"
-                        className="flex-1 text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
-                      />
-                      <MailIcon />
+                      {isEdit && onDelete ? (
+                        <button
+                          type="button"
+                          onClick={onDelete}
+                          className="flex items-center justify-center h-[51px] px-[10px] py-[18px] border border-navy rounded-[10px] text-[20px] text-navy cursor-pointer bg-transparent hover:border-blue hover:text-blue transition-colors duration-100"
+                        >
+                          Delete
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={onClose}
+                          className="flex items-center justify-center h-[51px] px-[10px] py-[18px] border border-navy rounded-[10px] text-[20px] text-navy cursor-pointer bg-transparent hover:border-blue hover:text-blue transition-colors duration-100"
+                        >
+                          Cancel
+                        </button>
+                      )}
                     </div>
-                    {errors.email && (
-                      <p className="text-error text-sm">
-                        {errors.email.message}
-                      </p>
-                    )}
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="flex items-center justify-center gap-1 h-[51px] px-[10px] py-[18px] text-[21px] font-bold text-white bg-navy rounded-[10px] cursor-pointer border-0 hover:bg-blue transition-colors duration-100 disabled:opacity-50"
+                    >
+                      {loading
+                        ? isEdit
+                          ? "Saving…"
+                          : "Creating…"
+                        : isEdit
+                          ? "Save"
+                          : "Create contact"}{" "}
+                      <CheckIcon />
+                    </button>
                   </div>
-
-                  {/* Phone */}
-                  <div className="bg-white border border-border rounded-[10px] h-[41px] px-[21px] flex items-center gap-3 focus-within:border-blue transition-colors duration-100">
-                    <input
-                      {...register("phone")}
-                      placeholder="Phone"
-                      className="flex-1 text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
-                    />
-                    <PhoneIcon />
-                  </div>
-                </div>
-
-                {/* Buttons */}
-                <div className="flex justify-center lg:justify-start gap-5 lg:gap-[25px]">
-                  {/* Cancel/Delete — hidden on mobile for add mode (X button closes) */}
-                  <div className={!isEdit ? "hidden lg:contents" : "contents"}>
-                    {isEdit && onDelete ? (
-                      <button
-                        type="button"
-                        onClick={onDelete}
-                        className="flex items-center justify-center h-[51px] px-[10px] py-[18px] border border-navy rounded-[10px] text-[20px] text-navy cursor-pointer bg-transparent hover:border-blue hover:text-blue transition-colors duration-100"
-                      >
-                        Delete
-                      </button>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={onClose}
-                        className="flex items-center justify-center h-[51px] px-[10px] py-[18px] border border-navy rounded-[10px] text-[20px] text-navy cursor-pointer bg-transparent hover:border-blue hover:text-blue transition-colors duration-100"
-                      >
-                        Cancel
-                      </button>
-                    )}
-                  </div>
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="flex items-center justify-center gap-1 h-[51px] px-[10px] py-[18px] text-[21px] font-bold text-white bg-navy rounded-[10px] cursor-pointer border-0 hover:bg-blue transition-colors duration-100 disabled:opacity-50"
-                  >
-                    {loading
-                      ? isEdit
-                        ? "Saving…"
-                        : "Creating…"
-                      : isEdit
-                        ? "Save"
-                        : "Create contact"}{" "}
-                    <CheckIcon />
-                  </button>
                 </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </>
