@@ -277,7 +277,7 @@ export default function ContactFormModal({
                               v.trim() !== "" || "This field is required",
                           })}
                           placeholder="Name"
-                          className="flex-1 text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
+                          className="flex-1 min-w-0 text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
                         />
                         <PersonIcon />
                       </div>
@@ -299,7 +299,7 @@ export default function ContactFormModal({
                               v.trim() !== "" || "This field is required",
                           })}
                           placeholder="Email"
-                          className="flex-1 text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
+                          className="flex-1 min-w-0 text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
                         />
                         <MailIcon />
                       </div>
@@ -315,7 +315,7 @@ export default function ContactFormModal({
                       <input
                         {...register("phone")}
                         placeholder="Phone"
-                        className="flex-1 text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
+                        className="flex-1 min-w-0 text-[20px] text-navy placeholder:text-muted bg-transparent outline-none border-none"
                       />
                       <PhoneIcon />
                     </div>
