@@ -174,7 +174,7 @@ export default function KanbanBoard({
         </h1>
         <button
           type="button"
-          onClick={() => setModalStatus("triage")}
+          onClick={() => router.push("/add-task")}
           className="size-[50px] flex items-center justify-center bg-navy rounded-[12px] hover:bg-blue transition-colors duration-100 border-0 cursor-pointer"
           aria-label="Add task"
         >
@@ -226,7 +226,13 @@ export default function KanbanBoard({
               status={status}
               title={COLUMN_TITLES[status]}
               tasks={filtered.filter((t) => t.status === status)}
-              onAdd={() => setModalStatus(status)}
+              onAdd={() => {
+                if (window.innerWidth < 1024) {
+                  router.push("/add-task");
+                } else {
+                  setModalStatus(status);
+                }
+              }}
               onTaskSelect={setSelectedTask}
               onMove={moveTask}
             />
