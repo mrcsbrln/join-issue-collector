@@ -415,14 +415,14 @@ export default function EditTaskForm({
           <button
             type="button"
             onClick={onCancel}
-            className="flex items-center gap-1 p-[16px] text-[16px] lg:text-[20px] text-navy bg-white border border-navy rounded-[10px] cursor-pointer hover:border-blue hover:text-blue transition-all duration-100"
+            className="flex items-center gap-1 px-3 py-2 lg:p-[16px] text-[16px] lg:text-[20px] text-navy bg-white border border-navy rounded-[10px] cursor-pointer hover:border-blue hover:text-blue transition-all duration-100"
           >
             Cancel <CancelIcon />
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="flex items-center gap-1 p-[16px] text-[16px] lg:text-[21px] text-white font-bold bg-navy rounded-[10px] cursor-pointer border-0 hover:bg-blue transition-all duration-100 disabled:opacity-50"
+            className="flex items-center gap-1 px-3 py-2 lg:p-[16px] text-[16px] lg:text-[21px] text-white font-bold bg-navy rounded-[10px] cursor-pointer border-0 hover:bg-blue transition-all duration-100 disabled:opacity-50"
           >
             {loading ? "Saving…" : "Save"} <CheckIcon />
           </button>
