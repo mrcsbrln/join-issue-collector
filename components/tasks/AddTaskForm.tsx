@@ -421,14 +421,14 @@ export default function AddTaskForm({
             <button
               type="button"
               onClick={onCancel ?? clearForm}
-              className="flex items-center gap-1 p-[16px] text-[16px] lg:text-[20px] text-navy bg-white border border-navy rounded-[10px] cursor-pointer hover:border-blue hover:text-blue hover:shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-all duration-100"
+              className="flex items-center gap-1 px-3 py-2 lg:p-[16px] text-[16px] lg:text-[20px] text-navy bg-white border border-navy rounded-[10px] cursor-pointer hover:border-blue hover:text-blue hover:shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-all duration-100"
             >
               {onCancel ? "Cancel" : "Clear"} <CancelIcon />
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex items-center gap-1 p-[16px] text-[16px] lg:text-[21px] text-white font-bold bg-navy rounded-[10px] cursor-pointer border-0 hover:bg-blue hover:shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-all duration-100 disabled:opacity-50"
+              className="flex items-center gap-1 px-3 py-2 lg:p-[16px] text-[16px] lg:text-[21px] text-white font-bold bg-navy rounded-[10px] cursor-pointer border-0 hover:bg-blue hover:shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-all duration-100 disabled:opacity-50"
             >
               {loading ? "Creating…" : "Create Task"} <CheckIcon />
             </button>

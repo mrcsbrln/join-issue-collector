@@ -85,7 +85,7 @@ export default function PrioritySelector({
   onChange,
 }: PrioritySelectorProps) {
   return (
-    <div className="flex gap-4 w-full">
+    <div className="flex gap-2 lg:gap-4 w-full">
       {PRIORITIES.map((p) => {
         const active = value === p.value;
         const Icon = ICONS[p.value];
