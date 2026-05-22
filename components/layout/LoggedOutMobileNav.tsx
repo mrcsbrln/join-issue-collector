@@ -25,13 +25,13 @@ const links = [
 export default function LoggedOutMobileNav() {
   const pathname = usePathname();
   return (
-    <nav className="lg:hidden fixed bottom-0 left-0 right-0 h-20 bg-navy z-40 flex items-center justify-around px-4 shadow-[0_0_4px_rgba(0,0,0,0.1)]">
+    <nav className="lg:hidden fixed bottom-0 left-0 right-0 h-20 bg-navy z-40 flex items-center px-4 gap-2 shadow-[0_0_4px_rgba(0,0,0,0.1)]">
       <Link
         href="/login"
-        className="flex flex-col items-center gap-1 py-2 px-3 rounded-[16px] text-[#cdcdcd] hover:text-white transition-colors duration-100"
+        className="flex flex-col items-center justify-center gap-1 h-[76px] px-2 rounded-[16px] text-[#cdcdcd] hover:text-white transition-colors duration-100 shrink-0"
       >
         <LoginIcon />
-        <span className="text-[12px]">Log in</span>
+        <span className="text-[12px] leading-[1.2]">Log in</span>
       </Link>
       {links.map(({ href, label }) => {
         const active = pathname === href;
@@ -39,7 +39,7 @@ export default function LoggedOutMobileNav() {
           <Link
             key={href}
             href={href}
-            className={`flex items-center justify-center h-[76px] px-3 rounded-[16px] text-[16px] leading-[1.2] text-white transition-colors duration-100 text-center ${active ? "bg-[#091931]" : ""}`}
+            className={`flex-1 flex items-center justify-center h-[76px] px-2 rounded-[16px] text-[14px] leading-[1.2] text-white transition-colors duration-100 text-center ${active ? "bg-[#091931]" : ""}`}
           >
             {label}
           </Link>
