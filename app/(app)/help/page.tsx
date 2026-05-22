@@ -1,48 +1,18 @@
-"use client";
-
-import { useRouter } from "next/navigation";
+import BackButton from "@/components/ui/BackButton";
 
 function Join() {
   return <span className="text-[#29abe2]">Join</span>;
 }
 
-function BackArrow() {
-  return (
-    <svg
-      width="32"
-      height="32"
-      viewBox="0 0 32 32"
-      fill="none"
-      aria-hidden="true"
-    >
-      <path
-        d="M20 26L10 16L20 6"
-        stroke="currentColor"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 export default function HelpPage() {
-  const router = useRouter();
-
   return (
     <div className="lg:pl-14 lg:pt-[70px] pb-12">
       {/* Heading row */}
-      <div className="flex items-center justify-between mb-6 lg:mb-8">
+      <div className="flex items-start justify-between mb-6 lg:mb-8">
         <h1 className="text-[47px] lg:text-[61px] font-bold leading-[1.2] text-black">
           Help
         </h1>
-        <button
-          type="button"
-          onClick={() => router.back()}
-          className="flex items-center justify-center size-[37px] rounded-full bg-white shadow-[0_0_4px_rgba(0,0,0,0.1)] text-navy hover:bg-blue hover:text-white transition-colors duration-100 cursor-pointer border-0 shrink-0"
-        >
-          <BackArrow />
-        </button>
+        <BackButton href="/summary" />
       </div>
 
       <div className="flex flex-col gap-6 max-w-[1014px] text-black text-[16px] leading-[1.2]">

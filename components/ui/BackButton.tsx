@@ -20,10 +20,10 @@ function ArrowLeftIcon() {
   );
 }
 
-export default function BackButton() {
+export default function BackButton({ href = "/" }: { href?: string }) {
   return (
     <Link
-      href="/"
+      href={href}
       className="flex items-center justify-center size-[37px] shrink-0 hover:opacity-70 transition-opacity duration-100"
       aria-label="Zurück"
     >
