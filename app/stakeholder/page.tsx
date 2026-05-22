@@ -140,7 +140,7 @@ export default async function StakeholderPage() {
 
               <a
                 href={mailtoHref}
-                className="bg-[#29abe2] text-white text-[18px] lg:text-[23px] leading-[1.2] flex items-center gap-[4px] h-[52px] lg:h-[60px] px-[18px] py-[14px] lg:py-[16px] rounded-[10px] cursor-pointer hover:bg-[#1a8cc0] transition-colors duration-100 shrink-0"
+                className="self-center lg:self-start bg-[#29abe2] text-white text-[18px] lg:text-[23px] leading-[1.2] flex items-center gap-[4px] h-[52px] lg:h-[60px] px-[18px] py-[14px] lg:py-[16px] rounded-[10px] cursor-pointer hover:bg-[#1a8cc0] transition-colors duration-100 shrink-0"
               >
                 {limitReached ? "Send an email" : "Create Email Request"}
                 <CheckIcon />
