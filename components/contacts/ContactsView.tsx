@@ -28,6 +28,20 @@ function ArrowLeftIcon() {
   );
 }
 
+function PersonAddIcon() {
+  return (
+    <svg
+      width="32"
+      height="32"
+      viewBox="0 0 24 24"
+      fill="white"
+      aria-hidden="true"
+    >
+      <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+    </svg>
+  );
+}
+
 interface ContactsViewProps {
   initialContacts: Contact[];
 }
@@ -120,6 +134,17 @@ export default function ContactsView({ initialContacts }: ContactsViewProps) {
           )}
         </div>
       </div>
+
+      {/* Mobile FAB */}
+      {selectedId === null && (
+        <button
+          type="button"
+          onClick={openAdd}
+          className="lg:hidden fixed bottom-24 right-4 bg-navy rounded-[46px] p-3 border-0 cursor-pointer hover:bg-blue transition-colors duration-100 drop-shadow-[0px_4px_2px_rgba(0,0,0,0.25)]"
+        >
+          <PersonAddIcon />
+        </button>
+      )}
 
       {modalContact !== undefined && (
         <ContactFormModal
