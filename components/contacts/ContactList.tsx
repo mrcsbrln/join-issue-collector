@@ -113,7 +113,7 @@ export default function ContactList({
   const grouped = groupByLetter(contacts);
 
   return (
-    <div className="w-full lg:w-[456px] lg:shrink-0 bg-white lg:shadow-[4px_0px_6px_0px_rgba(0,0,0,0.08)] flex flex-col lg:overflow-hidden">
+    <div className="w-full lg:w-[456px] lg:shrink-0 bg-white min-h-screen lg:min-h-0 lg:shadow-[4px_0px_6px_0px_rgba(0,0,0,0.08)] flex flex-col lg:overflow-hidden">
       <div className="px-[24px] py-[32px] shrink-0">
         <button
           type="button"

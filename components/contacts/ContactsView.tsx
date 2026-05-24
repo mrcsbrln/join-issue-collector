@@ -87,7 +87,7 @@ export default function ContactsView({ initialContacts }: ContactsViewProps) {
       )}
 
       <div
-        className={`-mx-2 ${selectedId === null ? "-mt-4" : ""} lg:-m-[40px] lg:flex lg:h-[calc(100vh-96px)]`}
+        className={`-mx-2 -mb-4 ${selectedId === null ? "-mt-4" : ""} lg:-m-[40px] lg:flex lg:h-[calc(100vh-96px)]`}
       >
         {/* Contact list panel — hidden on mobile when a contact is selected */}
         <div className={selectedId !== null ? "hidden lg:flex" : ""}>
