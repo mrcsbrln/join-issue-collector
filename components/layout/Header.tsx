@@ -56,7 +56,7 @@ export default function Header() {
   }
 
   return (
-    <header className="fixed top-0 left-0 lg:left-[232px] right-0 h-[96px] bg-white z-30 flex items-center justify-between pl-[16px] lg:pl-[116px] pr-[40px] drop-shadow-[0px_4px_2px_rgba(0,0,0,0.1)]">
+    <header className="fixed top-0 left-0 lg:left-[232px] right-0 h-[96px] bg-white z-30 flex items-center justify-between pl-2 lg:pl-[116px] pr-2 lg:pr-[40px] drop-shadow-[0px_4px_2px_rgba(0,0,0,0.1)]">
       <JoinLogo width={55} variant="dark" className="lg:hidden" />
       <span className="hidden lg:block text-[20px] font-normal text-black">
         Kanban Project Management Tool

@@ -25,7 +25,7 @@ const links = [
 export default function LoggedOutMobileNav() {
   const pathname = usePathname();
   return (
-    <nav className="lg:hidden fixed bottom-0 left-0 right-0 h-20 bg-navy z-40 flex items-center px-4 gap-2 shadow-[0_0_4px_rgba(0,0,0,0.1)]">
+    <nav className="lg:hidden fixed bottom-0 left-0 right-0 h-20 bg-navy z-40 flex items-center px-2 gap-2 shadow-[0_0_4px_rgba(0,0,0,0.1)]">
       <Link
         href="/login"
         className="flex flex-col items-center justify-center gap-1 h-[76px] px-2 rounded-[16px] text-[#cdcdcd] hover:text-white transition-colors duration-100 shrink-0"
