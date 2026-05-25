@@ -99,7 +99,7 @@ export default function Header() {
             <>
               <div className="fixed inset-0 z-10" onClick={closeMenu} />
               <div
-                className="fixed top-[96px] right-[40px] z-20 bg-navy rounded-tl-[20px] rounded-br-[20px] rounded-bl-[20px] shadow-[0_0_4px_rgba(0,0,0,0.1)] p-[10px] overflow-hidden"
+                className="fixed top-[96px] right-2 lg:right-[40px] z-20 bg-navy rounded-tl-[20px] rounded-br-[20px] rounded-bl-[20px] shadow-[0_0_4px_rgba(0,0,0,0.1)] p-[10px] overflow-hidden"
                 style={{
                   animation: menuClosing
                     ? "slide-out-right 140ms ease-in forwards"
