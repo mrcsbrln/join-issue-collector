@@ -250,8 +250,8 @@ export default async function SummaryPage() {
       </div>
 
       <div className="flex flex-col xl:flex-row xl:gap-20 xl:items-center">
-        <div className="flex flex-col items-stretch gap-4 lg:gap-7 w-full lg:max-w-[560px] xl:max-w-none xl:w-[560px] xl:shrink-0">
-          <div className="flex gap-6 lg:gap-8">
+        <div className="flex flex-col items-stretch gap-2 lg:gap-7 w-full lg:max-w-[560px] xl:max-w-none xl:w-[560px] xl:shrink-0">
+          <div className="flex gap-2 lg:gap-8">
             <StatCard
               href="/board"
               icon={<TodoCircleIcon />}
@@ -265,11 +265,11 @@ export default async function SummaryPage() {
               label="Done"
             />
           </div>
-          <div className="flex gap-3 lg:gap-7 h-[110px] lg:h-[168px]">
+          <div className="flex gap-2 lg:gap-7 h-[110px] lg:h-[168px]">
             <UrgencyCard count={data.urgent} deadline={data.nextDeadline} />
             <EmailRequestsCard count={data.triage} />
           </div>
-          <div className="flex gap-6 lg:gap-7">
+          <div className="flex gap-2 lg:gap-7">
             <MiniStatCard
               href="/board"
               count={data.total}
