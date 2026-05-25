@@ -179,7 +179,7 @@ function UrgencyCard({
   return (
     <Link
       href="/board"
-      className={`${cardBase} flex-1 min-w-0 flex items-center justify-center gap-[4px] lg:gap-[16px] h-full lg:px-12`}
+      className={`${cardBase} flex-1 min-w-0 flex items-center justify-center gap-[4px] lg:gap-[16px] h-full px-3 lg:px-12`}
     >
       <div className="flex items-center shrink-0">
         <UrgentCircleIcon />
