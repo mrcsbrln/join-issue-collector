@@ -90,11 +90,11 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen bg-bg-app flex flex-col">
-      <header className="px-8 py-6">
+      <header className="px-2 lg:px-8 py-6">
         <JoinLogo width={80} />
       </header>
 
-      <main className="flex-1 flex items-center justify-center px-4 py-8">
+      <main className="flex-1 flex items-center justify-center px-2 py-8">
         <div className="bg-white rounded-[30px] shadow-card w-full max-w-120 px-5 py-8 lg:px-12 lg:py-10">
           <div className="flex items-center justify-center gap-4 mb-2">
             <Link

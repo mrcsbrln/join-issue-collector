@@ -47,7 +47,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-bg-app flex flex-col">
-      <header className="flex items-center justify-between px-8 py-6">
+      <header className="flex items-center justify-between px-2 lg:px-8 py-6">
         <JoinLogo width={80} />
         <div className="flex items-center gap-4">
           <span className="text-navy text-base hidden sm:block">
@@ -59,7 +59,7 @@ export default function LoginPage() {
         </div>
       </header>
 
-      <main className="flex-1 flex items-center justify-center px-4 py-8">
+      <main className="flex-1 flex items-center justify-center px-2 py-8">
         <div className="bg-white rounded-[30px] shadow-card w-full max-w-120 px-5 py-8 lg:px-12 lg:py-10">
           <h1 className="text-4xl font-bold text-navy text-center">Log in</h1>
           <div className="w-28 h-0.5 bg-blue mx-auto mt-2 mb-8" />
