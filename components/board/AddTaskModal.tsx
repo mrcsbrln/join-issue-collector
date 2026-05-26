@@ -45,7 +45,7 @@ export default function AddTaskModal({
     <>
       <div className="fixed inset-0 bg-black/30 z-40" />
       <div
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 lg:p-8 overflow-y-auto"
+        className="fixed inset-0 z-50 flex items-center justify-center p-2 lg:p-8 overflow-y-auto"
         onClick={onClose}
       >
         <div

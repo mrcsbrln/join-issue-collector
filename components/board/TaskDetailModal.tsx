@@ -160,7 +160,7 @@ export default function TaskDetailModal({
         className="fixed inset-0 z-50 overflow-y-auto"
         onClick={isEditing ? undefined : onClose}
       >
-        <div className="flex min-h-full items-start lg:items-center justify-center p-4 lg:p-8">
+        <div className="flex min-h-full items-start lg:items-center justify-center p-2 lg:p-8">
           <div
             onClick={(e) => e.stopPropagation()}
             className={`bg-white rounded-[30px] shadow-[0_0_4px_rgba(0,0,0,0.1)] w-full ${maxW} relative transition-all duration-100`}

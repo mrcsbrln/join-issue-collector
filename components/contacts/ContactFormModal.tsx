@@ -174,7 +174,7 @@ export default function ContactFormModal({
     <>
       <div className="fixed inset-0 bg-black/30 z-40" />
       <div className="fixed inset-0 z-50 overflow-y-auto" onClick={onClose}>
-        <div className="flex min-h-full items-center justify-center p-4 lg:p-8">
+        <div className="flex min-h-full items-center justify-center p-2 lg:p-8">
           <div
             className="bg-white rounded-[30px] shadow-[0_0_4px_rgba(0,0,0,0.1)] w-full max-w-[440px] lg:max-w-[1125px] relative overflow-hidden"
             onClick={(e) => e.stopPropagation()}
