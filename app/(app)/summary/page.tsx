@@ -237,7 +237,7 @@ export default async function SummaryPage() {
   const greeting = getGreeting();
 
   return (
-    <div className="lg:pl-14 lg:pt-[70px]">
+    <div className="lg:pl-14 lg:pt-[3vh]">
       <div className="mb-8 lg:mb-[59px] flex flex-col xl:flex-row xl:items-center xl:gap-[30px]">
         <h1 className="text-[47px] lg:text-[61px] font-bold leading-[1.2] text-black whitespace-nowrap">
           Join 360

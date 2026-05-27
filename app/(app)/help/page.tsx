@@ -6,7 +6,7 @@ function Join() {
 
 export default function HelpPage() {
   return (
-    <div className="lg:pl-14 lg:pt-[70px] pb-12">
+    <div className="lg:pl-14 lg:pt-[3vh] pb-12">
       {/* Heading row */}
       <div className="flex items-start justify-between mb-6 lg:mb-8">
         <h1 className="text-[47px] lg:text-[61px] font-bold leading-[1.2] text-black">

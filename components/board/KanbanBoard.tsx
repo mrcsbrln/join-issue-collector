@@ -177,7 +177,7 @@ export default function KanbanBoard({
   }
 
   return (
-    <div className="lg:pl-14 lg:pr-8 lg:pt-[70px]">
+    <div className="lg:pl-14 lg:pr-8 lg:pt-[3vh]">
       {/* Mobile header: title + icon add button */}
       <div className="flex items-center justify-between mb-4 lg:hidden">
         <h1 className="text-[47px] font-bold leading-[1.2] text-black">
