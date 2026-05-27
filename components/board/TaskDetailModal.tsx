@@ -136,12 +136,24 @@ export default function TaskDetailModal({
   }, []);
 
   async function toggleSubtask(id: string, completed: boolean) {
+    const original = subtasks.find((s) => s.id === id);
     setSubtasks((prev) =>
       prev.map((s) => (s.id === id ? { ...s, completed } : s)),
     );
     onSubtaskToggle(id, completed);
     const supabase = createClient();
-    await supabase.from("subtasks").update({ completed }).eq("id", id);
+    const { error } = await supabase
+      .from("subtasks")
+      .update({ completed })
+      .eq("id", id);
+    if (error && original) {
+      setSubtasks((prev) =>
+        prev.map((s) =>
+          s.id === id ? { ...s, completed: original.completed } : s,
+        ),
+      );
+      onSubtaskToggle(id, original.completed);
+    }
   }
 
   function handleUpdateSuccess(updated: TaskWithRelations) {

@@ -74,13 +74,17 @@ export default function RegisterPage() {
     }
 
     const color = randomAvatarColor(name.trim());
-    await supabase.from("profiles").upsert({
+    const { error: profileError } = await supabase.from("profiles").upsert({
       id: data.user.id,
       name: name.trim(),
       email,
       color,
       is_guest: false,
     });
+    if (profileError) {
+      setLoading(false);
+      return setErrors({ general: "Registration failed. Please try again." });
+    }
     await supabase.from("contacts").insert({ name: name.trim(), email, color });
 
     setLoading(false);

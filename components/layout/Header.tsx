@@ -38,12 +38,12 @@ export default function Header() {
         data: { user },
       } = await supabase.auth.getUser();
       if (!user) return;
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from("profiles")
         .select("*")
         .eq("id", user.id)
         .single();
-      setProfile(data);
+      if (!error) setProfile(data);
     }
     load();
   }, []);

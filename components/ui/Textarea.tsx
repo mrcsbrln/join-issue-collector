@@ -1,6 +1,6 @@
 "use client";
 
-import { TextareaHTMLAttributes, forwardRef } from "react";
+import { TextareaHTMLAttributes, forwardRef, useId } from "react";
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
@@ -9,10 +9,17 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ label, error, className = "", ...props }, ref) => {
+    const generatedId = useId();
+    const textareaId = props.id ?? generatedId;
     return (
       <div className="flex flex-col gap-1 w-full">
         {label ? (
-          <label className="text-sm font-semibold text-navy">{label}</label>
+          <label
+            htmlFor={textareaId}
+            className="text-sm font-semibold text-navy"
+          >
+            {label}
+          </label>
         ) : null}
         <div
           className={[
@@ -21,6 +28,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           ].join(" ")}
         >
           <textarea
+            id={textareaId}
             ref={ref}
             className={[
               "w-full bg-transparent text-navy placeholder:text-muted",

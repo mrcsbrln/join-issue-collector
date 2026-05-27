@@ -212,14 +212,29 @@ export default function EditTaskForm({
         .eq("id", task.id);
       if (taskErr) throw taskErr;
 
-      await supabase.from("task_contacts").delete().eq("task_id", task.id);
-      if (assignedIds.length > 0) {
-        await supabase.from("task_contacts").insert(
-          assignedIds.map((contactId) => ({
-            task_id: task.id,
-            contact_id: contactId,
-          })),
-        );
+      const originalIds = new Set(task.contacts.map((c) => c.id));
+      const newIds = new Set(assignedIds);
+      const toDelete = [...originalIds].filter((id) => !newIds.has(id));
+      const toInsert = [...newIds].filter((id) => !originalIds.has(id));
+
+      if (toDelete.length > 0) {
+        const { error: delErr } = await supabase
+          .from("task_contacts")
+          .delete()
+          .in("contact_id", toDelete)
+          .eq("task_id", task.id);
+        if (delErr) throw delErr;
+      }
+      if (toInsert.length > 0) {
+        const { error: insErr } = await supabase
+          .from("task_contacts")
+          .insert(
+            toInsert.map((contactId) => ({
+              task_id: task.id,
+              contact_id: contactId,
+            })),
+          );
+        if (insErr) throw insErr;
       }
 
       if (removedIds.length > 0) {

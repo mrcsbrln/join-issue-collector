@@ -97,7 +97,18 @@ export async function POST(request: NextRequest) {
       completed: false,
       position: index,
     }));
-    await supabase.from("subtasks").insert(subtaskRows);
+    const { error: subtaskError } = await supabase
+      .from("subtasks")
+      .insert(subtaskRows);
+    if (subtaskError) {
+      return NextResponse.json(
+        {
+          error: "Task created but subtasks failed",
+          detail: subtaskError.message,
+        },
+        { status: 207 },
+      );
+    }
   }
   return NextResponse.json({ id: data.id }, { status: 201 });
 }

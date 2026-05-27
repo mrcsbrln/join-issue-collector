@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 import {
   TaskWithRelations,
   TaskStatus,
@@ -113,11 +114,26 @@ export default function KanbanBoard({
 
   async function moveTask(taskId: string, newStatus: TaskStatus) {
     const task = tasks.find((t) => t.id === taskId);
+    const originalStatus = task?.status;
     setTasks((prev) =>
       prev.map((t) => (t.id === taskId ? { ...t, status: newStatus } : t)),
     );
     const supabase = createClient();
-    await supabase.from("tasks").update({ status: newStatus }).eq("id", taskId);
+    const { error } = await supabase
+      .from("tasks")
+      .update({ status: newStatus })
+      .eq("id", taskId);
+    if (error) {
+      if (originalStatus) {
+        setTasks((prev) =>
+          prev.map((t) =>
+            t.id === taskId ? { ...t, status: originalStatus } : t,
+          ),
+        );
+      }
+      toast.error("Could not move task.");
+      return;
+    }
     if (task) notifyStatusChange(task, newStatus);
   }
 

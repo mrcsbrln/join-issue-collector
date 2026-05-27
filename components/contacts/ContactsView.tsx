@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 import { Contact } from "@/lib/types";
 import { createClient } from "@/lib/supabase/client";
 import ContactList from "./ContactList";
@@ -79,7 +80,11 @@ export default function ContactsView({ initialContacts }: ContactsViewProps) {
 
   async function handleDelete(id: string) {
     const supabase = createClient();
-    await supabase.from("contacts").delete().eq("id", id);
+    const { error } = await supabase.from("contacts").delete().eq("id", id);
+    if (error) {
+      toast.error("Could not delete contact. Please try again.");
+      return;
+    }
     if (selectedId === id) setSelectedId(null);
     router.refresh();
   }
