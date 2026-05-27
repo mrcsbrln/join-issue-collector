@@ -229,27 +229,29 @@ export default function KanbanBoard({
         </div>
       </div>
 
-      <DragDropContext onDragEnd={onDragEnd}>
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-5 lg:gap-6">
-          {COLUMN_ORDER.map((status) => (
-            <KanbanColumn
-              key={status}
-              status={status}
-              title={COLUMN_TITLES[status]}
-              tasks={filtered.filter((t) => t.status === status)}
-              onAdd={() => {
-                if (window.innerWidth < 1024) {
-                  router.push("/add-task");
-                } else {
-                  setModalStatus(status);
-                }
-              }}
-              onTaskSelect={setSelectedTask}
-              onMove={moveTask}
-            />
-          ))}
-        </div>
-      </DragDropContext>
+      <div className="lg:overflow-x-auto lg:pb-2">
+        <DragDropContext onDragEnd={onDragEnd}>
+          <div className="grid grid-cols-1 gap-4 lg:flex lg:flex-row lg:gap-6">
+            {COLUMN_ORDER.map((status) => (
+              <KanbanColumn
+                key={status}
+                status={status}
+                title={COLUMN_TITLES[status]}
+                tasks={filtered.filter((t) => t.status === status)}
+                onAdd={() => {
+                  if (window.innerWidth < 1024) {
+                    router.push("/add-task");
+                  } else {
+                    setModalStatus(status);
+                  }
+                }}
+                onTaskSelect={setSelectedTask}
+                onMove={moveTask}
+              />
+            ))}
+          </div>
+        </DragDropContext>
+      </div>
 
       {modalStatus && (
         <AddTaskModal

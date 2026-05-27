@@ -46,7 +46,7 @@ export default function KanbanColumn({
   const showPlusButton = status !== "done";
 
   return (
-    <div className="flex flex-col gap-4 min-w-0">
+    <div className="flex flex-col gap-4 min-w-0 lg:min-w-[200px] lg:flex-1">
       <div className="flex items-center justify-between">
         <h2 className="text-[20px] font-bold text-[#42526E]">{title}</h2>
         {showPlusButton && (
