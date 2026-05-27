@@ -205,12 +205,12 @@ export default function KanbanBoard({
       </div>
 
       {/* Desktop header: title + search + text button */}
-      <div className="hidden lg:flex items-center justify-between mb-12">
-        <h1 className="text-[61px] font-bold leading-[1.2] text-black">
+      <div className="hidden lg:flex items-center justify-between mb-12 gap-4">
+        <h1 className="text-[61px] font-bold leading-[1.2] text-black shrink-0">
           Board
         </h1>
-        <div className="flex items-center gap-8">
-          <div className="flex items-center gap-4 bg-white border border-muted rounded-[10px] px-4 py-2 w-[312px] focus-within:border-navy transition-colors duration-100">
+        <div className="flex items-center gap-4 min-w-0 shrink">
+          <div className="flex items-center gap-4 bg-white border border-muted rounded-[10px] px-4 py-2 w-[312px] max-w-full focus-within:border-navy transition-colors duration-100 shrink min-w-0">
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -222,14 +222,14 @@ export default function KanbanBoard({
           <button
             type="button"
             onClick={() => setModalStatus("triage")}
-            className="flex items-center gap-2 px-4 py-2 bg-navy text-white text-[20px] font-bold rounded-[10px] hover:bg-blue transition-colors duration-100 border-0 cursor-pointer"
+            className="flex items-center gap-2 px-4 py-2 bg-navy text-white text-[20px] font-bold rounded-[10px] hover:bg-blue transition-colors duration-100 border-0 cursor-pointer whitespace-nowrap shrink-0"
           >
             Add task <AddIcon />
           </button>
         </div>
       </div>
 
-      <div className="lg:overflow-x-auto lg:pb-2">
+      <div className="lg:overflow-x-auto">
         <DragDropContext onDragEnd={onDragEnd}>
           <div className="grid grid-cols-1 gap-4 lg:flex lg:flex-row lg:gap-6">
             {COLUMN_ORDER.map((status) => (
