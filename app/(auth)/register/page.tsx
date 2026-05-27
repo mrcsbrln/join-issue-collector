@@ -69,7 +69,7 @@ export default function RegisterPage() {
     if (authError || !data.user) {
       setLoading(false);
       return setErrors({
-        general: authError?.message ?? "Registration failed.",
+        general: "Registration failed. Please try again.",
       });
     }
 

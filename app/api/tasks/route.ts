@@ -20,7 +20,18 @@ function getSupabaseAdmin() {
 }
 
 function validateApiKey(request: NextRequest): boolean {
-  return request.headers.get("x-api-key") === process.env.JOIN_API_KEY;
+  const provided = request.headers.get("x-api-key");
+  const expected = process.env.JOIN_API_KEY;
+  if (!provided || !expected) return false;
+  try {
+    const { timingSafeEqual } = require("crypto") as typeof import("crypto");
+    return (
+      provided.length === expected.length &&
+      timingSafeEqual(Buffer.from(provided), Buffer.from(expected))
+    );
+  } catch {
+    return false;
+  }
 }
 
 function parseBody(body: unknown): TaskBody {
@@ -86,7 +97,7 @@ export async function POST(request: NextRequest) {
     .single();
   if (error || !data) {
     return NextResponse.json(
-      { error: "Failed to create task", detail: error?.message },
+      { error: "Failed to create task" },
       { status: 500 },
     );
   }
@@ -102,10 +113,7 @@ export async function POST(request: NextRequest) {
       .insert(subtaskRows);
     if (subtaskError) {
       return NextResponse.json(
-        {
-          error: "Task created but subtasks failed",
-          detail: subtaskError.message,
-        },
+        { error: "Task created but subtasks failed" },
         { status: 207 },
       );
     }

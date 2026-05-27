@@ -93,14 +93,9 @@ export default function KanbanBoard({
       )
     : tasks;
 
-  async function notifyStatusChange(
-    task: TaskWithRelations,
-    newStatus: TaskStatus,
-  ) {
+  function notifyStatusChange(task: TaskWithRelations, newStatus: TaskStatus) {
     if (!task.creator_email) return;
-    const url = process.env.NEXT_PUBLIC_N8N_STATUS_WEBHOOK_URL;
-    if (!url) return;
-    fetch(url, {
+    fetch("/api/notify-status", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
